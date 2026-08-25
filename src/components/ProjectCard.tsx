@@ -1,5 +1,5 @@
 import type { Project } from "@/data/projects";
-import ProjectImage from "./ProjectImage";
+import ProjectCarousel from "./ProjectCarousel";
 
 const categoryLabel: Record<string, string> = {
   ai: "AI & Automation",
@@ -11,7 +11,10 @@ export default function ProjectCard({ project }: { project: Project }) {
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition-colors hover:border-violet-400/40">
       <div className="h-44 w-full overflow-hidden">
-        <ProjectImage title={project.title} src={`/projects/${project.image}`} />
+        <ProjectCarousel
+          title={project.title}
+          images={project.images.map((f) => `/projects/${f}`)}
+        />
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-6">

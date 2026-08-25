@@ -8,8 +8,8 @@ export interface Project {
   categories: ProjectCategory[];
   tech: string[];
   link?: string;
-  /** Filename expected in /public/projects/ — drop the real screenshot in with this name. */
-  image: string;
+  /** Filenames expected in /public/projects/ — missing ones are skipped automatically. */
+  images: string[];
 }
 
 export const projects: Project[] = [
@@ -21,7 +21,7 @@ export const projects: Project[] = [
       "An AI real estate CRM that handles incoming WhatsApp conversations end to end: understands what a buyer wants, searches live property inventory, scores lead intent, syncs everything to Airtable, and alerts a human agent when a high-value prospect needs a personal follow-up.",
     categories: ["ai"],
     tech: ["Python", "Django", "DRF", "OpenAI API", "Gemini API", "PostgreSQL", "Redis", "Celery", "Django Channels", "Airtable", "WhatsApp Cloud API", "Docker"],
-    image: "real-estate-whatsapp-bot.jpg",
+    images: ["real-estate-whatsapp-bot-1.png"],
   },
   {
     slug: "inmatic-ai",
@@ -32,7 +32,7 @@ export const projects: Project[] = [
     categories: ["ai", "web"],
     tech: ["Node.js", "Python", "REST APIs", "PostgreSQL", "Redis", "OCR pipelines", "AWS/GCP", "LLM integration", "NLP"],
     link: "https://inmatic.ai",
-    image: "inmatic-ai.jpg",
+    images: ["inmatic-ai-1.jpg", "inmatic-ai-2.jpg", "inmatic-ai-3.jpg", "inmatic-ai-4.jpg", "inmatic-ai-5.jpg", "inmatic-ai-6.jpg"],
   },
   {
     slug: "artisan",
@@ -43,7 +43,7 @@ export const projects: Project[] = [
     categories: ["ai"],
     tech: ["Node.js", "Python", "REST APIs", "PostgreSQL", "Redis", "Queue systems", "LLM integration (OpenAI/Claude)", "Workflow automation"],
     link: "https://www.artisan.co",
-    image: "artisan.jpg",
+    images: ["artisan-1.jpg", "artisan-2.jpg", "artisan-3.jpg", "artisan-4.jpg", "artisan-5.jpg", "artisan-6.jpg"],
   },
   {
     slug: "edraw-ai",
@@ -54,7 +54,7 @@ export const projects: Project[] = [
     categories: ["ai", "web"],
     tech: ["Python", "AI/ML", "API Development", "Interactive editors", "Export pipelines"],
     link: "https://www.edraw.ai",
-    image: "edraw-ai.jpg",
+    images: ["edraw-ai-1.jpg", "edraw-ai-2.jpg", "edraw-ai-3.jpg", "edraw-ai-4.jpg", "edraw-ai-5.jpg", "edraw-ai-6.jpg"],
   },
   {
     slug: "infermedica",
@@ -65,7 +65,7 @@ export const projects: Project[] = [
     categories: ["ai"],
     tech: ["Node.js", "Python", "AI/ML integration", "REST APIs", "HIPAA/GDPR-oriented data handling", "Cloud infrastructure"],
     link: "https://infermedica.com",
-    image: "infermedica.jpg",
+    images: ["infermedica-1.jpeg", "infermedica-2.jpeg", "infermedica-3.jpeg", "infermedica-4.jpeg", "infermedica-5.jpeg", "infermedica-6.jpeg"],
   },
   {
     slug: "faire",
@@ -76,7 +76,7 @@ export const projects: Project[] = [
     categories: ["web"],
     tech: ["TypeScript", "React", "Node.js", "React Native", "PostgreSQL", "Microservices", "REST APIs", "AWS"],
     link: "https://www.faire.com",
-    image: "faire.jpg",
+    images: ["faire-1.png", "faire-2.jpg", "faire-3.jpeg", "faire-4.jpg", "faire-5.png", "faire-6.jpg"],
   },
   {
     slug: "planfy",
@@ -87,7 +87,7 @@ export const projects: Project[] = [
     categories: ["web"],
     tech: ["React.js", "Laravel", "Angular JS", "Zoho CRM", "Google Maps"],
     link: "https://www.planfy.com",
-    image: "planfy.jpg",
+    images: ["planfy-1.jpg", "planfy-2.jpg", "planfy-3.jpg", "planfy-4.jpg", "planfy-5.jpg", "planfy-6.jpg"],
   },
   {
     slug: "tooltown",
@@ -98,7 +98,7 @@ export const projects: Project[] = [
     categories: ["web"],
     tech: ["React", "Tailwind CSS", "E-commerce UX", "Product catalog structure", "Conversion optimization"],
     link: "https://www.tooltown.mx",
-    image: "tooltown.jpg",
+    images: ["tooltown-1.png", "tooltown-2.jpg", "tooltown-3.jpg", "tooltown-4.jpg", "tooltown-5.jpg", "tooltown-6.jpg"],
   },
   {
     slug: "casefox",
@@ -109,7 +109,7 @@ export const projects: Project[] = [
     categories: ["web", "mobile"],
     tech: ["React", "Node.js", "React Native", "REST APIs", "PostgreSQL/MySQL", "Chrome Extension"],
     link: "https://www.casefox.com",
-    image: "casefox.jpg",
+    images: ["casefox-1.png", "casefox-2.png", "casefox-3.jpg", "casefox-4.jpg", "casefox-5.jpg", "casefox-6.jpg"],
   },
   {
     slug: "vacation-calendar",
@@ -120,7 +120,7 @@ export const projects: Project[] = [
     categories: ["web", "mobile"],
     tech: ["Flutter", "Firebase", "React", "Node.js", "TypeScript", "PostgreSQL"],
     link: "https://www.thevacationcalendar.com",
-    image: "vacation-calendar.jpg",
+    images: ["vacation-calendar-1.jpeg"],
   },
   {
     slug: "swop",
@@ -130,6 +130,9 @@ export const projects: Project[] = [
       "A fully-digital, sustainable fashion marketplace app with a social product feed, a swipe-to-like discovery flow, in-app messaging and profile-based selling — built no-code to move fast, which helped it get early traction and a seed round.",
     categories: ["mobile"],
     tech: ["Bubble.io", "BDK Native", "Figma", "Node.js", "API integration"],
-    image: "swop.jpg",
+    // No screenshots yet — the files saved under "SWOP" so far are actually from a different
+    // app (AndBe, a language-learning app). Add real SWOP screenshots to public/projects/
+    // as swop-1.jpg, swop-2.jpg, ... once available.
+    images: [],
   },
 ];
