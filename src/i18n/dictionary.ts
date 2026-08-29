@@ -88,9 +88,9 @@ const en: Dictionary = {
     eyebrow: "Introduction",
     title: "Overview.",
     paragraph1:
-      "I'm a full-stack and AI automation developer. Over the past several years I've worked across SaaS platforms, marketplaces, mobile apps and AI-agent systems — usually joining as the engineer who turns a manual, messy process into something automated, reliable and easy to operate.",
+      "I'm a full-stack and AI automation developer. Over the past several years I've worked across SaaS platforms, marketplaces, mobile apps and AI-agent systems. I usually join as the engineer who turns a manual, messy process into something automated, reliable and easy to operate.",
     paragraph2:
-      "On the backend I work mainly in Node.js and Python, with Django, REST APIs, PostgreSQL, Redis and queue-driven architectures. On the AI side I build LLM-integrated workflows — document/OCR pipelines, WhatsApp and chat agents, outbound automation, and classification systems using OpenAI, Gemini and Claude. On the frontend and mobile side I work in React, Next.js, TypeScript, React Native and Flutter, and I've shipped production apps in no-code tools like Bubble.io when speed-to-market mattered more than a custom stack.",
+      "On the backend I work mainly in Node.js and Python, with Django, REST APIs, PostgreSQL, Redis and queue-driven architectures. On the AI side I build LLM-integrated workflows: document/OCR pipelines, WhatsApp and chat agents, outbound automation, and classification systems using OpenAI, Gemini and Claude. On the frontend and mobile side I work in React, Next.js, TypeScript, React Native and Flutter, and I've shipped production apps in no-code tools like Bubble.io when speed-to-market mattered more than a custom stack. I also take on Odoo ERP implementations for small and mid-sized businesses: scoping the modules a company actually needs, configuring sales, purchasing, inventory and invoicing as one flow, and migrating historical customer and billing data.",
   },
   work: {
     eyebrow: "Selected projects",
@@ -115,7 +115,7 @@ const en: Dictionary = {
     eyebrow: "Get in touch",
     title: "Contact.",
     intro:
-      "Have a project in mind — an AI agent, an automation, a web platform or a mobile app? Send a few details and I'll get back to you.",
+      "Have a project in mind, whether an AI agent, an automation, a web platform or a mobile app? Send a few details and I'll get back to you.",
     emailLabel: "Email",
     whatsappLabel: "WhatsApp",
     nameLabel: "Your Name*",
@@ -126,8 +126,8 @@ const en: Dictionary = {
     messagePlaceholder: "Tell me a bit about your project...",
     send: "Send",
     hintIdle:
-      "This opens your email client with the message pre-filled — nothing is sent from this page.",
-    hintSent: "Opening your email client now — if nothing happened, email me directly instead.",
+      "This opens your email client with the message pre-filled. Nothing is sent from this page.",
+    hintSent: "Opening your email client now. If nothing happened, email me directly instead.",
     mailSubject: "Project inquiry from {name}",
   },
   footer: {
@@ -159,9 +159,9 @@ const pt: Dictionary = {
     eyebrow: "Introdução",
     title: "Visão geral.",
     paragraph1:
-      "Sou desenvolvedor full-stack e de automação com IA. Nos últimos anos trabalhei com plataformas SaaS, marketplaces, aplicativos móveis e sistemas de agentes de IA — normalmente entrando como o engenheiro que transforma um processo manual e confuso em algo automatizado, confiável e fácil de operar.",
+      "Sou desenvolvedor full-stack e de automação com IA. Nos últimos anos trabalhei com plataformas SaaS, marketplaces, aplicativos móveis e sistemas de agentes de IA. Normalmente entro como o engenheiro que transforma um processo manual e confuso em algo automatizado, confiável e fácil de operar.",
     paragraph2:
-      "No backend trabalho principalmente com Node.js e Python, além de Django, APIs REST, PostgreSQL, Redis e arquiteturas orientadas a filas. Na parte de IA construo fluxos integrados a LLMs — pipelines de documentos/OCR, agentes de WhatsApp e chat, automação de prospecção e sistemas de classificação usando OpenAI, Gemini e Claude. No frontend e no mobile trabalho com React, Next.js, TypeScript, React Native e Flutter, e já coloquei aplicativos em produção com ferramentas no-code como o Bubble.io quando a velocidade de lançamento importava mais do que uma stack sob medida.",
+      "No backend trabalho principalmente com Node.js e Python, além de Django, APIs REST, PostgreSQL, Redis e arquiteturas orientadas a filas. Na parte de IA construo fluxos integrados a LLMs: pipelines de documentos/OCR, agentes de WhatsApp e chat, automação de prospecção e sistemas de classificação usando OpenAI, Gemini e Claude. No frontend e no mobile trabalho com React, Next.js, TypeScript, React Native e Flutter, e já coloquei aplicativos em produção com ferramentas no-code como o Bubble.io quando a velocidade de lançamento importava mais do que uma stack sob medida. Também faço implantações de ERP Odoo para pequenas e médias empresas: defino os módulos que a empresa realmente precisa, configuro vendas, compras, estoque e faturamento como um único fluxo e migro os dados históricos de clientes e cobranças.",
   },
   work: {
     eyebrow: "Projetos selecionados",
@@ -186,7 +186,7 @@ const pt: Dictionary = {
     eyebrow: "Fale comigo",
     title: "Contato.",
     intro:
-      "Tem um projeto em mente — um agente de IA, uma automação, uma plataforma web ou um aplicativo móvel? Envie alguns detalhes e eu retorno o contato.",
+      "Tem um projeto em mente, seja um agente de IA, uma automação, uma plataforma web ou um aplicativo móvel? Envie alguns detalhes e eu retorno o contato.",
     emailLabel: "E-mail",
     whatsappLabel: "WhatsApp",
     nameLabel: "Seu nome*",
@@ -197,9 +197,9 @@ const pt: Dictionary = {
     messagePlaceholder: "Conte um pouco sobre o seu projeto...",
     send: "Enviar",
     hintIdle:
-      "Isto abre o seu cliente de e-mail com a mensagem já preenchida — nada é enviado a partir desta página.",
+      "Isto abre o seu cliente de e-mail com a mensagem já preenchida. Nada é enviado a partir desta página.",
     hintSent:
-      "Abrindo o seu cliente de e-mail — se nada acontecer, envie um e-mail diretamente para mim.",
+      "Abrindo o seu cliente de e-mail. Se nada acontecer, envie um e-mail diretamente para mim.",
     mailSubject: "Contato sobre projeto de {name}",
   },
   footer: {
@@ -231,9 +231,9 @@ const es: Dictionary = {
     eyebrow: "Introducción",
     title: "Resumen.",
     paragraph1:
-      "Soy desarrollador full-stack y de automatización con IA. Durante los últimos años he trabajado en plataformas SaaS, marketplaces, aplicaciones móviles y sistemas de agentes de IA — normalmente incorporándome como el ingeniero que convierte un proceso manual y desordenado en algo automatizado, fiable y fácil de operar.",
+      "Soy desarrollador full-stack y de automatización con IA. Durante los últimos años he trabajado en plataformas SaaS, marketplaces, aplicaciones móviles y sistemas de agentes de IA. Normalmente me incorporo como el ingeniero que convierte un proceso manual y desordenado en algo automatizado, fiable y fácil de operar.",
     paragraph2:
-      "En el backend trabajo principalmente con Node.js y Python, además de Django, APIs REST, PostgreSQL, Redis y arquitecturas basadas en colas. En el lado de la IA construyo flujos integrados con LLMs — pipelines de documentos/OCR, agentes de WhatsApp y chat, automatización de prospección y sistemas de clasificación con OpenAI, Gemini y Claude. En el frontend y móvil trabajo con React, Next.js, TypeScript, React Native y Flutter, y he lanzado a producción aplicaciones con herramientas no-code como Bubble.io cuando la velocidad de salida al mercado importaba más que un stack a medida.",
+      "En el backend trabajo principalmente con Node.js y Python, además de Django, APIs REST, PostgreSQL, Redis y arquitecturas basadas en colas. En el lado de la IA construyo flujos integrados con LLMs: pipelines de documentos/OCR, agentes de WhatsApp y chat, automatización de prospección y sistemas de clasificación con OpenAI, Gemini y Claude. En el frontend y móvil trabajo con React, Next.js, TypeScript, React Native y Flutter, y he lanzado a producción aplicaciones con herramientas no-code como Bubble.io cuando la velocidad de salida al mercado importaba más que un stack a medida. También realizo implantaciones de ERP Odoo para pequeñas y medianas empresas: defino los módulos que la empresa realmente necesita, configuro ventas, compras, inventario y facturación como un solo flujo y migro los datos históricos de clientes y facturación.",
   },
   work: {
     eyebrow: "Proyectos seleccionados",
@@ -258,7 +258,7 @@ const es: Dictionary = {
     eyebrow: "Ponte en contacto",
     title: "Contacto.",
     intro:
-      "¿Tienes un proyecto en mente — un agente de IA, una automatización, una plataforma web o una aplicación móvil? Envía algunos detalles y te respondo.",
+      "¿Tienes un proyecto en mente, ya sea un agente de IA, una automatización, una plataforma web o una aplicación móvil? Envía algunos detalles y te respondo.",
     emailLabel: "Correo",
     whatsappLabel: "WhatsApp",
     nameLabel: "Tu nombre*",
@@ -269,8 +269,8 @@ const es: Dictionary = {
     messagePlaceholder: "Cuéntame un poco sobre tu proyecto...",
     send: "Enviar",
     hintIdle:
-      "Esto abre tu cliente de correo con el mensaje ya escrito — no se envía nada desde esta página.",
-    hintSent: "Abriendo tu cliente de correo — si no ocurre nada, escríbeme directamente.",
+      "Esto abre tu cliente de correo con el mensaje ya escrito. No se envía nada desde esta página.",
+    hintSent: "Abriendo tu cliente de correo. Si no ocurre nada, escríbeme directamente.",
     mailSubject: "Consulta de proyecto de {name}",
   },
   footer: {

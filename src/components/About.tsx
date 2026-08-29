@@ -3,7 +3,7 @@
 import { useLanguage } from "@/i18n/LanguageProvider";
 import SectionHeading from "./SectionHeading";
 
-// Tool and language names are proper nouns — they read the same in every locale.
+// Tool and language names are proper nouns, so they read the same in every locale.
 const skills = [
   "Node.js",
   "Python",
@@ -17,6 +17,7 @@ const skills = [
   "Flutter",
   "OpenAI / LLMs",
   "Docker / AWS",
+  "Odoo / ERP",
 ];
 
 export default function About() {

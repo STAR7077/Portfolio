@@ -13,7 +13,7 @@ export const localeNames: Record<Locale, { code: string; label: string }> = {
   es: { code: "ES", label: "Español" },
 };
 
-/** What goes into <html lang> — more specific than our internal keys. */
+/** What goes into <html lang>. More specific than our internal keys. */
 export const htmlLang: Record<Locale, string> = {
   en: "en",
   pt: "pt-BR",

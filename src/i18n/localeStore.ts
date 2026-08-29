@@ -4,7 +4,7 @@ const STORAGE_KEY = "portfolio-locale";
 
 /**
  * The selected language lives in localStorage, which is an external store rather than
- * React state — so it is exposed through the useSyncExternalStore contract. That lets the
+ * React state, so it is exposed through the useSyncExternalStore contract. That lets the
  * prerendered HTML stay in the default language while the client immediately renders the
  * visitor's own choice, with no cascading effect-driven re-render.
  */
@@ -17,7 +17,7 @@ function resolve(): Locale {
     const saved = window.localStorage.getItem(STORAGE_KEY);
     if (isLocale(saved)) return saved;
   } catch {
-    // Private mode or blocked storage — fall through to the browser's language.
+    // Private mode or blocked storage, so fall through to the browser's language.
   }
 
   const browser = navigator.language?.toLowerCase() ?? "";

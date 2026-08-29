@@ -4,7 +4,7 @@ export interface Testimonial {
   /** The review in each language. */
   quote: Localized;
   /**
-   * The locale holding the client's verbatim wording — the other two are translations of it.
+   * The locale holding the client's verbatim wording. The other two are translations of it.
    * Nothing is lost: a visitor reading in the client's own language sees exactly what they wrote.
    */
   originalLocale: Locale;
@@ -12,7 +12,7 @@ export interface Testimonial {
   role: string;
   source: string;
   rating: number;
-  /** Filename expected in /public/testimonials/ — drop a real, permitted photo in with this name. */
+  /** Filename expected in /public/testimonials/. Drop a real, permitted photo in with this name. */
   avatarFile: string;
 }
 

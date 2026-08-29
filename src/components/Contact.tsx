@@ -20,7 +20,7 @@ export default function Contact() {
     const message = form.get("message")?.toString() ?? "";
 
     const subject = encodeURIComponent(t.contact.mailSubject.replace("{name}", name));
-    const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
+    const body = encodeURIComponent(`${message}\n\n${name} (${email})`);
     window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
     setSent(true);
   }
