@@ -1,14 +1,20 @@
 # Testimonial avatars
 
 Only add a photo here for a specific, named client who has actually agreed to have their photo
-used publicly on this site. Until a file exists, that testimonial shows a clean initials badge
+used publicly on this site. Anything in this folder is served publicly, so do not park unused
+photos here — keep those in the private `Client/` folder instead.
+
+If a file listed below is missing, that testimonial falls back to a clean initials badge
 automatically — nothing breaks, and nothing is misrepresented.
 
-| Filename | Person |
-|---|---|
-| visao-na-web-br.jpg | Visão Na Web BR |
-| gabriel-londero.jpg | Gabriel Londero |
-| agustin-quintana.jpg | Agustín Quintana |
-| client-1.jpg | (generic — rename in `src/data/testimonials.ts` once you attach a real name) |
-| client-2.jpg | (generic — rename in `src/data/testimonials.ts` once you attach a real name) |
-| client-3.jpg | (generic — rename in `src/data/testimonials.ts` once you attach a real name) |
+| Filename | Person | Shown as |
+|---|---|---|
+| marcos.jpg | Marcos | Visão Na Web BR |
+| inigo-toledo.jpg | Iñigo Toledo | Gabriel Londero |
+| agustin-quintana.jpg | Agustín Quintana | Agustín Quintana |
+| julian.jpg | Julian | Julian |
+| daniel.jpg | Daniel | Daniel |
+| pablo.jpg | Pablo | Pablo |
+
+Source photos live in `portfolio/Client/`. Jackshon and Luciano have photos there but no
+matching review, so they are intentionally not published.

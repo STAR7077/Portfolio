@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# private client source photos (only the published subset belongs in public/testimonials)
+/Client

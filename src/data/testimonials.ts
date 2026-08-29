@@ -19,7 +19,7 @@ export const testimonials: Testimonial[] = [
     role: "Fullstack Marketplace Project",
     source: "Workana",
     rating: 5,
-    avatarFile: "visao-na-web-br.jpg",
+    avatarFile: "marcos.jpg",
   },
   {
     quote:
@@ -28,7 +28,7 @@ export const testimonials: Testimonial[] = [
     role: "Marketplace Architecture Project",
     source: "Workana",
     rating: 5,
-    avatarFile: "gabriel-londero.jpg",
+    avatarFile: "inigo-toledo.jpg",
   },
   {
     quote:
@@ -41,28 +41,28 @@ export const testimonials: Testimonial[] = [
   },
   {
     quote: "The best programmer in the world by far.",
-    name: "Verified Client",
+    name: "Julian",
     role: "Upwork",
     source: "Upwork",
     rating: 5,
-    avatarFile: "client-1.jpg",
+    avatarFile: "julian.jpg",
   },
   {
     quote:
       "Excellent professional! He developed a complete financial agent system integrating n8n, Supabase and WhatsApp with artificial intelligence. The work was very well structured, with functional workflows, an optimized database and a professional dashboard. Clear communication, respected deadlines, and a great ability to solve complex problems.",
-    name: "Verified Client",
+    name: "Daniel",
     role: "AI Automation Project",
     source: "Upwork",
     rating: 5,
-    avatarFile: "client-2.jpg",
+    avatarFile: "daniel.jpg",
   },
   {
     quote:
       "Perfectionist. He fully understands the work he has to do and improves upon it.",
-    name: "Verified Client",
+    name: "Pablo",
     role: "Upwork",
     source: "Upwork",
     rating: 5,
-    avatarFile: "client-3.jpg",
+    avatarFile: "pablo.jpg",
   },
 ];

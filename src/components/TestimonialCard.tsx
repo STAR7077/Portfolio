@@ -18,9 +18,6 @@ export default function TestimonialCard({ testimonial }: { testimonial: Testimon
             <span className="text-sm font-semibold text-white">{testimonial.name}</span>
             <span className="text-xs text-amber-400">{"★".repeat(testimonial.rating)}</span>
           </div>
-          <p className="text-xs text-slate-400">
-            {testimonial.role} · {testimonial.source}
-          </p>
         </div>
       </figcaption>
     </figure>

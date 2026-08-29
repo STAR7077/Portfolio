@@ -44,13 +44,13 @@ export default function Contact() {
               <span className="text-sm text-white">lucasmarleymem@outlook.com</span>
             </a>
             <a
-              href="https://wa.me/19793268076"
+              href="https://wa.me/5599945812563"
               target="_blank"
               rel="noopener noreferrer"
               className="flex flex-col rounded-xl border border-white/10 bg-white/[0.03] px-5 py-3 hover:border-violet-400/40"
             >
               <span className="text-xs uppercase tracking-wide text-slate-500">WhatsApp</span>
-              <span className="text-sm text-white">+1 (979) 326-8076</span>
+              <span className="text-sm text-white">+55 99 94581-2563</span>
             </a>
           </div>
         </div>
