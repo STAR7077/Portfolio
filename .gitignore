@@ -44,3 +44,8 @@ next-env.d.ts
 
 # private client source photos (only the published subset belongs in public/testimonials)
 /Client
+
+# local asset staging — the published copies live in public/
+/Odoo
+/SWOP
+/Lucas.jpg

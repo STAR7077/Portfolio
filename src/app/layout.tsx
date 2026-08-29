@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Inter } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "@/i18n/LanguageProvider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -14,6 +15,8 @@ const inter = Inter({
   weight: ["400", "500", "600"],
 });
 
+// Static metadata is emitted at build time, so it stays in the default language.
+// The visible tab title is re-translated on the client by LanguageProvider.
 export const metadata: Metadata = {
   title: "Lucas Marley | Developer",
   description:
@@ -27,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${poppins.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-[#07070f] text-slate-200 selection:bg-violet-500/30 selection:text-white">
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

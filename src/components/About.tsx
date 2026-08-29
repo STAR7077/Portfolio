@@ -1,5 +1,9 @@
+"use client";
+
+import { useLanguage } from "@/i18n/LanguageProvider";
 import SectionHeading from "./SectionHeading";
 
+// Tool and language names are proper nouns — they read the same in every locale.
 const skills = [
   "Node.js",
   "Python",
@@ -16,26 +20,16 @@ const skills = [
 ];
 
 export default function About() {
+  const { t } = useLanguage();
+
   return (
     <section id="about" className="py-24 sm:py-28 border-t border-white/5">
       <div className="mx-auto max-w-6xl px-6">
-        <SectionHeading eyebrow="Introduction" title="Overview." />
+        <SectionHeading eyebrow={t.about.eyebrow} title={t.about.title} />
 
         <div className="max-w-3xl space-y-5 text-slate-300 leading-relaxed">
-          <p>
-            I&apos;m a full-stack and AI automation developer. Over the past several years I&apos;ve worked
-            across SaaS platforms, marketplaces, mobile apps and AI-agent systems — usually joining as
-            the engineer who turns a manual, messy process into something automated, reliable and easy
-            to operate.
-          </p>
-          <p>
-            On the backend I work mainly in Node.js and Python, with Django, REST APIs, PostgreSQL,
-            Redis and queue-driven architectures. On the AI side I build LLM-integrated workflows —
-            document/OCR pipelines, WhatsApp and chat agents, outbound automation, and classification
-            systems using OpenAI, Gemini and Claude. On the frontend and mobile side I work in React,
-            Next.js, TypeScript, React Native and Flutter, and I&apos;ve shipped production apps in
-            no-code tools like Bubble.io when speed-to-market mattered more than a custom stack.
-          </p>
+          <p>{t.about.paragraph1}</p>
+          <p>{t.about.paragraph2}</p>
         </div>
 
         <div className="mt-10 flex flex-wrap gap-3">

@@ -1,4 +1,10 @@
+"use client";
+
+import { useLanguage } from "@/i18n/LanguageProvider";
+
 export default function Hero() {
+  const { t } = useLanguage();
+
   return (
     <section id="top" className="relative overflow-hidden pt-40 pb-32 sm:pt-48 sm:pb-40">
       {/* decorative swirl rings, echoing the reference site's line-art */}
@@ -17,25 +23,25 @@ export default function Hero() {
           <div className="w-1 rounded-full bg-gradient-to-b from-violet-400 to-transparent" />
           <div>
             <h1 className="font-heading text-5xl sm:text-6xl font-extrabold text-white">
-              Hi, I&apos;m <span className="text-gradient">Lucas</span>
+              {t.hero.greeting} <span className="text-gradient">Lucas</span>
             </h1>
             <p className="mt-4 max-w-xl text-lg text-slate-300">
-              AI Agents, Web &amp; Mobile Applications,
+              {t.hero.subtitleLine1}
               <br />
-              Node.js, Python, React, Next.js, LLMs, Automation, …
+              {t.hero.subtitleLine2}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <a
                 href="#work"
                 className="rounded-full bg-violet-500 px-6 py-3 text-sm font-semibold text-white hover:bg-violet-400 transition-colors"
               >
-                See my work
+                {t.hero.ctaWork}
               </a>
               <a
                 href="#contact"
                 className="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-slate-200 hover:border-white/30 transition-colors"
               >
-                Get in touch
+                {t.hero.ctaContact}
               </a>
             </div>
           </div>
@@ -44,7 +50,7 @@ export default function Hero() {
 
       <a
         href="#about"
-        aria-label="Scroll down"
+        aria-label={t.hero.scrollDown}
         className="absolute left-1/2 -translate-x-1/2 bottom-6 flex h-9 w-6 items-start justify-center rounded-full border border-white/20 p-1"
       >
         <span className="h-2 w-1 rounded-full bg-white/60 animate-float-slow" />

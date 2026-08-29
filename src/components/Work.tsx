@@ -2,18 +2,20 @@
 
 import { useState } from "react";
 import { projects, type ProjectCategory } from "@/data/projects";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import ProjectCard from "./ProjectCard";
 
-const filters: { key: ProjectCategory | "all"; label: string }[] = [
-  { key: "all", label: "All" },
-  { key: "ai", label: "AI & Automation" },
-  { key: "web", label: "Web" },
-  { key: "mobile", label: "Mobile" },
-];
-
 export default function Work() {
+  const { t } = useLanguage();
   const [active, setActive] = useState<ProjectCategory | "all">("all");
+
+  const filters: { key: ProjectCategory | "all"; label: string }[] = [
+    { key: "all", label: t.work.filterAll },
+    { key: "ai", label: t.categories.ai },
+    { key: "web", label: t.categories.web },
+    { key: "mobile", label: t.categories.mobile },
+  ];
 
   const visible =
     active === "all" ? projects : projects.filter((p) => p.categories.includes(active));
@@ -21,12 +23,8 @@ export default function Work() {
   return (
     <section id="work" className="py-24 sm:py-28 border-t border-white/5 bg-white/[0.015]">
       <div className="mx-auto max-w-6xl px-6">
-        <SectionHeading eyebrow="Selected projects" title="Work." />
-        <p className="max-w-2xl text-slate-400">
-          A mix of AI-agent systems, SaaS platforms and mobile apps from recent freelance and contract
-          engagements. Client codebases are private, so these are summarized case studies rather than
-          public repos.
-        </p>
+        <SectionHeading eyebrow={t.work.eyebrow} title={t.work.title} />
+        <p className="max-w-2xl text-slate-400">{t.work.intro}</p>
 
         <div className="mt-8 flex flex-wrap gap-2">
           {filters.map((f) => (

@@ -1,13 +1,18 @@
+"use client";
+
 import type { Testimonial } from "@/data/testimonials";
+import { useLanguage } from "@/i18n/LanguageProvider";
 import Avatar from "./Avatar";
 
 export default function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
+  const { locale } = useLanguage();
+
   return (
     <figure className="flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.04] p-6">
       <div>
         <span className="font-heading text-3xl text-violet-400/60">&ldquo;</span>
         <blockquote className="text-sm leading-relaxed text-slate-200">
-          {testimonial.quote}
+          {testimonial.quote[locale]}
         </blockquote>
       </div>
 
