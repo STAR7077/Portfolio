@@ -136,9 +136,9 @@ const en: Dictionary = {
     intro:
       "A mix of AI-agent systems, SaaS platforms and mobile apps from recent freelance and contract engagements. Client codebases are private, so these are summarized case studies rather than public repos.",
     filterAll: "All",
-    companySite: "Company site ↗",
-    playStore: "View on Google Play ↗",
-    projectFiles: "View project files ↗",
+    companySite: "Company site ->",
+    playStore: "View on Google Play ->",
+    projectFiles: "View project files ->",
   },
   categories: {
     ai: "AI & Automation",
@@ -172,7 +172,7 @@ const en: Dictionary = {
     builtWith: "Built with Next.js, TypeScript & Tailwind CSS",
   },
   meta: {
-    title: "Lucas Marley | Developer",
+    title: "Lucas Marley | AI Agents, Web & Mobile Developer",
   },
 };
 
@@ -227,9 +227,9 @@ const pt: Dictionary = {
     intro:
       "Uma seleção de sistemas de agentes de IA, plataformas SaaS e aplicativos móveis de projetos freelance e contratos recentes. O código dos clientes é privado, então estes são estudos de caso resumidos, e não repositórios públicos.",
     filterAll: "Todos",
-    companySite: "Site da empresa ↗",
-    playStore: "Ver no Google Play ↗",
-    projectFiles: "Ver arquivos do projeto ↗",
+    companySite: "Site da empresa ->",
+    playStore: "Ver no Google Play ->",
+    projectFiles: "Ver arquivos do projeto ->",
   },
   categories: {
     ai: "IA e Automação",
@@ -264,7 +264,7 @@ const pt: Dictionary = {
     builtWith: "Feito com Next.js, TypeScript e Tailwind CSS",
   },
   meta: {
-    title: "Lucas Marley | Desenvolvedor",
+    title: "Lucas Marley | Agentes de IA, Web e Mobile",
   },
 };
 
@@ -319,9 +319,9 @@ const es: Dictionary = {
     intro:
       "Una selección de sistemas de agentes de IA, plataformas SaaS y aplicaciones móviles de proyectos freelance y contratos recientes. El código de los clientes es privado, así que estos son casos de estudio resumidos, no repositorios públicos.",
     filterAll: "Todos",
-    companySite: "Sitio de la empresa ↗",
-    playStore: "Ver en Google Play ↗",
-    projectFiles: "Ver archivos del proyecto ↗",
+    companySite: "Sitio de la empresa ->",
+    playStore: "Ver en Google Play ->",
+    projectFiles: "Ver archivos del proyecto ->",
   },
   categories: {
     ai: "IA y Automatización",
@@ -355,7 +355,7 @@ const es: Dictionary = {
     builtWith: "Hecho con Next.js, TypeScript y Tailwind CSS",
   },
   meta: {
-    title: "Lucas Marley | Desarrollador",
+    title: "Lucas Marley | Agentes de IA, Web y Móvil",
   },
 };
 

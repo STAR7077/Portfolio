@@ -16,12 +16,51 @@ const inter = Inter({
   weight: ["400", "500", "600"],
 });
 
-// Static metadata is emitted at build time, so it stays in the default language.
-// The visible tab title is re-translated on the client by LanguageProvider.
+const SITE = "https://lucas-marley.vercel.app";
+const TITLE = "Lucas Marley | AI Agents, Web & Mobile Developer";
+const DESCRIPTION =
+  "Freelance full-stack and AI automation developer. I build AI agents, automations, web platforms and mobile apps, and take on Odoo ERP rollouts. Working in English, Portuguese and Spanish.";
+
+// Static metadata is emitted at build time, so it stays in the default
+// language. The visible tab title is re-translated on the client by
+// LanguageProvider.
 export const metadata: Metadata = {
-  title: "Lucas Marley | Developer",
-  description:
-    "Lucas Marley - full-stack, AI automation & mobile developer. Building AI agents, web platforms and cross-platform apps.",
+  metadataBase: new URL(SITE),
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: { canonical: "/" },
+  keywords: [
+    "freelance developer",
+    "AI agents",
+    "AI automation",
+    "Next.js developer",
+    "React Native developer",
+    "Odoo implementation",
+    "n8n automation",
+    "desenvolvedor freelance",
+    "desarrollador freelance",
+  ],
+  authors: [{ name: "Lucas Marley" }],
+  creator: "Lucas Marley",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  openGraph: {
+    type: "website",
+    url: SITE,
+    siteName: "Lucas Marley",
+    title: TITLE,
+    description: DESCRIPTION,
+    locale: "en_US",
+    alternateLocale: ["pt_BR", "es_ES"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
