@@ -8,6 +8,17 @@ export interface Dictionary {
     contact: string;
     cta: string;
     languageLabel: string;
+    menu: string;
+    closeMenu: string;
+    browseWork: string;
+  };
+  reach: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    brazil: string;
+    spain: string;
+    mexico: string;
   };
   hero: {
     availability: string;
@@ -82,6 +93,18 @@ const en: Dictionary = {
     contact: "Contact",
     cta: "Let's talk",
     languageLabel: "Change language",
+    menu: "Menu",
+    closeMenu: "Close menu",
+    browseWork: "Browse the work",
+  },
+  reach: {
+    eyebrow: "Where I work",
+    title: "Clients across three languages.",
+    intro:
+      "I work directly in English, Portuguese and Spanish, so briefs, calls and handover documents happen in whichever one the client is comfortable with.",
+    brazil: "Brazil",
+    spain: "Spain",
+    mexico: "Mexico",
   },
   hero: {
     availability: "Available for new projects",
@@ -161,6 +184,18 @@ const pt: Dictionary = {
     contact: "Contato",
     cta: "Vamos conversar",
     languageLabel: "Mudar idioma",
+    menu: "Menu",
+    closeMenu: "Fechar menu",
+    browseWork: "Ver os projetos",
+  },
+  reach: {
+    eyebrow: "Onde eu trabalho",
+    title: "Clientes em três idiomas.",
+    intro:
+      "Trabalho diretamente em inglês, português e espanhol, então briefings, conversas e documentos de entrega acontecem no idioma em que o cliente se sente à vontade.",
+    brazil: "Brasil",
+    spain: "Espanha",
+    mexico: "México",
   },
   hero: {
     availability: "Disponível para novos projetos",
@@ -241,6 +276,18 @@ const es: Dictionary = {
     contact: "Contacto",
     cta: "Hablemos",
     languageLabel: "Cambiar idioma",
+    menu: "Menú",
+    closeMenu: "Cerrar menú",
+    browseWork: "Ver los proyectos",
+  },
+  reach: {
+    eyebrow: "Dónde trabajo",
+    title: "Clientes en tres idiomas.",
+    intro:
+      "Trabajo directamente en inglés, portugués y español, así que los briefings, las conversaciones y la documentación de entrega ocurren en el idioma con el que el cliente se sienta cómodo.",
+    brazil: "Brasil",
+    spain: "España",
+    mexico: "México",
   },
   hero: {
     availability: "Disponible para nuevos proyectos",

@@ -156,3 +156,50 @@ h3,
   .reveal { opacity: 1; transform: none; transition: none; }
   .lift:hover { transform: none; }
 }
+
+/* ---------------------------------------------------------------
+   Globe: a CSS sphere standing in for the reference site's WebGL
+   version. The dot grid drifts, which reads as rotation, and the
+   markers ripple the way the reference markers do.
+   --------------------------------------------------------------- */
+.globe-dots {
+  background-image: radial-gradient(rgba(109, 40, 217, 0.34) 1.1px, transparent 1.2px);
+  background-size: 15px 15px;
+  mask-image: radial-gradient(circle at 42% 38%, #000 42%, transparent 76%);
+  -webkit-mask-image: radial-gradient(circle at 42% 38%, #000 42%, transparent 76%);
+  animation: globe-spin 26s linear infinite;
+}
+@keyframes globe-spin {
+  from { background-position: 0 0; }
+  to   { background-position: -300px 0; }
+}
+
+@keyframes ripple {
+  0%   { box-shadow: 0 0 0 0 rgba(109, 40, 217, 0.45); }
+  70%  { box-shadow: 0 0 0 16px rgba(109, 40, 217, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(109, 40, 217, 0); }
+}
+
+/* Contact and footer sit behind the page and are revealed as the
+   content above scrolls off them, the assistantly footer-sticky idea. */
+/* Only on wide screens, where the revealed panel reliably fits the
+   viewport. Below that the footer simply follows the content. */
+@media (min-width: 1024px) {
+  .page-stack {
+    position: relative;
+    z-index: 1;
+    background: var(--background);
+    margin-bottom: var(--reveal-h, 0px);
+  }
+  .reveal-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .globe-dots { animation: none !important; }
+}
