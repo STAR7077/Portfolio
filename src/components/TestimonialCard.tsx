@@ -8,7 +8,7 @@ export default function TestimonialCard({ testimonial }: { testimonial: Testimon
   const { locale } = useLanguage();
 
   return (
-    <figure className="flex h-full flex-col justify-between rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+    <figure className="lift flex h-full flex-col justify-between rounded-3xl border border-white/10 bg-white/[0.045] p-6 backdrop-blur-xl hover:border-violet-400/35">
       <div>
         <span className="font-heading text-3xl text-violet-400/60">&ldquo;</span>
         <blockquote className="text-sm leading-relaxed text-slate-200">

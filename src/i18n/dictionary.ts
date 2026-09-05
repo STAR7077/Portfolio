@@ -10,12 +10,19 @@ export interface Dictionary {
     languageLabel: string;
   };
   hero: {
-    greeting: string;
-    subtitleLine1: string;
-    subtitleLine2: string;
+    availability: string;
+    headline1: string;
+    headline2: string;
+    headline3: string;
+    subtitle: string;
     ctaWork: string;
     ctaContact: string;
-    scrollDown: string;
+  };
+  stats: {
+    projects: string;
+    reviews: string;
+    languages: string;
+    platforms: string;
   };
   about: {
     eyebrow: string;
@@ -77,12 +84,20 @@ const en: Dictionary = {
     languageLabel: "Change language",
   },
   hero: {
-    greeting: "Hi, I'm",
-    subtitleLine1: "AI Agents, Web & Mobile Applications,",
-    subtitleLine2: "Node.js, Python, React, Next.js, LLMs, Automation, …",
+    availability: "Available for new projects",
+    headline1: "AI agents, web",
+    headline2: "and mobile apps,",
+    headline3: "built to ship.",
+    subtitle:
+      "I turn manual, messy processes into automated systems a team can actually run. Node.js, Python, React, Next.js, LLMs and Odoo.",
     ctaWork: "See my work",
     ctaContact: "Get in touch",
-    scrollDown: "Scroll down",
+  },
+  stats: {
+    projects: "Projects delivered",
+    reviews: "Five-star reviews",
+    languages: "Languages spoken",
+    platforms: "AI, web and mobile",
   },
   about: {
     eyebrow: "Introduction",
@@ -148,12 +163,20 @@ const pt: Dictionary = {
     languageLabel: "Mudar idioma",
   },
   hero: {
-    greeting: "Olá, eu sou o",
-    subtitleLine1: "Agentes de IA, Aplicações Web e Mobile,",
-    subtitleLine2: "Node.js, Python, React, Next.js, LLMs, Automação, …",
+    availability: "Disponível para novos projetos",
+    headline1: "Agentes de IA, web",
+    headline2: "e aplicativos móveis,",
+    headline3: "prontos para produção.",
+    subtitle:
+      "Transformo processos manuais e confusos em sistemas automatizados que a equipe consegue operar de verdade. Node.js, Python, React, Next.js, LLMs e Odoo.",
     ctaWork: "Veja meu trabalho",
     ctaContact: "Entre em contato",
-    scrollDown: "Rolar para baixo",
+  },
+  stats: {
+    projects: "Projetos entregues",
+    reviews: "Avaliações cinco estrelas",
+    languages: "Idiomas falados",
+    platforms: "IA, web e mobile",
   },
   about: {
     eyebrow: "Introdução",
@@ -220,12 +243,20 @@ const es: Dictionary = {
     languageLabel: "Cambiar idioma",
   },
   hero: {
-    greeting: "Hola, soy",
-    subtitleLine1: "Agentes de IA, Aplicaciones Web y Móviles,",
-    subtitleLine2: "Node.js, Python, React, Next.js, LLMs, Automatización, …",
+    availability: "Disponible para nuevos proyectos",
+    headline1: "Agentes de IA, web",
+    headline2: "y aplicaciones móviles,",
+    headline3: "listos para producción.",
+    subtitle:
+      "Convierto procesos manuales y desordenados en sistemas automatizados que un equipo puede operar de verdad. Node.js, Python, React, Next.js, LLMs y Odoo.",
     ctaWork: "Ver mi trabajo",
     ctaContact: "Contáctame",
-    scrollDown: "Desplazarse hacia abajo",
+  },
+  stats: {
+    projects: "Proyectos entregados",
+    reviews: "Reseñas de cinco estrellas",
+    languages: "Idiomas hablados",
+    platforms: "IA, web y móvil",
   },
   about: {
     eyebrow: "Introducción",

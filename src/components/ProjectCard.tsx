@@ -13,12 +13,24 @@ export default function ProjectCard({ project }: { project: Project }) {
     mobile: t.categories.mobile,
   };
 
+  const linkLabel =
+    project.linkKind === "playStore"
+      ? t.work.playStore
+      : project.linkKind === "drive"
+        ? t.work.projectFiles
+        : t.work.companySite;
+
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition-colors hover:border-violet-400/40">
-      <div className="h-44 w-full overflow-hidden">
+    <article className="lift group flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.045] backdrop-blur-xl hover:border-violet-400/40">
+      <div className="relative h-44 w-full overflow-hidden">
         <ProjectCarousel
           title={project.title}
           images={project.images.map((f) => `/projects/${f}`)}
+        />
+        {/* Softens the join between screenshot and card body. */}
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#0b0b12]/80 to-transparent"
+          aria-hidden="true"
         />
       </div>
 
@@ -27,7 +39,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           {project.categories.map((c) => (
             <span
               key={c}
-              className="rounded-full bg-violet-500/10 px-2.5 py-1 text-[11px] font-medium text-violet-300"
+              className="rounded-full bg-violet-500/15 px-2.5 py-1 text-[10.5px] font-bold uppercase tracking-wider text-violet-300"
             >
               {categoryLabel[c]}
             </span>
@@ -54,13 +66,9 @@ export default function ProjectCard({ project }: { project: Project }) {
             href={project.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-violet-300 hover:text-violet-200"
+            className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-violet-300 transition-colors hover:text-violet-200"
           >
-            {project.linkKind === "playStore"
-              ? t.work.playStore
-              : project.linkKind === "drive"
-                ? t.work.projectFiles
-                : t.work.companySite}
+            {linkLabel}
           </a>
         )}
       </div>
