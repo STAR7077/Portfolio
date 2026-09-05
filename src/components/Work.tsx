@@ -23,7 +23,6 @@ export default function Work() {
   return (
     <section id="work" className="border-t border-[var(--border)] py-24 sm:py-28">
       <div className="mx-auto max-w-6xl px-6">
-        {/* Heading sits above the whole section, full width. */}
         <Reveal>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
             {t.work.eyebrow}
@@ -33,39 +32,36 @@ export default function Work() {
           </h2>
           <p className="lead mt-5 max-w-2xl text-[var(--muted)]">{t.work.intro}</p>
         </Reveal>
-      </div>
 
-      <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 items-start gap-10 px-6 lg:grid-cols-12 lg:gap-14">
-        {/* Filters pin while the deck scrolls past them. */}
-        <div className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start">
-          <Reveal delay={80}>
-            <div className="flex flex-wrap gap-2">
-              {filters.map((f) => {
-                const on = active === f.key;
-                return (
-                  <button
-                    key={f.key}
-                    onClick={() => setActive(f.key)}
-                    aria-pressed={on}
-                    className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-500 ${
-                      on
-                        ? "bg-[var(--accent)] text-white shadow-[0_10px_28px_-10px_rgba(109,40,217,0.7)]"
-                        : "border border-[var(--border-strong)] bg-white text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--foreground)]"
-                    }`}
-                  >
-                    {f.label}
-                  </button>
-                );
-              })}
-            </div>
-            <p className="mt-6 font-mono text-sm text-[var(--faint)]">
+        {/* Filters sit with the heading so the cards below can use the
+            full page width, split evenly between copy and imagery. */}
+        <Reveal delay={80}>
+          <div className="mt-8 flex flex-wrap items-center gap-2">
+            {filters.map((f) => {
+              const on = active === f.key;
+              return (
+                <button
+                  key={f.key}
+                  onClick={() => setActive(f.key)}
+                  aria-pressed={on}
+                  className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-500 ${
+                    on
+                      ? "bg-[var(--accent)] text-white shadow-[0_10px_28px_-10px_rgba(109,40,217,0.7)]"
+                      : "border border-[var(--border-strong)] bg-white text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--foreground)]"
+                  }`}
+                >
+                  {f.label}
+                </button>
+              );
+            })}
+            <span className="ml-2 font-mono text-sm text-[var(--faint)]">
               {String(visible.length).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
-            </p>
-          </Reveal>
-        </div>
+            </span>
+          </div>
+        </Reveal>
 
-        {/* The deck. Each card pins slightly lower than the one before it. */}
-        <div key={active} className="panel-in lg:col-span-8">
+        {/* Full-width deck. Each card pins slightly lower than the one before. */}
+        <div key={active} className="panel-in mt-12">
           {visible.map((project, i) => (
             <StackCard key={project.slug} project={project} index={i} total={visible.length} />
           ))}

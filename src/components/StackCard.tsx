@@ -15,6 +15,9 @@ interface StackCardProps {
  * One card in the sticky deck. Each pins `index * step` lower than the
  * previous one, so scrolling deals them onto each other and leaves a
  * stepped edge of every earlier card visible.
+ *
+ * The card fills the page width and splits evenly: description on the
+ * left, imagery on the right.
  */
 export default function StackCard({ project, index, total }: StackCardProps) {
   const { locale, t } = useLanguage();
@@ -33,10 +36,10 @@ export default function StackCard({ project, index, total }: StackCardProps) {
         : t.work.companySite;
 
   return (
-    <article className="stack-card mb-5" style={{ "--i": index } as CSSProperties}>
-      <div className="grid grid-cols-1 overflow-hidden rounded-3xl border border-[var(--border)] bg-white shadow-[0_-2px_0_0_rgba(228,228,234,1),0_20px_44px_-24px_rgba(22,21,28,0.45)] sm:grid-cols-[1fr_minmax(0,260px)]">
-        {/* Description leads, imagery follows. */}
-        <div className="flex min-h-[300px] flex-col p-6">
+    <article className="stack-card mb-6" style={{ "--i": index } as CSSProperties}>
+      <div className="grid grid-cols-1 overflow-hidden rounded-3xl border border-[var(--border)] bg-white shadow-[0_-2px_0_0_rgba(228,228,234,1),0_20px_44px_-24px_rgba(22,21,28,0.45)] md:grid-cols-2">
+        {/* Left half: the description. */}
+        <div className="flex min-h-[340px] flex-col p-7 sm:p-9">
           <div className="flex items-start justify-between gap-4">
             <div className="flex flex-wrap gap-2">
               {project.categories.map((c) => (
@@ -53,16 +56,14 @@ export default function StackCard({ project, index, total }: StackCardProps) {
             </span>
           </div>
 
-          <h3 className="mt-3 font-heading text-xl text-[var(--foreground)]">{project.title}</h3>
-          <p className="mt-1 text-sm font-medium text-[var(--accent)]">
-            {project.tagline[locale]}
-          </p>
-          <p className="mt-2.5 line-clamp-4 text-sm leading-relaxed text-[var(--muted)]">
+          <h3 className="mt-4 font-heading text-2xl text-[var(--foreground)]">{project.title}</h3>
+          <p className="mt-1.5 font-medium text-[var(--accent)]">{project.tagline[locale]}</p>
+          <p className="mt-3 text-[15px] leading-relaxed text-[var(--muted)]">
             {project.description[locale]}
           </p>
 
-          <div className="mt-auto flex flex-wrap gap-2 pt-4">
-            {project.tech.slice(0, 5).map((tech) => (
+          <div className="mt-auto flex flex-wrap gap-2 pt-5">
+            {project.tech.slice(0, 6).map((tech) => (
               <span
                 key={tech}
                 className="rounded-md border border-[var(--border)] px-2 py-1 text-[11px] text-[var(--faint)]"
@@ -77,14 +78,15 @@ export default function StackCard({ project, index, total }: StackCardProps) {
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 inline-flex w-fit items-center gap-1 text-sm font-semibold text-[var(--accent)] transition-colors hover:text-[var(--accent-2)]"
+              className="mt-4 inline-flex w-fit items-center gap-1 text-sm font-semibold text-[var(--accent)] transition-colors hover:text-[var(--accent-2)]"
             >
               {linkLabel}
             </a>
           )}
         </div>
 
-        <div className="order-first h-44 w-full sm:order-none sm:h-auto">
+        {/* Right half: the imagery. */}
+        <div className="order-first h-52 w-full md:order-none md:h-auto">
           <ProjectCarousel
             title={project.title}
             images={project.images.map((f) => `/projects/${f}`)}
