@@ -19,9 +19,9 @@ function Placeholder({ title }: { title: string }) {
     <div
       className={`flex h-full w-full items-center justify-center bg-gradient-to-br ${colorFor(
         title
-      )} bg-[#0d0d1a]`}
+      )} bg-[#eceaf2]`}
     >
-      <span className="font-heading text-4xl font-bold text-white/25">
+      <span className="font-heading text-4xl font-bold text-[#16151c]/20">
         {title
           .split(" ")
           .map((w) => w[0])
@@ -55,7 +55,7 @@ export default function ProjectCarousel({ title, images }: ProjectCarouselProps)
   }
 
   return (
-    <div className="group/carousel relative h-full w-full overflow-hidden bg-[#0d0d1a]">
+    <div className="group/carousel relative h-full w-full overflow-hidden bg-[#eceaf2]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         key={usable[safeIndex]}
@@ -76,7 +76,7 @@ export default function ProjectCarousel({ title, images }: ProjectCarouselProps)
               e.preventDefault();
               go(-1);
             }}
-            className="absolute left-2 top-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition-opacity group-hover/carousel:opacity-100"
+            className="absolute left-2 top-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center rounded-full bg-white/85 text-[#16151c] shadow-sm opacity-0 transition-opacity group-hover/carousel:opacity-100"
           >
             ‹
           </button>
@@ -87,7 +87,7 @@ export default function ProjectCarousel({ title, images }: ProjectCarouselProps)
               e.preventDefault();
               go(1);
             }}
-            className="absolute right-2 top-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition-opacity group-hover/carousel:opacity-100"
+            className="absolute right-2 top-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center rounded-full bg-white/85 text-[#16151c] shadow-sm opacity-0 transition-opacity group-hover/carousel:opacity-100"
           >
             ›
           </button>
@@ -96,7 +96,7 @@ export default function ProjectCarousel({ title, images }: ProjectCarouselProps)
               <span
                 key={src}
                 className={`h-1.5 w-1.5 rounded-full transition-colors ${
-                  i === safeIndex ? "bg-white" : "bg-white/40"
+                  i === safeIndex ? "bg-[#16151c]" : "bg-[#16151c]/30"
                 }`}
               />
             ))}

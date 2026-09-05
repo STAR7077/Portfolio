@@ -55,7 +55,7 @@ export default function Avatar({ name, src, size = 44 }: AvatarProps) {
       alt={name}
       width={size}
       height={size}
-      className="rounded-full object-cover shrink-0 bg-white/5"
+      className="rounded-full object-cover shrink-0 bg-[#eceaf2]"
       style={{ width: size, height: size }}
       onError={() => setFailed(true)}
     />

@@ -10,7 +10,7 @@ export default function LanguageSwitcher() {
     <div
       role="group"
       aria-label={t.nav.languageLabel}
-      className="flex items-center gap-0.5 rounded-full border border-white/10 p-1"
+      className="flex items-center gap-0.5 rounded-full border border-[var(--border)] p-1"
     >
       {locales.map((code) => {
         const active = code === locale;
@@ -23,8 +23,8 @@ export default function LanguageSwitcher() {
             title={localeNames[code].label}
             className={`rounded-full px-2.5 py-1 text-[11px] font-bold transition-colors duration-300 ${
               active
-                ? "bg-gradient-to-br from-violet-500 to-fuchsia-500 text-[#0b0b12]"
-                : "text-slate-400 hover:text-white"
+                ? "bg-[var(--accent)] text-white"
+                : "text-[var(--faint)] hover:text-[var(--foreground)]"
             }`}
           >
             {localeNames[code].code}

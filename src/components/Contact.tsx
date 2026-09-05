@@ -10,7 +10,7 @@ const WHATSAPP_NUMBER = "5599945812563";
 const WHATSAPP_DISPLAY = "+55 99 94581-2563";
 
 const FIELD =
-  "mt-1 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-2.5 text-sm text-white outline-none transition-colors duration-500 placeholder:text-slate-600 focus:border-violet-400/60 focus:bg-white/[0.06]";
+  "mt-1 w-full rounded-xl border border-[var(--border)] bg-white px-4 py-2.5 text-sm text-[var(--foreground)] outline-none transition-colors duration-500 placeholder:text-[var(--faint)] focus:border-[var(--accent)]";
 
 export default function Contact() {
   const { t } = useLanguage();
@@ -30,10 +30,12 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="relative overflow-hidden border-t border-white/5 py-24 sm:py-28">
-      <div className="star-field absolute inset-0 opacity-70" aria-hidden="true" />
+    <section
+      id="contact"
+      className="relative overflow-hidden border-t border-[var(--border)] py-24 sm:py-28"
+    >
       <div
-        className="mesh-c pointer-events-none absolute -bottom-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(232,121,249,0.28)_0%,rgba(232,121,249,0)_66%)] blur-3xl"
+        className="mesh-c pointer-events-none absolute -bottom-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(192,38,211,0.12)_0%,rgba(192,38,211,0)_66%)] blur-3xl"
         aria-hidden="true"
       />
 
@@ -41,19 +43,19 @@ export default function Contact() {
         <div>
           <Reveal>
             <SectionHeading eyebrow={t.contact.eyebrow} title={t.contact.title} />
-            <p className="max-w-md text-slate-400">{t.contact.intro}</p>
+            <p className="max-w-md text-[var(--muted)]">{t.contact.intro}</p>
           </Reveal>
 
           <div className="mt-8 space-y-4">
             <Reveal delay={80}>
               <a
                 href={`mailto:${EMAIL}`}
-                className="lift flex flex-col rounded-2xl border border-white/10 bg-white/[0.045] px-5 py-3.5 backdrop-blur-xl hover:border-violet-400/40"
+                className="lift flex flex-col rounded-2xl border border-[var(--border)] bg-white px-5 py-3.5 shadow-sm hover:border-[var(--accent)]"
               >
-                <span className="text-xs uppercase tracking-wide text-slate-500">
+                <span className="text-xs uppercase tracking-wide text-[var(--faint)]">
                   {t.contact.emailLabel}
                 </span>
-                <span className="text-sm text-white">{EMAIL}</span>
+                <span className="text-sm text-[var(--foreground)]">{EMAIL}</span>
               </a>
             </Reveal>
             <Reveal delay={150}>
@@ -61,12 +63,12 @@ export default function Contact() {
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="lift flex flex-col rounded-2xl border border-white/10 bg-white/[0.045] px-5 py-3.5 backdrop-blur-xl hover:border-violet-400/40"
+                className="lift flex flex-col rounded-2xl border border-[var(--border)] bg-white px-5 py-3.5 shadow-sm hover:border-[var(--accent)]"
               >
-                <span className="text-xs uppercase tracking-wide text-slate-500">
+                <span className="text-xs uppercase tracking-wide text-[var(--faint)]">
                   {t.contact.whatsappLabel}
                 </span>
-                <span className="text-sm text-white">{WHATSAPP_DISPLAY}</span>
+                <span className="text-sm text-[var(--foreground)]">{WHATSAPP_DISPLAY}</span>
               </a>
             </Reveal>
           </div>
@@ -75,9 +77,9 @@ export default function Contact() {
         <Reveal delay={120}>
           <form
             onSubmit={handleSubmit}
-            className="space-y-4 rounded-3xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur-xl"
+            className="space-y-4 rounded-3xl border border-[var(--border)] bg-white p-6 shadow-[0_18px_50px_-30px_rgba(22,21,28,0.5)]"
           >
-            <label className="block text-sm text-slate-300">
+            <label className="block text-sm text-[var(--muted)]">
               {t.contact.nameLabel}
               <input
                 name="name"
@@ -87,7 +89,7 @@ export default function Contact() {
                 className={FIELD}
               />
             </label>
-            <label className="block text-sm text-slate-300">
+            <label className="block text-sm text-[var(--muted)]">
               {t.contact.emailFieldLabel}
               <input
                 name="email"
@@ -97,7 +99,7 @@ export default function Contact() {
                 className={FIELD}
               />
             </label>
-            <label className="block text-sm text-slate-300">
+            <label className="block text-sm text-[var(--muted)]">
               {t.contact.messageLabel}
               <textarea
                 name="message"
@@ -109,11 +111,11 @@ export default function Contact() {
             </label>
             <button
               type="submit"
-              className="w-full rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 px-6 py-3.5 text-sm font-bold text-[#0b0b12] shadow-[0_12px_38px_rgba(168,85,247,0.40)] transition-transform duration-500 hover:scale-[1.02]"
+              className="w-full rounded-full bg-[var(--accent)] px-6 py-3.5 text-sm font-bold text-white shadow-[0_14px_38px_-12px_rgba(109,40,217,0.8)] transition-transform duration-500 hover:scale-[1.02]"
             >
               {t.contact.send}
             </button>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-[var(--faint)]">
               {sent ? t.contact.hintSent : t.contact.hintIdle}
             </p>
           </form>

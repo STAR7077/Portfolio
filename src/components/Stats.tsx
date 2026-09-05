@@ -24,11 +24,11 @@ export default function Stats() {
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-6 lg:grid-cols-4">
         {items.map((item, i) => (
           <Reveal key={item.label} delay={i * 80} className="h-full">
-            <div className="lift h-full rounded-2xl border border-white/10 bg-white/[0.045] px-6 py-5 backdrop-blur-xl hover:border-violet-400/35">
+            <div className="lift h-full rounded-2xl border border-[var(--border)] bg-white px-6 py-5 shadow-[0_10px_30px_-22px_rgba(22,21,28,0.5)] hover:border-[var(--accent)]/40">
               <div className="text-gradient-brand font-heading text-3xl font-bold tracking-tight sm:text-4xl">
                 {item.value}
               </div>
-              <div className="mt-1.5 text-[13px] text-slate-400">{item.label}</div>
+              <div className="mt-1.5 text-[13px] text-[var(--muted)]">{item.label}</div>
             </div>
           </Reveal>
         ))}

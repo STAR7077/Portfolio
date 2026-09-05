@@ -6,10 +6,10 @@ interface SectionHeadingProps {
 export default function SectionHeading({ eyebrow, title }: SectionHeadingProps) {
   return (
     <div className="mb-6">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-400/80">
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
         {eyebrow}
       </p>
-      <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white mt-2">
+      <h2 className="mt-2 font-heading text-3xl font-bold text-[var(--foreground)] sm:text-4xl">
         {title}
       </h2>
     </div>
