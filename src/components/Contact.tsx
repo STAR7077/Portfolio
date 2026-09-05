@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
+import Parallax from "./Parallax";
 
 const EMAIL = "lucasmarleymem@outlook.com";
 const WHATSAPP_NUMBER = "5599945812563";
@@ -34,10 +35,14 @@ export default function Contact() {
       id="contact"
       className="relative overflow-hidden border-t border-[var(--border)] py-24 sm:py-28"
     >
-      <div
-        className="mesh-c pointer-events-none absolute -bottom-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(192,38,211,0.12)_0%,rgba(192,38,211,0)_66%)] blur-3xl"
-        aria-hidden="true"
-      />
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <Parallax speed={-180} className="absolute -bottom-40 right-[-10%] h-[520px] w-[520px]">
+          <div className="mesh-c h-full w-full rounded-full bg-[radial-gradient(circle,rgba(192,38,211,0.12)_0%,rgba(192,38,211,0)_66%)] blur-3xl" />
+        </Parallax>
+        <Parallax speed={300} className="absolute left-[5%] top-[12%] hidden lg:block">
+          <div className="h-12 w-12 -rotate-6 rounded-2xl bg-indigo-300/25 blur-[2px]" />
+        </Parallax>
+      </div>
 
       <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 lg:grid-cols-2">
         <div>
