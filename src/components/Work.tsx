@@ -22,21 +22,24 @@ export default function Work() {
 
   return (
     <section id="work" className="border-t border-[var(--border)] py-24 sm:py-28">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-10 px-6 lg:grid-cols-12 lg:gap-14">
-        {/* Left column pins while the deck scrolls past it. */}
-        <div className="lg:col-span-5 lg:sticky lg:top-28 lg:self-start">
-          <Reveal>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
-              {t.work.eyebrow}
-            </p>
-            <h2 className="mt-2 font-heading text-4xl font-bold tracking-tight text-[var(--foreground)] sm:text-5xl">
-              {t.work.title}
-            </h2>
-            <p className="mt-5 max-w-md leading-relaxed text-[var(--muted)]">{t.work.intro}</p>
-          </Reveal>
+      <div className="mx-auto max-w-6xl px-6">
+        {/* Heading sits above the whole section, full width. */}
+        <Reveal>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
+            {t.work.eyebrow}
+          </p>
+          <h2 className="mt-2 font-heading text-4xl font-semibold text-[var(--foreground)] sm:text-5xl">
+            {t.work.title}
+          </h2>
+          <p className="lead mt-5 max-w-2xl text-[var(--muted)]">{t.work.intro}</p>
+        </Reveal>
+      </div>
 
-          <Reveal delay={90}>
-            <div className="mt-8 flex flex-wrap gap-2">
+      <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 items-start gap-10 px-6 lg:grid-cols-12 lg:gap-14">
+        {/* Filters pin while the deck scrolls past them. */}
+        <div className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start">
+          <Reveal delay={80}>
+            <div className="flex flex-wrap gap-2">
               {filters.map((f) => {
                 const on = active === f.key;
                 return (
@@ -55,26 +58,17 @@ export default function Work() {
                 );
               })}
             </div>
-          </Reveal>
-
-          <Reveal delay={150}>
-            <p className="mt-6 text-sm text-[var(--faint)]">
-              {visible.length} / {projects.length}
+            <p className="mt-6 font-mono text-sm text-[var(--faint)]">
+              {String(visible.length).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
             </p>
           </Reveal>
         </div>
 
         {/* The deck. Each card pins slightly lower than the one before it. */}
-        <div key={active} className="panel-in lg:col-span-7">
+        <div key={active} className="panel-in lg:col-span-8">
           {visible.map((project, i) => (
-            <StackCard
-              key={project.slug}
-              project={project}
-              index={i}
-              total={visible.length}
-            />
+            <StackCard key={project.slug} project={project} index={i} total={visible.length} />
           ))}
-          {/* Tail space so the last card can settle before the section ends. */}
           <div className="h-24" aria-hidden="true" />
         </div>
       </div>

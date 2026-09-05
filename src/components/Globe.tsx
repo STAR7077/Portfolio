@@ -30,10 +30,16 @@ function toVector(lat: number, lon: number, radius: number) {
 const OCEAN = 0xe6e2f3;
 const LAND = 0x7c3aed;
 const HALO = 0x8b5cf6;
+const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
 export default function Globe({ points, labels }: GlobeProps) {
   const mount = useRef<HTMLDivElement | null>(null);
-  const labelRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const labelRef = useRef<HTMLSpanElement | null>(null);
+  const labelsRef = useRef(labels);
+
+  useEffect(() => {
+    labelsRef.current = labels;
+  }, [labels]);
 
   useEffect(() => {
     const container = mount.current;
@@ -57,23 +63,24 @@ export default function Globe({ points, labels }: GlobeProps) {
     renderer.setClearColor(0x000000, 0);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     root.appendChild(renderer.domElement);
-    renderer.domElement.style.display = "block";
-    renderer.domElement.style.width = "100%";
-    renderer.domElement.style.height = "100%";
 
-    // The whole globe tilts and spins as one group.
+    const canvas = renderer.domElement;
+    canvas.style.display = "block";
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    canvas.style.cursor = "grab";
+    canvas.style.touchAction = "pan-y";
+
     const globe = new THREE.Group();
     globe.rotation.z = (-18 * Math.PI) / 180;
     scene.add(globe);
 
-    // Ocean sphere.
     const ocean = new THREE.Mesh(
       new THREE.SphereGeometry(1, 64, 64),
       new THREE.MeshBasicMaterial({ color: OCEAN })
     );
     globe.add(ocean);
 
-    // Landmasses, drawn from the mask just above the ocean surface.
     const loader = new THREE.TextureLoader();
     const landTexture = loader.load("/land-mask.png");
     landTexture.colorSpace = THREE.SRGBColorSpace;
@@ -84,7 +91,6 @@ export default function Globe({ points, labels }: GlobeProps) {
     );
     globe.add(land);
 
-    // Soft rim, rendered from the inside of a slightly larger sphere.
     const halo = new THREE.Mesh(
       new THREE.SphereGeometry(1.09, 48, 48),
       new THREE.MeshBasicMaterial({
@@ -96,14 +102,14 @@ export default function Globe({ points, labels }: GlobeProps) {
     );
     scene.add(halo);
 
-    // Markers sit on the surface and rotate with the globe.
+    // Markers. Smaller than before, since there are many more of them now.
     const markerMeshes: THREE.Mesh[] = [];
     const ringMeshes: THREE.Mesh[] = [];
     points.forEach((m) => {
       const at = toVector(m.lat, m.lon, 1.015);
 
       const dot = new THREE.Mesh(
-        new THREE.SphereGeometry(0.022, 16, 16),
+        new THREE.SphereGeometry(0.017, 14, 14),
         new THREE.MeshBasicMaterial({ color: LAND })
       );
       dot.position.copy(at);
@@ -111,11 +117,11 @@ export default function Globe({ points, labels }: GlobeProps) {
       markerMeshes.push(dot);
 
       const ring = new THREE.Mesh(
-        new THREE.RingGeometry(0.03, 0.038, 32),
+        new THREE.RingGeometry(0.024, 0.031, 28),
         new THREE.MeshBasicMaterial({
           color: LAND,
           transparent: true,
-          opacity: 0.6,
+          opacity: 0.55,
           side: THREE.DoubleSide,
         })
       );
@@ -137,13 +143,54 @@ export default function Globe({ points, labels }: GlobeProps) {
     const observer = new ResizeObserver(resize);
     observer.observe(root);
 
-    // Only animate while the globe is actually on screen.
     let visible = true;
     const io = new IntersectionObserver(
-      (entries) => { visible = entries[0]?.isIntersecting ?? true; },
+      (entries) => {
+        visible = entries[0]?.isIntersecting ?? true;
+      },
       { threshold: 0.05 }
     );
     io.observe(root);
+
+    // ---- drag to rotate ----
+    let dragging = false;
+    let lastX = 0;
+    let lastY = 0;
+    let idleSince = 0;
+
+    function onDown(e: PointerEvent) {
+      dragging = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      canvas.setPointerCapture(e.pointerId);
+      canvas.style.cursor = "grabbing";
+    }
+    function onMove(e: PointerEvent) {
+      if (!dragging) return;
+      const dx = e.clientX - lastX;
+      const dy = e.clientY - lastY;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      globe.rotation.y += dx * 0.006;
+      globe.rotation.x = clamp(globe.rotation.x + dy * 0.006, -0.7, 0.7);
+      idleSince = performance.now();
+    }
+    function onUp(e: PointerEvent) {
+      if (!dragging) return;
+      dragging = false;
+      try {
+        canvas.releasePointerCapture(e.pointerId);
+      } catch {
+        /* capture already released */
+      }
+      canvas.style.cursor = "grab";
+      idleSince = performance.now();
+    }
+    canvas.addEventListener("pointerdown", onDown);
+    canvas.addEventListener("pointermove", onMove);
+    canvas.addEventListener("pointerup", onUp);
+    canvas.addEventListener("pointercancel", onUp);
+    canvas.addEventListener("pointerleave", onUp);
 
     const projected = new THREE.Vector3();
     const clock = new THREE.Clock();
@@ -154,31 +201,50 @@ export default function Globe({ points, labels }: GlobeProps) {
       if (!visible) return;
 
       const t = clock.getElapsedTime();
-      if (!reduced) globe.rotation.y += 0.0016;
+      // Idle spin, paused while dragging and for a beat afterwards.
+      const idle = !dragging && performance.now() - idleSince > 1800;
+      if (!reduced && idle) globe.rotation.y += 0.0016;
 
-      // Markers pulse outward, echoing the reference site's ripple.
       ringMeshes.forEach((ring, i) => {
-        const phase = (t * 0.42 + i * 0.33) % 1;
-        const s = 1 + phase * 2.4;
+        const phase = (t * 0.42 + i * 0.19) % 1;
+        const s = 1 + phase * 2.2;
         ring.scale.set(s, s, s);
-        (ring.material as THREE.MeshBasicMaterial).opacity = 0.6 * (1 - phase);
+        (ring.material as THREE.MeshBasicMaterial).opacity = 0.55 * (1 - phase);
       });
 
-      // Keep the HTML labels glued to their markers, and hide the ones
-      // that have rotated round to the far side.
+      // With this many markers, naming every one would be a pile-up, so
+      // only the marker nearest the front carries a label.
+      let bestIndex = -1;
+      let bestFacing = 0.4;
+      let screenX = 0;
+      let screenY = 0;
       markerMeshes.forEach((dot, i) => {
-        const el = labelRefs.current[i];
-        if (!el) return;
         dot.getWorldPosition(projected);
-        const facing = projected.clone().normalize().dot(
-          camera.position.clone().normalize()
-        );
-        projected.project(camera);
-        const x = (projected.x * 0.5 + 0.5) * root.clientWidth;
-        const y = (-projected.y * 0.5 + 0.5) * root.clientHeight;
-        el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -140%)`;
-        el.style.opacity = facing > 0.12 ? "1" : "0";
+        const facing = projected
+          .clone()
+          .normalize()
+          .dot(camera.position.clone().normalize());
+        if (facing > bestFacing) {
+          bestFacing = facing;
+          bestIndex = i;
+          const p = projected.clone().project(camera);
+          screenX = (p.x * 0.5 + 0.5) * root.clientWidth;
+          screenY = (-p.y * 0.5 + 0.5) * root.clientHeight;
+        }
       });
+
+      const el = labelRef.current;
+      if (el) {
+        if (bestIndex >= 0) {
+          const id = points[bestIndex].id;
+          const text = labelsRef.current[id] ?? id;
+          if (el.textContent !== text) el.textContent = text;
+          el.style.transform = `translate3d(${screenX}px, ${screenY}px, 0) translate(-50%, -150%)`;
+          el.style.opacity = "1";
+        } else {
+          el.style.opacity = "0";
+        }
+      }
 
       renderer.render(scene, camera);
     }
@@ -188,7 +254,12 @@ export default function Globe({ points, labels }: GlobeProps) {
       cancelAnimationFrame(frame);
       observer.disconnect();
       io.disconnect();
-      renderer.domElement.remove();
+      canvas.removeEventListener("pointerdown", onDown);
+      canvas.removeEventListener("pointermove", onMove);
+      canvas.removeEventListener("pointerup", onUp);
+      canvas.removeEventListener("pointercancel", onUp);
+      canvas.removeEventListener("pointerleave", onUp);
+      canvas.remove();
       renderer.dispose();
       landTexture.dispose();
       scene.traverse((obj) => {
@@ -205,15 +276,10 @@ export default function Globe({ points, labels }: GlobeProps) {
   return (
     <div className="relative aspect-square w-full">
       <div ref={mount} className="absolute inset-0" />
-      {points.map((m, i) => (
-        <span
-          key={m.id}
-          ref={(el) => { labelRefs.current[i] = el; }}
-          className="pointer-events-none absolute left-0 top-0 whitespace-nowrap rounded-full border border-[var(--border)] bg-white px-3 py-1 text-[11px] font-semibold text-[var(--foreground)] opacity-0 shadow-[0_6px_18px_-8px_rgba(22,21,28,0.5)] transition-opacity duration-300"
-        >
-          {labels[m.id]}
-        </span>
-      ))}
+      <span
+        ref={labelRef}
+        className="pointer-events-none absolute left-0 top-0 whitespace-nowrap rounded-full border border-[var(--border)] bg-white px-3 py-1 text-[11px] font-semibold text-[var(--foreground)] opacity-0 shadow-[0_6px_18px_-8px_rgba(22,21,28,0.5)] transition-opacity duration-300"
+      />
     </div>
   );
 }

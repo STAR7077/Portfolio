@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
 
 // three.js is a large dependency, so it is split out of the main bundle and
@@ -16,10 +15,22 @@ const Globe = dynamic(() => import("./Globe"), {
   ),
 });
 
+// Country centroids, roughly. Order sets which label wins a tie on screen.
 const PLACES = [
   { id: "brazil", lat: -10, lon: -52 },
-  { id: "spain", lat: 40.2, lon: -3.7 },
+  { id: "unitedStates", lat: 39.5, lon: -98.5 },
+  { id: "canada", lat: 56, lon: -106 },
   { id: "mexico", lat: 23.5, lon: -102 },
+  { id: "argentina", lat: -34, lon: -64 },
+  { id: "peru", lat: -10, lon: -76 },
+  { id: "colombia", lat: 4, lon: -73 },
+  { id: "spain", lat: 40.2, lon: -3.7 },
+  { id: "unitedKingdom", lat: 54, lon: -2 },
+  { id: "germany", lat: 51, lon: 10.4 },
+  { id: "denmark", lat: 56, lon: 9.5 },
+  { id: "poland", lat: 52, lon: 19 },
+  { id: "japan", lat: 36, lon: 138 },
+  { id: "australia", lat: -25, lon: 134 },
 ] as const;
 
 export default function Reach() {
@@ -34,18 +45,23 @@ export default function Reach() {
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 px-6 lg:grid-cols-2">
         <div>
           <Reveal>
-            <SectionHeading eyebrow={t.reach.eyebrow} title={t.reach.title} />
-            <p className="max-w-md leading-relaxed text-[var(--muted)]">{t.reach.intro}</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
+              {t.reach.eyebrow}
+            </p>
+            <h2 className="mt-2 font-heading text-4xl font-semibold text-[var(--foreground)] sm:text-5xl">
+              {t.reach.title}
+            </h2>
+            <p className="lead mt-5 max-w-md text-[var(--muted)]">{t.reach.intro}</p>
           </Reveal>
 
           <Reveal delay={120}>
-            <ul className="mt-8 flex flex-wrap gap-3">
+            <ul className="mt-8 flex flex-wrap gap-2">
               {PLACES.map((m) => (
                 <li
                   key={m.id}
-                  className="flex items-center gap-2.5 rounded-full border border-[var(--border)] bg-white px-4 py-2 text-sm text-[var(--foreground)] shadow-sm"
+                  className="flex items-center gap-2 rounded-full border border-[var(--border)] bg-white px-3.5 py-1.5 text-[13px] text-[var(--foreground)] shadow-sm"
                 >
-                  <span className="animate-pulse-dot block h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
+                  <span className="block h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
                   {labels[m.id]}
                 </li>
               ))}

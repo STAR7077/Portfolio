@@ -20,8 +20,8 @@
   --accent-tint: #ede9fe;
   --accent-2: #c026d3;
 
-  --font-heading: var(--font-poppins);
-  --font-body: var(--font-inter);
+  --font-heading: var(--font-manrope);
+  --font-body: var(--font-manrope);
 }
 
 @theme inline {
@@ -46,6 +46,17 @@ h2,
 h3,
 .font-heading {
   font-family: var(--font-heading), Arial, Helvetica, sans-serif;
+}
+
+/* Type scale lifted from the reference site: tight tracking that gets
+   tighter as the type gets larger, and roomier body copy. */
+h1, .font-heading.text-h1 { letter-spacing: -0.03em; font-weight: 700; }
+h2 { letter-spacing: -0.025em; font-weight: 600; }
+h3 { letter-spacing: -0.03em; font-weight: 600; }
+p { letter-spacing: -0.01em; }
+.lead { font-size: 1.25rem; line-height: 1.5; letter-spacing: -0.01em; }
+@media (max-width: 640px) {
+  .lead { font-size: 1.0625rem; }
 }
 
 /* Ambient gradient blobs. Kept from the previous design but tinted for
@@ -165,13 +176,43 @@ h3,
 
 /* Contact and footer sit behind the page and are revealed as the
    content above scrolls off them, the assistantly footer-sticky idea. */
+/* Faint diagonal guide lines drifting behind the content, the quiet
+   background motion both reference sites use. Drawn inside the opaque
+   page stack, since that layer covers the contact panel behind it. */
+.page-stack {
+  position: relative;
+  background: var(--background);
+}
+.page-stack::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    -22deg,
+    transparent 0 118px,
+    rgba(109, 40, 217, 0.055) 118px 119px
+  );
+  background-size: 340px 340px;
+  animation: line-drift 26s linear infinite;
+  mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
+}
+.page-stack > * {
+  position: relative;
+  z-index: 1;
+}
+@keyframes line-drift {
+  from { background-position: 0 0; }
+  to   { background-position: 340px 340px; }
+}
+
 /* Only on wide screens, where the revealed panel reliably fits the
    viewport. Below that the footer simply follows the content. */
 @media (min-width: 1024px) {
   .page-stack {
-    position: relative;
     z-index: 1;
-    background: var(--background);
     margin-bottom: var(--reveal-h, 0px);
   }
   .reveal-footer {

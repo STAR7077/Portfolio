@@ -19,6 +19,17 @@ export interface Dictionary {
     brazil: string;
     spain: string;
     mexico: string;
+    unitedStates: string;
+    canada: string;
+    argentina: string;
+    peru: string;
+    colombia: string;
+    unitedKingdom: string;
+    germany: string;
+    denmark: string;
+    poland: string;
+    japan: string;
+    australia: string;
   };
   hero: {
     availability: string;
@@ -99,12 +110,23 @@ const en: Dictionary = {
   },
   reach: {
     eyebrow: "Where I work",
-    title: "Clients across three languages.",
+    title: "Clients on four continents.",
     intro:
       "I work directly in English, Portuguese and Spanish, so briefs, calls and handover documents happen in whichever one the client is comfortable with.",
     brazil: "Brazil",
     spain: "Spain",
     mexico: "Mexico",
+    unitedStates: "United States",
+    canada: "Canada",
+    argentina: "Argentina",
+    peru: "Peru",
+    colombia: "Colombia",
+    unitedKingdom: "United Kingdom",
+    germany: "Germany",
+    denmark: "Denmark",
+    poland: "Poland",
+    japan: "Japan",
+    australia: "Australia",
   },
   hero: {
     availability: "Available for new projects",
@@ -190,12 +212,23 @@ const pt: Dictionary = {
   },
   reach: {
     eyebrow: "Onde eu trabalho",
-    title: "Clientes em três idiomas.",
+    title: "Clientes em quatro continentes.",
     intro:
       "Trabalho diretamente em inglês, português e espanhol, então briefings, conversas e documentos de entrega acontecem no idioma em que o cliente se sente à vontade.",
     brazil: "Brasil",
     spain: "Espanha",
     mexico: "México",
+    unitedStates: "Estados Unidos",
+    canada: "Canadá",
+    argentina: "Argentina",
+    peru: "Peru",
+    colombia: "Colômbia",
+    unitedKingdom: "Reino Unido",
+    germany: "Alemanha",
+    denmark: "Dinamarca",
+    poland: "Polônia",
+    japan: "Japão",
+    australia: "Austrália",
   },
   hero: {
     availability: "Disponível para novos projetos",
@@ -282,12 +315,23 @@ const es: Dictionary = {
   },
   reach: {
     eyebrow: "Dónde trabajo",
-    title: "Clientes en tres idiomas.",
+    title: "Clientes en cuatro continentes.",
     intro:
       "Trabajo directamente en inglés, portugués y español, así que los briefings, las conversaciones y la documentación de entrega ocurren en el idioma con el que el cliente se sienta cómodo.",
     brazil: "Brasil",
     spain: "España",
     mexico: "México",
+    unitedStates: "Estados Unidos",
+    canada: "Canadá",
+    argentina: "Argentina",
+    peru: "Perú",
+    colombia: "Colombia",
+    unitedKingdom: "Reino Unido",
+    germany: "Alemania",
+    denmark: "Dinamarca",
+    poland: "Polonia",
+    japan: "Japón",
+    australia: "Australia",
   },
   hero: {
     availability: "Disponible para nuevos proyectos",
