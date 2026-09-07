@@ -195,23 +195,23 @@ const en: Dictionary = {
     eyebrow: "Tech stack",
     title: "Skills.",
     intro:
-      "The tools I reach for, grouped by the part of the build they belong to. Agent work leads, because it is where most of my time goes.",
+      "The tools I reach for, grouped by the part of the build they belong to.",
     coreFocus: "Core focus",
     backendTitle: "Backend",
     backendBody:
-      "APIs, databases, queues and the services behind them. Node.js and Python systems built to stay predictable as the load grows.",
+      "APIs, databases, queues and the services behind them. Node.js and Python systems with REST interfaces, background jobs and caching, built to stay predictable as the load grows rather than only on the day they ship.",
     frontendTitle: "Frontend",
     frontendBody:
-      "Responsive interfaces in React and Next.js that hold their shape on every screen.",
+      "Responsive interfaces in React and Next.js, typed end to end, styled in Tailwind or Sass, and pushed further with WebGL where a page needs to do more than sit still.",
     aiTitle: "AI Agents & Automation",
     aiBody:
-      "Agents that hold a real conversation, call your own tools, answer from your data with retrieval, and pass a hot lead to a person at the right moment. Behind them, the document, OCR and scoring pipelines that keep the whole thing fed, and the workflows that run without anyone watching.",
+      "Agents that hold a real conversation, call your own tools, answer from your data with retrieval, and pass a hot lead to a person at the right moment.",
     businessTitle: "Business & Delivery",
     businessBody:
       "ERP implementation, no-code builds and the tools a project is actually run and tracked in.",
     mobileTitle: "Mobile",
     mobileBody:
-      "Cross-platform apps for iOS and Android from one codebase.",
+      "Cross-platform apps for iOS and Android from one codebase, in React Native or Flutter, taken from the first screen through to the store listing and the releases after it.",
     cloudTitle: "Cloud & Data",
     cloudBody:
       "Hosting, storage and the managed services that keep it all running.",
@@ -352,23 +352,23 @@ const pt: Dictionary = {
     eyebrow: "Stack técnica",
     title: "Habilidades.",
     intro:
-      "As ferramentas que eu uso, agrupadas pela parte do projeto a que pertencem. O trabalho com agentes vem primeiro, porque é onde passo a maior parte do tempo.",
+      "As ferramentas que eu uso, agrupadas pela parte do projeto a que pertencem.",
     coreFocus: "Foco principal",
     backendTitle: "Backend",
     backendBody:
-      "APIs, bancos de dados, filas e os serviços por trás deles. Sistemas em Node.js e Python feitos para continuar previsíveis conforme a carga cresce.",
+      "APIs, bancos de dados, filas e os serviços por trás deles. Sistemas em Node.js e Python com interfaces REST, tarefas em segundo plano e cache, feitos para continuar previsíveis conforme a carga cresce, e não apenas no dia em que entram no ar.",
     frontendTitle: "Frontend",
     frontendBody:
-      "Interfaces responsivas em React e Next.js que mantêm a forma em qualquer tela.",
+      "Interfaces responsivas em React e Next.js, tipadas de ponta a ponta, estilizadas com Tailwind ou Sass, e levadas além com WebGL quando a página precisa de mais do que ficar parada.",
     aiTitle: "Agentes de IA e Automação",
     aiBody:
-      "Agentes que conduzem uma conversa de verdade, acionam as suas ferramentas, respondem a partir dos seus dados com busca e passam um lead quente para uma pessoa na hora certa. Por trás deles, os pipelines de documentos, OCR e pontuação que alimentam tudo, e os fluxos que rodam sem ninguém olhando.",
+      "Agentes que conduzem uma conversa de verdade, acionam as suas ferramentas, respondem a partir dos seus dados com busca e passam um lead quente para uma pessoa na hora certa.",
     businessTitle: "Negócio e Entrega",
     businessBody:
       "Implantação de ERP, projetos no-code e as ferramentas em que o trabalho é de fato tocado e acompanhado.",
     mobileTitle: "Mobile",
     mobileBody:
-      "Aplicativos multiplataforma para iOS e Android a partir de um só código.",
+      "Aplicativos multiplataforma para iOS e Android a partir de um só código, em React Native ou Flutter, da primeira tela até a publicação na loja e as versões seguintes.",
     cloudTitle: "Cloud e Dados",
     cloudBody:
       "Hospedagem, armazenamento e os serviços gerenciados que mantêm tudo no ar.",
@@ -510,23 +510,23 @@ const es: Dictionary = {
     eyebrow: "Stack técnico",
     title: "Habilidades.",
     intro:
-      "Las herramientas que uso, agrupadas por la parte del proyecto a la que pertenecen. El trabajo con agentes va primero, porque es donde pasa la mayor parte de mi tiempo.",
+      "Las herramientas que uso, agrupadas por la parte del proyecto a la que pertenecen.",
     coreFocus: "Enfoque principal",
     backendTitle: "Backend",
     backendBody:
-      "APIs, bases de datos, colas y los servicios que hay detrás. Sistemas en Node.js y Python hechos para seguir siendo predecibles a medida que crece la carga.",
+      "APIs, bases de datos, colas y los servicios que hay detrás. Sistemas en Node.js y Python con interfaces REST, tareas en segundo plano y caché, hechos para seguir siendo predecibles a medida que crece la carga, y no solo el día en que salen a producción.",
     frontendTitle: "Frontend",
     frontendBody:
-      "Interfaces responsivas en React y Next.js que mantienen la forma en cualquier pantalla.",
+      "Interfaces responsivas en React y Next.js, tipadas de principio a fin, con Tailwind o Sass, y llevadas más lejos con WebGL cuando la página necesita algo más que quedarse quieta.",
     aiTitle: "Agentes de IA y Automatización",
     aiBody:
-      "Agentes que mantienen una conversación de verdad, invocan tus herramientas, responden desde tus datos con búsqueda y pasan un lead caliente a una persona en el momento justo. Detrás, los pipelines de documentos, OCR y puntuación que lo alimentan todo, y los flujos que funcionan sin que nadie los vigile.",
+      "Agentes que mantienen una conversación de verdad, invocan tus herramientas, responden desde tus datos con búsqueda y pasan un lead caliente a una persona en el momento justo.",
     businessTitle: "Negocio y Entrega",
     businessBody:
       "Implantación de ERP, proyectos no-code y las herramientas con las que el trabajo se lleva y se sigue de verdad.",
     mobileTitle: "Móvil",
     mobileBody:
-      "Aplicaciones multiplataforma para iOS y Android desde un solo código.",
+      "Aplicaciones multiplataforma para iOS y Android desde un solo código, en React Native o Flutter, desde la primera pantalla hasta la publicación en la tienda y las versiones siguientes.",
     cloudTitle: "Cloud y Datos",
     cloudBody:
       "Alojamiento, almacenamiento y los servicios gestionados que lo mantienen todo en marcha.",

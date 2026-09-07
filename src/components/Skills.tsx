@@ -84,9 +84,12 @@ export default function Skills() {
                   ))}
                 </ul>
 
-                {/* mt-auto so the copy sits on the floor of the card and
-                    lines up across a row of unequal content. */}
-                <p className="relative mt-auto pt-7 text-[14px] leading-relaxed text-[var(--muted)]">
+                {/* The copy follows the tiles rather than being pushed to the
+                    floor: groups hold very different numbers of tools, and
+                    bottom-aligning opens a hole in the middle of the shorter
+                    cards. Spare room collects at the foot instead, which is
+                    what the reference does. */}
+                <p className="relative mt-7 text-[14px] leading-relaxed text-[var(--muted)]">
                   {t.skills[`${group.key}Body`]}
                 </p>
               </article>
