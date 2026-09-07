@@ -25,17 +25,20 @@ export default function Work() {
   // container and stop the cards below from pinning. SectionScenery clips
   // its own pieces instead.
   return (
-    <section id="work" className="relative border-t border-[var(--border)] py-24 sm:py-28">
+    <section
+      id="work"
+      className="section-wash relative border-t border-[var(--border)] py-24 sm:py-28"
+    >
       <SectionScenery preset="work" />
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <Reveal>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
             {t.work.eyebrow}
           </p>
-          <h2 className="mt-2 font-heading text-4xl font-semibold text-[var(--foreground)] sm:text-5xl">
+          <h2 className="mt-2 font-heading text-[42px] font-semibold leading-[1.16667] tracking-[-0.5px] text-[var(--foreground)] lg:text-[56px] xl:text-[72px]">
             {t.work.title}
           </h2>
-          <p className="lead mt-5 max-w-2xl text-[var(--muted)]">{t.work.intro}</p>
+          <p className="lead mt-7 max-w-2xl text-[var(--muted)]">{t.work.intro}</p>
         </Reveal>
 
         {/* Filters sit with the heading so the cards below can use the
