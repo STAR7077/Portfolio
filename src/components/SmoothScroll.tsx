@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
+import { parseWorkHash, setWorkFilter } from "@/data/workFilter";
 
 /**
  * Smooth scrolling, the way all three reference sites do it.
@@ -46,12 +47,30 @@ export default function SmoothScroll() {
       window.scrollTo({ top, behavior: "auto" });
     }
 
+    /** Category deep links point at the Work section and set its filter. */
+    function goToWork(hash: string) {
+      const filter = parseWorkHash(hash);
+      if (filter === null) return false;
+      setWorkFilter(filter);
+      const work = document.getElementById("work");
+      if (work) scrollTo(work, -90);
+      return true;
+    }
+
     // Keep in-page anchors working through Lenis rather than jumping.
     function onAnchorClick(e: MouseEvent) {
       const anchor = (e.target as HTMLElement | null)?.closest?.('a[href^="#"]');
       if (!anchor) return;
       const id = anchor.getAttribute("href");
       if (!id || id === "#") return;
+
+      // "#work/mobile" is not a valid selector and matches no element, so
+      // this has to come before the lookup below.
+      if (goToWork(id)) {
+        e.preventDefault();
+        return;
+      }
+
       const target = document.querySelector(id);
       if (!(target instanceof HTMLElement)) return;
       e.preventDefault();
@@ -70,8 +89,22 @@ export default function SmoothScroll() {
     }
     document.addEventListener("click", onAnchorClick);
 
+    // Someone arriving on #work/mobile gets no help from the browser: there
+    // is no element with that id, so nothing scrolls. Wait for load, since
+    // images above the fold decide where the section ends up.
+    let settle = 0;
+    const openDeepLink = () => {
+      settle = requestAnimationFrame(() => goToWork(window.location.hash));
+    };
+    if (parseWorkHash(window.location.hash)) {
+      if (document.readyState === "complete") openDeepLink();
+      else window.addEventListener("load", openDeepLink, { once: true });
+    }
+
     return () => {
       document.removeEventListener("click", onAnchorClick);
+      window.removeEventListener("load", openDeepLink);
+      if (settle) cancelAnimationFrame(settle);
       if (frame) cancelAnimationFrame(frame);
       lenis?.destroy();
     };

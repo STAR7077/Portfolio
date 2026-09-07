@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { projects, type ProjectCategory } from "@/data/projects";
+import { workHash } from "@/data/workFilter";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import LanguageSwitcher from "./LanguageSwitcher";
 
@@ -133,7 +134,7 @@ export default function Nav() {
                 {categories.map((c) => (
                   <li key={c.key}>
                     <a
-                      href="#work"
+                      href={workHash(c.key)}
                       onClick={() => setOpen(false)}
                       className="flex items-center justify-between rounded-xl px-3 py-2.5 text-[var(--foreground)] transition-colors hover:bg-[var(--accent-tint)]"
                     >

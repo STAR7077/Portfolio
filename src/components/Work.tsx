@@ -1,7 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { projects, type ProjectCategory } from "@/data/projects";
+import { useSyncExternalStore } from "react";
+import { projects } from "@/data/projects";
+import {
+  getServerSnapshot,
+  getSnapshot,
+  setWorkFilter,
+  subscribe,
+  type WorkFilter,
+} from "@/data/workFilter";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import StackCard from "./StackCard";
 import Reveal from "./Reveal";
@@ -9,9 +16,12 @@ import CubeCluster from "./CubeCluster";
 
 export default function Work() {
   const { t } = useLanguage();
-  const [active, setActive] = useState<ProjectCategory | "all">("all");
 
-  const filters: { key: ProjectCategory | "all"; label: string }[] = [
+  // The URL hash is the filter, so #work/mobile opens straight onto the
+  // mobile projects and every filter click leaves a link worth sharing.
+  const active = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+
+  const filters: { key: WorkFilter; label: string }[] = [
     { key: "all", label: t.work.filterAll },
     { key: "ai", label: t.categories.ai },
     { key: "web", label: t.categories.web },
@@ -58,7 +68,7 @@ export default function Work() {
               return (
                 <button
                   key={f.key}
-                  onClick={() => setActive(f.key)}
+                  onClick={() => setWorkFilter(f.key)}
                   aria-pressed={on}
                   className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-500 ${
                     on

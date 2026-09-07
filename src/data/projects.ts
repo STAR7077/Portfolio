@@ -13,6 +13,8 @@ export interface Project {
   link?: string;
   /** Controls the wording of the link. A company website by default. */
   linkKind?: "site" | "playStore" | "drive";
+  /** A live number visitors can message to try the bot themselves. */
+  demoWhatsApp?: string;
   /** Filenames expected in /public/projects/. Missing ones are skipped automatically. */
   images: string[];
 }
@@ -94,6 +96,7 @@ export const projects: Project[] = [
   {
     slug: "real-estate-whatsapp-ai-bot",
     title: "Real Estate WhatsApp AI Bot",
+    demoWhatsApp: "+598 99 114 872",
     tagline: {
       en: "AI-powered CRM & WhatsApp lead automation",
       pt: "CRM com IA e automação de leads no WhatsApp",
