@@ -16,7 +16,8 @@ import * as icons from "simple-icons";
 const WANTED = [
   "nodedotjs", "python", "django", "typescript", "postgresql", "redis", "celery", "docker",
   "react", "nextdotjs", "tailwindcss",
-  "claude", "googlegemini", "n8n",
+  "claude", "googlegemini", "n8n", "langchain", "langgraph", "huggingface", "ollama",
+  "qdrant", "whatsapp", "firebase",
   "odoo", "figma", "jira", "notion", "github",
   "flutter", "android",
   "googlecloud", "supabase", "airtable", "vercel",

@@ -67,9 +67,16 @@ export default function Skills() {
               className={`h-full ${group.wide ? "lg:col-span-2" : ""}`}
             >
               <article className="skill-card relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-white p-6 sm:p-7">
-                <h3 className="relative font-heading text-lg font-bold text-[var(--foreground)]">
-                  {t.skills[`${group.key}Title`]}
-                </h3>
+                <div className="relative flex flex-wrap items-center gap-3">
+                  <h3 className="font-heading text-lg font-bold text-[var(--foreground)]">
+                    {t.skills[`${group.key}Title`]}
+                  </h3>
+                  {group.focus && (
+                    <span className="rounded-full bg-[var(--accent-tint)] px-2.5 py-1 text-[10.5px] font-bold uppercase tracking-wider text-[var(--accent)]">
+                      {t.skills.coreFocus}
+                    </span>
+                  )}
+                </div>
 
                 <ul className="relative mt-5 flex flex-wrap gap-2.5">
                   {group.tiles.map((tile, j) => (

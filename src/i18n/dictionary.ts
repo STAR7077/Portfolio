@@ -53,6 +53,7 @@ export interface Dictionary {
     eyebrow: string;
     title: string;
     intro: string;
+    coreFocus: string;
     backendTitle: string;
     backendBody: string;
     frontendTitle: string;
@@ -188,16 +189,17 @@ const en: Dictionary = {
     eyebrow: "Tech stack",
     title: "Skills.",
     intro:
-      "The tools I reach for, grouped by the part of the build they belong to.",
+      "The tools I reach for, grouped by the part of the build they belong to. Agent work leads, because it is where most of my time goes.",
+    coreFocus: "Core focus",
     backendTitle: "Backend",
     backendBody:
       "APIs, databases, queues and the services behind them. Node.js and Python systems built to stay predictable as the load grows.",
     frontendTitle: "Frontend",
     frontendBody:
       "Responsive interfaces in React and Next.js that hold their shape on every screen.",
-    aiTitle: "AI & Automation",
+    aiTitle: "AI Agents & Automation",
     aiBody:
-      "LLM agents, document pipelines and workflows that run without anyone watching them.",
+      "Agents that hold a real conversation, call your own tools, answer from your data with retrieval, and pass a hot lead to a person at the right moment. Behind them, the document, OCR and scoring pipelines that keep the whole thing fed, and the workflows that run without anyone watching.",
     businessTitle: "Business & Delivery",
     businessBody:
       "ERP implementation, no-code builds and the tools a project is actually run and tracked in.",
@@ -341,16 +343,17 @@ const pt: Dictionary = {
     eyebrow: "Stack técnica",
     title: "Habilidades.",
     intro:
-      "As ferramentas que eu uso, agrupadas pela parte do projeto a que pertencem.",
+      "As ferramentas que eu uso, agrupadas pela parte do projeto a que pertencem. O trabalho com agentes vem primeiro, porque é onde passo a maior parte do tempo.",
+    coreFocus: "Foco principal",
     backendTitle: "Backend",
     backendBody:
       "APIs, bancos de dados, filas e os serviços por trás deles. Sistemas em Node.js e Python feitos para continuar previsíveis conforme a carga cresce.",
     frontendTitle: "Frontend",
     frontendBody:
       "Interfaces responsivas em React e Next.js que mantêm a forma em qualquer tela.",
-    aiTitle: "IA e Automação",
+    aiTitle: "Agentes de IA e Automação",
     aiBody:
-      "Agentes com LLM, pipelines de documentos e fluxos que rodam sem ninguém olhando.",
+      "Agentes que conduzem uma conversa de verdade, acionam as suas ferramentas, respondem a partir dos seus dados com busca e passam um lead quente para uma pessoa na hora certa. Por trás deles, os pipelines de documentos, OCR e pontuação que alimentam tudo, e os fluxos que rodam sem ninguém olhando.",
     businessTitle: "Negócio e Entrega",
     businessBody:
       "Implantação de ERP, projetos no-code e as ferramentas em que o trabalho é de fato tocado e acompanhado.",
@@ -495,16 +498,17 @@ const es: Dictionary = {
     eyebrow: "Stack técnico",
     title: "Habilidades.",
     intro:
-      "Las herramientas que uso, agrupadas por la parte del proyecto a la que pertenecen.",
+      "Las herramientas que uso, agrupadas por la parte del proyecto a la que pertenecen. El trabajo con agentes va primero, porque es donde pasa la mayor parte de mi tiempo.",
+    coreFocus: "Enfoque principal",
     backendTitle: "Backend",
     backendBody:
       "APIs, bases de datos, colas y los servicios que hay detrás. Sistemas en Node.js y Python hechos para seguir siendo predecibles a medida que crece la carga.",
     frontendTitle: "Frontend",
     frontendBody:
       "Interfaces responsivas en React y Next.js que mantienen la forma en cualquier pantalla.",
-    aiTitle: "IA y Automatización",
+    aiTitle: "Agentes de IA y Automatización",
     aiBody:
-      "Agentes con LLM, pipelines de documentos y flujos que funcionan sin que nadie los vigile.",
+      "Agentes que mantienen una conversación de verdad, invocan tus herramientas, responden desde tus datos con búsqueda y pasan un lead caliente a una persona en el momento justo. Detrás, los pipelines de documentos, OCR y puntuación que lo alimentan todo, y los flujos que funcionan sin que nadie los vigile.",
     businessTitle: "Negocio y Entrega",
     businessBody:
       "Implantación de ERP, proyectos no-code y las herramientas con las que el trabajo se lleva y se sigue de verdad.",

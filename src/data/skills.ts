@@ -14,12 +14,55 @@ export type SkillTile = { icon: BrandKey } | { word: string; hex: string };
 export interface SkillGroup {
   /** Matches the dictionary keys, so the copy stays translatable. */
   key: "backend" | "frontend" | "ai" | "business" | "mobile" | "cloud";
-  /** The two lead groups run double width, as in the reference. */
+  /** The lead group of each row runs double width, as in the reference. */
   wide?: boolean;
+  /** Marks the specialism, which earns a pill beside the title. */
+  focus?: boolean;
   tiles: SkillTile[];
 }
 
+/**
+ * Agent work leads, because it is the specialism and the thing most
+ * visitors arrive looking for. Each row is one wide group and two narrow
+ * ones, which is the rhythm the reference uses.
+ */
 export const skillGroups: SkillGroup[] = [
+  {
+    key: "ai",
+    wide: true,
+    focus: true,
+    tiles: [
+      { word: "OpenAI", hex: "#0F0F0F" },
+      { icon: "claude" },
+      { icon: "googlegemini" },
+      { icon: "langchain" },
+      { icon: "langgraph" },
+      { icon: "huggingface" },
+      { icon: "ollama" },
+      { icon: "qdrant" },
+      { icon: "n8n" },
+      { icon: "whatsapp" },
+      { icon: "airtable" },
+    ],
+  },
+  {
+    key: "frontend",
+    tiles: [
+      { icon: "react" },
+      { icon: "nextdotjs" },
+      { icon: "typescript" },
+      { icon: "tailwindcss" },
+    ],
+  },
+  {
+    key: "mobile",
+    tiles: [
+      { icon: "react" },
+      { icon: "flutter" },
+      { icon: "android" },
+      { word: "iOS", hex: "#0F0F0F" },
+    ],
+  },
   {
     key: "backend",
     wide: true,
@@ -35,26 +78,17 @@ export const skillGroups: SkillGroup[] = [
     ],
   },
   {
-    key: "frontend",
+    key: "cloud",
     tiles: [
-      { icon: "react" },
-      { icon: "nextdotjs" },
-      { icon: "typescript" },
-      { icon: "tailwindcss" },
-    ],
-  },
-  {
-    key: "ai",
-    tiles: [
-      { word: "OpenAI", hex: "#0F0F0F" },
-      { icon: "claude" },
-      { icon: "googlegemini" },
-      { icon: "n8n" },
+      { word: "AWS", hex: "#FF9900" },
+      { icon: "googlecloud" },
+      { icon: "firebase" },
+      { icon: "supabase" },
+      { icon: "vercel" },
     ],
   },
   {
     key: "business",
-    wide: true,
     tiles: [
       { icon: "odoo" },
       { word: "Bubble", hex: "#0034FF" },
@@ -62,25 +96,6 @@ export const skillGroups: SkillGroup[] = [
       { icon: "jira" },
       { icon: "notion" },
       { icon: "github" },
-    ],
-  },
-  {
-    key: "mobile",
-    tiles: [
-      { icon: "react" },
-      { icon: "flutter" },
-      { icon: "android" },
-      { word: "iOS", hex: "#0F0F0F" },
-    ],
-  },
-  {
-    key: "cloud",
-    tiles: [
-      { word: "AWS", hex: "#FF9900" },
-      { icon: "googlecloud" },
-      { icon: "vercel" },
-      { icon: "supabase" },
-      { icon: "airtable" },
     ],
   },
 ];
