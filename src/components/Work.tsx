@@ -5,6 +5,7 @@ import { projects, type ProjectCategory } from "@/data/projects";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import StackCard from "./StackCard";
 import Reveal from "./Reveal";
+import SectionScenery from "./SectionScenery";
 
 export default function Work() {
   const { t } = useLanguage();
@@ -20,9 +21,13 @@ export default function Work() {
   const visible =
     active === "all" ? projects : projects.filter((p) => p.categories.includes(active));
 
+  // No overflow-hidden on the section: it would turn this into a scroll
+  // container and stop the cards below from pinning. SectionScenery clips
+  // its own pieces instead.
   return (
-    <section id="work" className="border-t border-[var(--border)] py-24 sm:py-28">
-      <div className="mx-auto max-w-6xl px-6">
+    <section id="work" className="relative border-t border-[var(--border)] py-24 sm:py-28">
+      <SectionScenery preset="work" />
+      <div className="relative z-10 mx-auto max-w-6xl px-6">
         <Reveal>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
             {t.work.eyebrow}

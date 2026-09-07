@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import Reveal from "./Reveal";
+import SectionScenery from "./SectionScenery";
 
 // three.js is a large dependency, so it is split out of the main bundle and
 // only fetched in the browser when this section renders.
@@ -42,7 +43,8 @@ export default function Reach() {
 
   return (
     <section className="relative overflow-hidden border-t border-[var(--border)] py-24 sm:py-28">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 px-6 lg:grid-cols-2">
+      <SectionScenery preset="reach" />
+      <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 px-6 lg:grid-cols-2">
         <div>
           <Reveal>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">

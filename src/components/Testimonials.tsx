@@ -5,6 +5,7 @@ import { useLanguage } from "@/i18n/LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import TestimonialCard from "./TestimonialCard";
 import Reveal from "./Reveal";
+import SectionScenery from "./SectionScenery";
 import Parallax from "./Parallax";
 
 export default function Testimonials() {
@@ -20,7 +21,8 @@ export default function Testimonials() {
           <div className="h-14 w-14 rotate-12 rounded-2xl bg-violet-300/25 blur-[1px]" />
         </Parallax>
       </div>
-      <div className="relative mx-auto max-w-6xl px-6">
+      <SectionScenery preset="testimonials" />
+      <div className="relative z-10 mx-auto max-w-6xl px-6">
         <Reveal>
           <SectionHeading eyebrow={t.testimonials.eyebrow} title={t.testimonials.title} />
         </Reveal>

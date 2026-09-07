@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
+import SectionScenery from "./SectionScenery";
 import Parallax from "./Parallax";
 
 const EMAIL = "lucasmarleymem@outlook.com";
@@ -44,7 +45,8 @@ export default function Contact() {
         </Parallax>
       </div>
 
-      <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 lg:grid-cols-2">
+      <SectionScenery preset="contact" />
+      <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 lg:grid-cols-2">
         <div>
           <Reveal>
             <SectionHeading eyebrow={t.contact.eyebrow} title={t.contact.title} />

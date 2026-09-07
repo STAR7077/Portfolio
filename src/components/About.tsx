@@ -3,6 +3,7 @@
 import { useLanguage } from "@/i18n/LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
+import SectionScenery from "./SectionScenery";
 
 // Tool and language names are proper nouns, so they read the same in every locale.
 const skills = [
@@ -15,8 +16,9 @@ export default function About() {
   const { t } = useLanguage();
 
   return (
-    <section id="about" className="border-t border-[var(--border)] py-24 sm:py-28">
-      <div className="mx-auto max-w-6xl px-6">
+    <section id="about" className="relative overflow-hidden border-t border-[var(--border)] py-24 sm:py-28">
+      <SectionScenery preset="about" />
+      <div className="relative z-10 mx-auto max-w-6xl px-6">
         <Reveal>
           <SectionHeading eyebrow={t.about.eyebrow} title={t.about.title} />
         </Reveal>
