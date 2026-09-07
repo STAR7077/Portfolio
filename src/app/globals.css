@@ -228,18 +228,3 @@ h3,
     z-index: 0;
   }
 }
-
-
-/* The reference project's portfolio section sits on a soft radial wash
-   rather than a flat fill, lit from the upper left. Exact stops from
-   its source; see THIRD-PARTY-NOTICES.md. */
-.section-wash {
-  background: radial-gradient(
-    75.22% 75.22% at 20.49% 12.79%,
-    #ffffff 0%,
-    rgba(228, 231, 233, 0.502295) 100%
-  );
-}
-@media (max-width: 639px) {
-  .section-wash { background: var(--background); }
-}

@@ -9,6 +9,8 @@ interface ParallaxProps {
    * the sense of depth.
    */
   speed: number;
+  /** Horizontal travel, for layers that fly apart sideways as well as up. */
+  speedX?: number;
   className?: string;
   children: ReactNode;
 }
@@ -25,7 +27,7 @@ interface ParallaxProps {
  * held in React state, so scrolling never triggers a re-render, and the
  * loop only runs while the section is actually on screen.
  */
-export default function Parallax({ speed, className, children }: ParallaxProps) {
+export default function Parallax({ speed, speedX = 0, className, children }: ParallaxProps) {
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -37,6 +39,7 @@ export default function Parallax({ speed, className, children }: ParallaxProps) 
     let frame = 0;
     let running = false;
     let lastY = NaN;
+    let lastX = NaN;
 
     function update() {
       frame = requestAnimationFrame(update);
@@ -50,9 +53,14 @@ export default function Parallax({ speed, className, children }: ParallaxProps) 
           : (window.scrollY + vh - top) / (vh * 2);
 
       const y = progress * speed;
-      if (Number.isNaN(y) || Math.abs(y - lastY) < 0.25) return;
+      const x = progress * speedX;
+      if (Number.isNaN(y) || Number.isNaN(x)) return;
+      // Both axes are checked: a layer that only travels sideways has a
+      // constant y, and watching y alone would freeze it.
+      if (Math.abs(y - lastY) < 0.25 && Math.abs(x - lastX) < 0.25) return;
       lastY = y;
-      node!.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`;
+      lastX = x;
+      node!.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
     }
 
     const io = new IntersectionObserver(
@@ -74,7 +82,7 @@ export default function Parallax({ speed, className, children }: ParallaxProps) 
       io.disconnect();
       cancelAnimationFrame(frame);
     };
-  }, [speed]);
+  }, [speed, speedX]);
 
   return (
     <div ref={ref} className={className} aria-hidden="true">

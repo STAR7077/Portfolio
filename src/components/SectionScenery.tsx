@@ -29,14 +29,6 @@ const PRESETS: Record<string, Piece[]> = {
     { src: "/hero/white-floor-square.png", className: "left-[4%] top-[62%] w-[16%]", speed: -400, opacity: 0.9 },
     { src: "/hero/white-floor-square.png", className: "left-[38%] top-[2%] w-[11%]", speed: 200, opacity: 0.7, blur: true },
   ],
-  // Mirrors the reference portfolio section: one very large pink square
-  // pushed off the left edge and falling at +400, with a white square
-  // opposite it rising.
-  work: [
-    { src: "/hero/pink-floor-square.png", className: "-left-[29%] top-[450px] w-[68%]", speed: 400, opacity: 0.45 },
-    { src: "/hero/white-floor-square.png", className: "right-[4%] top-[14%] w-[17%]", speed: -300, opacity: 0.85 },
-    { src: "/hero/white-floor-square.png", className: "right-[22%] bottom-[8%] w-[9%]", speed: 220, opacity: 0.7, blur: true },
-  ],
   reach: [
     { src: "/hero/orange-ball.png", className: "left-[7%] top-[12%] w-[5%]", speed: 260, opacity: 0.85 },
     { src: "/hero/purple-top.png", className: "-left-[8%] bottom-[8%] w-[24%]", speed: -240, opacity: 0.35 },
