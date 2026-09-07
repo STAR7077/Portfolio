@@ -155,22 +155,30 @@ h3,
 }
 .panel-in { animation: panel-in 620ms cubic-bezier(0.16, 1, 0.3, 1) both; }
 
-/* Infinite marquee track, matching the dropship 35s linear loop. */
-@keyframes marquee-track {
-  from { transform: translate3d(0, 0, 0); }
-  to   { transform: translate3d(-50%, 0, 0); }
+/* Service card: the whole card takes the accent on hover, so the fill
+   and the lift have to travel together. The children invert through
+   group-hover utilities on the markup. */
+.service-card {
+  transition:
+    transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.marquee-track { animation: marquee-track 35s linear infinite; }
-.marquee-reverse { animation-direction: reverse; }
+.service-card:hover {
+  background-color: var(--accent);
+  transform: translate3d(0, -6px, 0);
+  box-shadow: 0 26px 60px -26px rgba(109, 40, 217, 0.6);
+}
 
 @media (prefers-reduced-motion: reduce) {
   .mesh-a, .mesh-b, .mesh-c,
   .animate-spin-conic, .animate-pulse-dot, .animate-float-slow,
-  .text-gradient-brand, .panel-in, .marquee-track {
+  .text-gradient-brand, .panel-in {
     animation: none !important;
   }
   .reveal { opacity: 1; transform: none; transition: none; }
   .lift:hover { transform: none; }
+  .service-card:hover { transform: none; }
 }
 
 @keyframes ripple {

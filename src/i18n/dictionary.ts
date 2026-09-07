@@ -49,6 +49,23 @@ export interface Dictionary {
     languages: string;
     platforms: string;
   };
+  services: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    aiTitle: string;
+    aiBody: string;
+    webTitle: string;
+    webBody: string;
+    mobileTitle: string;
+    mobileBody: string;
+    backendTitle: string;
+    backendBody: string;
+    odooTitle: string;
+    odooBody: string;
+    nocodeTitle: string;
+    nocodeBody: string;
+  };
   about: {
     eyebrow: string;
     title: string;
@@ -149,6 +166,30 @@ const en: Dictionary = {
     reviews: "Five-star reviews",
     languages: "Languages spoken",
     platforms: "AI, web and mobile",
+  },
+  services: {
+    eyebrow: "What I do",
+    title: "Services.",
+    intro:
+      "Over 100 projects delivered for founders and teams who needed something built properly the first time.",
+    aiTitle: "AI Agents & Automation",
+    aiBody:
+      "WhatsApp and chat agents, document and OCR pipelines, lead scoring and outbound automation, built on OpenAI, Gemini and Claude.",
+    webTitle: "Full-Stack Web Development",
+    webBody:
+      "React, Next.js and TypeScript on the surface, Node.js and Django underneath, delivered as one product rather than two halves.",
+    mobileTitle: "Mobile App Development",
+    mobileBody:
+      "React Native and Flutter apps for iOS and Android, taken from the first screen through to the store listing.",
+    backendTitle: "Backend & API Engineering",
+    backendBody:
+      "REST APIs, PostgreSQL, Redis and queue-driven services that stay predictable as the load grows.",
+    odooTitle: "Odoo ERP Implementation",
+    odooBody:
+      "Sales, purchasing, inventory and invoicing configured as a single flow, with your existing customer and billing data migrated in.",
+    nocodeTitle: "No-Code MVPs",
+    nocodeBody:
+      "Bubble.io builds for when reaching the market first matters more than a custom stack, ready to rebuild later.",
   },
   about: {
     eyebrow: "Introduction",
@@ -255,6 +296,30 @@ const pt: Dictionary = {
     languages: "Idiomas falados",
     platforms: "IA, web e mobile",
   },
+  services: {
+    eyebrow: "O que eu faço",
+    title: "Serviços.",
+    intro:
+      "Mais de 100 projetos entregues para fundadores e equipes que precisavam de algo bem feito já na primeira vez.",
+    aiTitle: "Agentes de IA e Automação",
+    aiBody:
+      "Agentes de WhatsApp e chat, pipelines de documentos e OCR, pontuação de leads e automação de prospecção, com OpenAI, Gemini e Claude.",
+    webTitle: "Desenvolvimento Web Full-Stack",
+    webBody:
+      "React, Next.js e TypeScript na superfície, Node.js e Django por baixo, entregues como um produto só, e não como duas metades.",
+    mobileTitle: "Desenvolvimento de Apps Mobile",
+    mobileBody:
+      "Aplicativos em React Native e Flutter para iOS e Android, da primeira tela até a publicação na loja.",
+    backendTitle: "Backend e Engenharia de APIs",
+    backendBody:
+      "APIs REST, PostgreSQL, Redis e serviços orientados a filas que continuam previsíveis conforme a carga cresce.",
+    odooTitle: "Implantação de ERP Odoo",
+    odooBody:
+      "Vendas, compras, estoque e faturamento configurados como um único fluxo, com a migração dos seus dados de clientes e cobranças.",
+    nocodeTitle: "MVPs em No-Code",
+    nocodeBody:
+      "Projetos em Bubble.io para quando chegar ao mercado primeiro importa mais do que uma stack sob medida, prontos para serem reconstruídos depois.",
+  },
   about: {
     eyebrow: "Introdução",
     title: "Visão geral.",
@@ -360,6 +425,30 @@ const es: Dictionary = {
     reviews: "Reseñas de cinco estrellas",
     languages: "Idiomas hablados",
     platforms: "IA, web y móvil",
+  },
+  services: {
+    eyebrow: "Lo que hago",
+    title: "Servicios.",
+    intro:
+      "Más de 100 proyectos entregados para fundadores y equipos que necesitaban algo bien hecho a la primera.",
+    aiTitle: "Agentes de IA y Automatización",
+    aiBody:
+      "Agentes de WhatsApp y chat, pipelines de documentos y OCR, puntuación de leads y automatización de prospección, con OpenAI, Gemini y Claude.",
+    webTitle: "Desarrollo Web Full-Stack",
+    webBody:
+      "React, Next.js y TypeScript en la superficie, Node.js y Django por debajo, entregados como un solo producto y no como dos mitades.",
+    mobileTitle: "Desarrollo de Apps Móviles",
+    mobileBody:
+      "Aplicaciones en React Native y Flutter para iOS y Android, desde la primera pantalla hasta la publicación en la tienda.",
+    backendTitle: "Backend e Ingeniería de APIs",
+    backendBody:
+      "APIs REST, PostgreSQL, Redis y servicios basados en colas que siguen siendo predecibles a medida que crece la carga.",
+    odooTitle: "Implantación de ERP Odoo",
+    odooBody:
+      "Ventas, compras, inventario y facturación configurados como un solo flujo, con la migración de tus datos de clientes y facturación.",
+    nocodeTitle: "MVPs en No-Code",
+    nocodeBody:
+      "Proyectos en Bubble.io para cuando llegar antes al mercado importa más que un stack a medida, listos para reconstruirse después.",
   },
   about: {
     eyebrow: "Introducción",

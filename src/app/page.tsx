@@ -1,7 +1,6 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
-import Marquee from "@/components/Marquee";
-import Stats from "@/components/Stats";
+import Services from "@/components/Services";
 import About from "@/components/About";
 import Work from "@/components/Work";
 import Reach from "@/components/Reach";
@@ -20,8 +19,7 @@ export default function Home() {
       <div className="page-stack flex-1">
         <main>
           <Hero />
-          <Marquee />
-          <Stats />
+          <Services />
           <About />
           <Work />
           <Reach />
