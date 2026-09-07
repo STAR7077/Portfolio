@@ -4,6 +4,7 @@ import { useLanguage } from "@/i18n/LanguageProvider";
 import Reveal from "./Reveal";
 import HeroIllustration from "./HeroIllustration";
 import PromiseCard from "./PromiseCard";
+import HeadlineLine from "./HeadlineLine";
 
 /* eslint-disable @next/next/no-img-element */
 
@@ -45,27 +46,12 @@ export default function Hero() {
           </Reveal>
 
           <Reveal delay={90}>
-            <h1 className="mt-7 font-heading text-[2.5rem] font-bold leading-[1.06] text-[var(--foreground)] sm:text-5xl lg:text-[3.75rem]">
-              {t.hero.headline1}
+            <h1 className="mt-7 font-heading text-[2.5rem] font-bold leading-[1.14] text-[var(--foreground)] sm:text-5xl lg:text-[3.75rem]">
+              <HeadlineLine text={t.hero.headline1} seed={0} />
               <br />
-              {t.hero.headline2}
+              <HeadlineLine text={t.hero.headline2} seed={1} />
               <br />
-              <span className="inline-flex flex-wrap items-center gap-x-4 gap-y-2 align-middle">
-                <span className="relative inline-block h-[0.9em] w-[0.9em] shrink-0 align-middle">
-                  <span
-                    className="animate-spin-conic absolute -inset-[6px] rounded-full bg-[conic-gradient(from_210deg,#7c3aed,#c026d3,#4f46e5,#7c3aed)] opacity-30 blur-md"
-                    aria-hidden="true"
-                  />
-                  <span className="absolute inset-0 rounded-full bg-gradient-to-br from-violet-500 via-fuchsia-500 to-indigo-500 p-[3px]">
-                    <img
-                      src="/lucas.jpg"
-                      alt="Lucas Marley"
-                      className="h-full w-full rounded-full object-cover"
-                    />
-                  </span>
-                </span>
-                <span className="text-gradient-brand">{t.hero.headline3}</span>
-              </span>
+              <HeadlineLine text={t.hero.headline3} seed={1} />
             </h1>
           </Reveal>
 

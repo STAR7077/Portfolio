@@ -228,3 +228,21 @@ h3,
     z-index: 0;
   }
 }
+
+/* Hand-marker underline beneath emphasised headline words. The stroke
+   draws itself once, shortly after the headline settles. */
+.underline-stroke path {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: draw-stroke 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: inherit;
+}
+@keyframes draw-stroke {
+  to { stroke-dashoffset: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .underline-stroke path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
