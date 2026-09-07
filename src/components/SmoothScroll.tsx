@@ -35,9 +35,9 @@ export default function SmoothScroll() {
       frame = requestAnimationFrame(raf);
     }
 
-    function scrollTo(target: HTMLElement | number, offset = 0) {
+    function scrollTo(target: HTMLElement | number, offset = 0, immediate = false) {
       if (lenis) {
-        lenis.scrollTo(target, { offset });
+        lenis.scrollTo(target, { offset, immediate });
         return;
       }
       const top =
@@ -47,13 +47,66 @@ export default function SmoothScroll() {
       window.scrollTo({ top, behavior: "auto" });
     }
 
+    /**
+     * Holds a deep link on its target while the page is still growing.
+     *
+     * Arriving on #work/mobile means scrolling past everything above the
+     * section, and those images are usually still loading, so the section
+     * keeps moving down for a second or two. Rather than wait for the last
+     * image, land immediately and re-aim whenever the target actually
+     * moves, giving up as soon as the visitor scrolls for themselves.
+     */
+    let settleTimer = 0;
+    let releaseSettle: (() => void) | null = null;
+
+    function stopSettling() {
+      if (settleTimer) clearTimeout(settleTimer);
+      settleTimer = 0;
+      releaseSettle?.();
+      releaseSettle = null;
+    }
+
+    const HANDOVER = ["wheel", "touchstart", "keydown", "mousedown"] as const;
+
+    function settleOn(el: HTMLElement) {
+      stopSettling();
+
+      HANDOVER.forEach((ev) => window.addEventListener(ev, stopSettling, { passive: true }));
+      releaseSettle = () => {
+        HANDOVER.forEach((ev) => window.removeEventListener(ev, stopSettling));
+      };
+
+      const deadline = Date.now() + 3000;
+      let aimedAt = NaN;
+
+      const hold = () => {
+        const top = el.getBoundingClientRect().top + window.scrollY;
+        // Only re-aim on a real layout shift, so an in-flight scroll is
+        // left to finish instead of being restarted every tick.
+        if (!Number.isFinite(aimedAt) || Math.abs(top - aimedAt) > 8) {
+          aimedAt = top;
+          scrollTo(el, -90, true);
+        }
+        settleTimer = Date.now() < deadline ? window.setTimeout(hold, 180) : 0;
+        if (!settleTimer) stopSettling();
+      };
+      hold();
+    }
+
     /** Category deep links point at the Work section and set its filter. */
-    function goToWork(hash: string) {
+    function goToWork(hash: string, arriving = false) {
       const filter = parseWorkHash(hash);
       if (filter === null) return false;
       setWorkFilter(filter);
+
       const work = document.getElementById("work");
-      if (work) scrollTo(work, -90);
+      if (!work) return true;
+
+      // On arrival the page is still settling, so hold the position. An
+      // in-page click happens on a page that has stopped moving, where an
+      // eased scroll reads better than a jump.
+      if (arriving) settleOn(work);
+      else scrollTo(work, -90);
       return true;
     }
 
@@ -90,21 +143,27 @@ export default function SmoothScroll() {
     document.addEventListener("click", onAnchorClick);
 
     // Someone arriving on #work/mobile gets no help from the browser: there
-    // is no element with that id, so nothing scrolls. Wait for load, since
-    // images above the fold decide where the section ends up.
-    let settle = 0;
-    const openDeepLink = () => {
-      settle = requestAnimationFrame(() => goToWork(window.location.hash));
-    };
+    // is no element with that id, so nothing scrolls.
+    let arrival = 0;
     if (parseWorkHash(window.location.hash)) {
-      if (document.readyState === "complete") openDeepLink();
-      else window.addEventListener("load", openDeepLink, { once: true });
+      arrival = requestAnimationFrame(() => goToWork(window.location.hash, true));
     }
+
+    // The same link opened in a tab that already has the site loaded is a
+    // same-document navigation: no reload, so only this fires. Back and
+    // forward between categories land here too.
+    function onHashChange() {
+      goToWork(window.location.hash);
+    }
+    window.addEventListener("hashchange", onHashChange);
+    window.addEventListener("popstate", onHashChange);
 
     return () => {
       document.removeEventListener("click", onAnchorClick);
-      window.removeEventListener("load", openDeepLink);
-      if (settle) cancelAnimationFrame(settle);
+      window.removeEventListener("hashchange", onHashChange);
+      window.removeEventListener("popstate", onHashChange);
+      if (arrival) cancelAnimationFrame(arrival);
+      stopSettling();
       if (frame) cancelAnimationFrame(frame);
       lenis?.destroy();
     };
