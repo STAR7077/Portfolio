@@ -49,3 +49,6 @@ next-env.d.ts
 /Odoo
 /SWOP
 /Lucas.jpg
+
+# raw asset drop zone; the published set lives in public/hero
+/icon
