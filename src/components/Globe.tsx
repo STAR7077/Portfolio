@@ -7,6 +7,8 @@ export interface GlobePoint {
   id: string;
   lat: number;
   lon: number;
+  /** Region colour, so a marker reads as part of its group. */
+  color: string;
 }
 
 interface GlobeProps {
@@ -27,14 +29,20 @@ function toVector(lat: number, lon: number, radius: number) {
   );
 }
 
-const OCEAN = 0xe6e2f3;
-const LAND = 0x7c3aed;
-const HALO = 0x8b5cf6;
+const OCEAN = 0xe9eef4;
+const LAND = 0x475569;
+const HALO = 0x38bdf8;
+
+/** Below this the marker has curved too far around to be worth naming. */
+const FACING_CUTOFF = 0.14;
+/** Breathing room between two chips before they count as colliding. */
+const LABEL_GAP = 4;
+
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
 export default function Globe({ points, labels }: GlobeProps) {
   const mount = useRef<HTMLDivElement | null>(null);
-  const labelRef = useRef<HTMLSpanElement | null>(null);
+  const layer = useRef<HTMLDivElement | null>(null);
   const labelsRef = useRef(labels);
 
   useEffect(() => {
@@ -43,15 +51,20 @@ export default function Globe({ points, labels }: GlobeProps) {
 
   useEffect(() => {
     const container = mount.current;
-    if (!container) return;
-    // Narrowing is not carried into the closures below, so alias it once.
+    const labelLayer = layer.current;
+    if (!container || !labelLayer) return;
+    // Narrowing is not carried into the closures below, so alias them once.
     const root: HTMLDivElement = container;
+    const chips: HTMLDivElement = labelLayer;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
-    camera.position.set(0, 0, 3.9);
+    // Half the visible height at distance d is d * tan(fov / 2), so the halo
+    // at radius 1.09 needs d > 3.57 or the sphere gets squared off by the
+    // edges of its own canvas. The extra room also gives the labels a margin.
+    camera.position.set(0, 0, 3.78);
 
     let renderer: THREE.WebGLRenderer;
     try {
@@ -96,32 +109,37 @@ export default function Globe({ points, labels }: GlobeProps) {
       new THREE.MeshBasicMaterial({
         color: HALO,
         transparent: true,
-        opacity: 0.13,
+        opacity: 0.15,
         side: THREE.BackSide,
       })
     );
     scene.add(halo);
 
-    // Markers. Smaller than before, since there are many more of them now.
+    // ---- markers and their labels, one pair per country ----
     const markerMeshes: THREE.Mesh[] = [];
     const ringMeshes: THREE.Mesh[] = [];
+    const chipEls: HTMLSpanElement[] = [];
+    const chipSizes: { w: number; h: number }[] = [];
+    const chipText: string[] = [];
+
     points.forEach((m) => {
       const at = toVector(m.lat, m.lon, 1.015);
+      const color = new THREE.Color(m.color);
 
       const dot = new THREE.Mesh(
-        new THREE.SphereGeometry(0.017, 14, 14),
-        new THREE.MeshBasicMaterial({ color: LAND })
+        new THREE.SphereGeometry(0.016, 14, 14),
+        new THREE.MeshBasicMaterial({ color })
       );
       dot.position.copy(at);
       globe.add(dot);
       markerMeshes.push(dot);
 
       const ring = new THREE.Mesh(
-        new THREE.RingGeometry(0.024, 0.031, 28),
+        new THREE.RingGeometry(0.023, 0.03, 28),
         new THREE.MeshBasicMaterial({
-          color: LAND,
+          color,
           transparent: true,
-          opacity: 0.55,
+          opacity: 0.5,
           side: THREE.DoubleSide,
         })
       );
@@ -129,6 +147,24 @@ export default function Globe({ points, labels }: GlobeProps) {
       ring.lookAt(0, 0, 0);
       globe.add(ring);
       ringMeshes.push(ring);
+
+      const chip = document.createElement("span");
+      chip.className =
+        "pointer-events-none absolute left-0 top-0 flex items-center gap-1.5 whitespace-nowrap " +
+        "rounded-full border border-[var(--border)] bg-white/95 py-[3px] pl-1.5 pr-2 " +
+        "text-[10px] font-semibold text-[var(--foreground)] opacity-0 backdrop-blur-sm " +
+        "shadow-[0_5px_14px_-8px_rgba(22,21,28,0.55)] transition-opacity duration-200 will-change-transform";
+
+      const swatch = document.createElement("i");
+      swatch.className = "block h-1.5 w-1.5 shrink-0 rounded-full";
+      swatch.style.backgroundColor = m.color;
+      chip.appendChild(swatch);
+      chip.appendChild(document.createTextNode(""));
+
+      chips.appendChild(chip);
+      chipEls.push(chip);
+      chipSizes.push({ w: 0, h: 0 });
+      chipText.push("");
     });
 
     function resize() {
@@ -193,8 +229,13 @@ export default function Globe({ points, labels }: GlobeProps) {
     canvas.addEventListener("pointerleave", onUp);
 
     const projected = new THREE.Vector3();
+    const camDir = new THREE.Vector3();
     const clock = new THREE.Clock();
     let frame = 0;
+
+    type Slot = { i: number; facing: number; x: number; y: number };
+    const taken: { x: number; y: number; w: number; h: number }[] = [];
+    const candidates: Slot[] = [];
 
     function tick() {
       frame = requestAnimationFrame(tick);
@@ -209,41 +250,67 @@ export default function Globe({ points, labels }: GlobeProps) {
         const phase = (t * 0.42 + i * 0.19) % 1;
         const s = 1 + phase * 2.2;
         ring.scale.set(s, s, s);
-        (ring.material as THREE.MeshBasicMaterial).opacity = 0.55 * (1 - phase);
+        (ring.material as THREE.MeshBasicMaterial).opacity = 0.5 * (1 - phase);
       });
 
-      // With this many markers, naming every one would be a pile-up, so
-      // only the marker nearest the front carries a label.
-      let bestIndex = -1;
-      let bestFacing = 0.4;
-      let screenX = 0;
-      let screenY = 0;
+      const w = root.clientWidth;
+      const h = root.clientHeight;
+      camDir.copy(camera.position).normalize();
+
+      // Every marker on the near side wants a label. Collect them first,
+      // then hand out the space to the ones facing us most directly.
+      candidates.length = 0;
       markerMeshes.forEach((dot, i) => {
         dot.getWorldPosition(projected);
-        const facing = projected
-          .clone()
-          .normalize()
-          .dot(camera.position.clone().normalize());
-        if (facing > bestFacing) {
-          bestFacing = facing;
-          bestIndex = i;
-          const p = projected.clone().project(camera);
-          screenX = (p.x * 0.5 + 0.5) * root.clientWidth;
-          screenY = (-p.y * 0.5 + 0.5) * root.clientHeight;
-        }
+        const facing = projected.clone().normalize().dot(camDir);
+        if (facing <= FACING_CUTOFF) return;
+        const p = projected.clone().project(camera);
+        candidates.push({
+          i,
+          facing,
+          x: (p.x * 0.5 + 0.5) * w,
+          y: (-p.y * 0.5 + 0.5) * h,
+        });
       });
+      candidates.sort((a, b) => b.facing - a.facing);
 
-      const el = labelRef.current;
-      if (el) {
-        if (bestIndex >= 0) {
-          const id = points[bestIndex].id;
-          const text = labelsRef.current[id] ?? id;
-          if (el.textContent !== text) el.textContent = text;
-          el.style.transform = `translate3d(${screenX}px, ${screenY}px, 0) translate(-50%, -150%)`;
-          el.style.opacity = "1";
-        } else {
-          el.style.opacity = "0";
+      taken.length = 0;
+      const shown = new Set<number>();
+
+      for (const slot of candidates) {
+        const el = chipEls[slot.i];
+        const text = labelsRef.current[points[slot.i].id] ?? points[slot.i].id;
+
+        // Measuring forces layout, so only do it when the wording changed,
+        // which in practice means a language switch.
+        if (chipText[slot.i] !== text) {
+          chipText[slot.i] = text;
+          el.lastChild!.textContent = text;
+          chipSizes[slot.i] = { w: el.offsetWidth, h: el.offsetHeight };
         }
+        const size = chipSizes[slot.i];
+        if (!size.w) size.w = el.offsetWidth || 60;
+        if (!size.h) size.h = el.offsetHeight || 20;
+
+        // Sit above the marker, kept inside the box.
+        const cx = clamp(slot.x, size.w / 2, Math.max(size.w / 2, w - size.w / 2));
+        const cy = clamp(slot.y - size.h - 8, 0, Math.max(0, h - size.h));
+
+        const collides = taken.some(
+          (r) =>
+            Math.abs(r.x - cx) < (r.w + size.w) / 2 + LABEL_GAP &&
+            Math.abs(r.y - cy) < (r.h + size.h) / 2 + LABEL_GAP
+        );
+        if (collides) continue;
+
+        taken.push({ x: cx, y: cy, w: size.w, h: size.h });
+        shown.add(slot.i);
+        el.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%, 0)`;
+        el.style.opacity = "1";
+      }
+
+      for (let i = 0; i < chipEls.length; i++) {
+        if (!shown.has(i)) chipEls[i].style.opacity = "0";
       }
 
       renderer.render(scene, camera);
@@ -260,6 +327,7 @@ export default function Globe({ points, labels }: GlobeProps) {
       canvas.removeEventListener("pointercancel", onUp);
       canvas.removeEventListener("pointerleave", onUp);
       canvas.remove();
+      chipEls.forEach((el) => el.remove());
       renderer.dispose();
       landTexture.dispose();
       scene.traverse((obj) => {
@@ -276,10 +344,7 @@ export default function Globe({ points, labels }: GlobeProps) {
   return (
     <div className="relative aspect-square w-full">
       <div ref={mount} className="absolute inset-0" />
-      <span
-        ref={labelRef}
-        className="pointer-events-none absolute left-0 top-0 whitespace-nowrap rounded-full border border-[var(--border)] bg-white px-3 py-1 text-[11px] font-semibold text-[var(--foreground)] opacity-0 shadow-[0_6px_18px_-8px_rgba(22,21,28,0.5)] transition-opacity duration-300"
-      />
+      <div ref={layer} className="pointer-events-none absolute inset-0 overflow-hidden" />
     </div>
   );
 }

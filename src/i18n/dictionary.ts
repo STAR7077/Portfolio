@@ -16,6 +16,9 @@ export interface Dictionary {
     eyebrow: string;
     title: string;
     intro: string;
+    americas: string;
+    europe: string;
+    asiaPacific: string;
     brazil: string;
     spain: string;
     mexico: string;
@@ -152,6 +155,9 @@ const en: Dictionary = {
     title: "Clients on four continents.",
     intro:
       "I work directly in English, Portuguese and Spanish, so briefs, calls and handover documents happen in whichever one the client is comfortable with.",
+    americas: "Americas",
+    europe: "Europe",
+    asiaPacific: "Asia & Pacific",
     brazil: "Brazil",
     spain: "Spain",
     mexico: "Mexico",
@@ -306,6 +312,9 @@ const pt: Dictionary = {
     title: "Clientes em quatro continentes.",
     intro:
       "Trabalho diretamente em inglês, português e espanhol, então briefings, conversas e documentos de entrega acontecem no idioma em que o cliente se sente à vontade.",
+    americas: "Américas",
+    europe: "Europa",
+    asiaPacific: "Ásia e Pacífico",
     brazil: "Brasil",
     spain: "Espanha",
     mexico: "México",
@@ -461,6 +470,9 @@ const es: Dictionary = {
     title: "Clientes en cuatro continentes.",
     intro:
       "Trabajo directamente en inglés, portugués y español, así que los briefings, las conversaciones y la documentación de entrega ocurren en el idioma con el que el cliente se sienta cómodo.",
+    americas: "Américas",
+    europe: "Europa",
+    asiaPacific: "Asia y Pacífico",
     brazil: "Brasil",
     spain: "España",
     mexico: "México",
