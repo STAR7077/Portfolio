@@ -1,7 +1,7 @@
 "use client";
 
 import { brandIcons } from "@/data/brandIcons";
-import { skillGroups, type SkillTile } from "@/data/skills";
+import { skillGroups, type SkillGroup, type SkillTile } from "@/data/skills";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
@@ -16,26 +16,36 @@ import SectionHeading from "./SectionHeading";
  * tiles, which is what the reference does for NEXT.js and iOS.
  */
 
+/**
+ * Written out rather than built from the number, because Tailwind reads
+ * class names out of the source and never sees an interpolated one.
+ */
+const SPAN_CLASS: Record<SkillGroup["span"], string> = {
+  3: "xl:col-span-3",
+  4: "xl:col-span-4",
+  5: "xl:col-span-5",
+};
+
 function Tile({ tile }: { tile: SkillTile }) {
   const isWord = "word" in tile;
   const label = isWord ? tile.word : brandIcons[tile.icon].title;
 
   return (
     <li
-      className="skill-tile flex h-14 w-14 items-center justify-center rounded-xl border border-[var(--border)] bg-white"
+      className="skill-tile flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border)] bg-white"
       title={label}
     >
       {isWord ? (
         <span
-          className="px-1 text-center text-[11px] font-bold leading-none tracking-tight"
+          className="px-0.5 text-center text-[9.5px] font-bold leading-none tracking-tight"
           style={{ color: tile.hex }}
         >
           {label}
         </span>
       ) : (
         <svg
-          width="26"
-          height="26"
+          width="22"
+          height="22"
           viewBox="0 0 24 24"
           fill={brandIcons[tile.icon].hex}
           role="img"
@@ -59,14 +69,17 @@ export default function Skills() {
           <p className="lead -mt-2 max-w-2xl text-[var(--muted)]">{t.skills.intro}</p>
         </Reveal>
 
-        <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+        {/* The twelfths only hold once the container has stopped growing, at
+            xl. Below that the row is too narrow for the widest group to keep
+            its tiles on two lines, so it pairs off instead. */}
+        <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-12">
           {skillGroups.map((group, i) => (
             <Reveal
               key={group.key}
               delay={i * 70}
-              className={`h-full ${group.wide ? "lg:col-span-2" : ""}`}
+              className={`h-full ${SPAN_CLASS[group.span]}`}
             >
-              <article className="skill-card relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-white p-6 sm:p-7">
+              <article className="skill-card relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-white p-6">
                 <div className="relative flex flex-wrap items-center gap-3">
                   <h3 className="font-heading text-lg font-bold text-[var(--foreground)]">
                     {t.skills[`${group.key}Title`]}

@@ -14,8 +14,12 @@ export type SkillTile = { icon: BrandKey } | { word: string; hex: string };
 export interface SkillGroup {
   /** Matches the dictionary keys, so the copy stays translatable. */
   key: "backend" | "frontend" | "ai" | "business" | "mobile" | "cloud";
-  /** The lead group of each row runs double width, as in the reference. */
-  wide?: boolean;
+  /**
+   * Twelfths of the row. Chosen so every group's tiles wrap onto exactly
+   * two lines: a group holding more tools gets a wider card rather than a
+   * taller one, which is what keeps the rows level.
+   */
+  span: 3 | 4 | 5;
   /** Marks the specialism, which earns a pill beside the title. */
   focus?: boolean;
   tiles: SkillTile[];
@@ -23,8 +27,9 @@ export interface SkillGroup {
 
 /**
  * Backend leads, then frontend and agents, with mobile opening the second
- * row. Each row is one wide group and two narrow ones, which is the rhythm
- * the reference uses.
+ * row. Widths follow the number of tools in each group, so the first row
+ * steps 3, 4, 5 across and the second, holding three similar groups, runs
+ * even at 4, 4, 4. Both rows total twelve.
  *
  * No group is marked `focus` at the moment. Adding it back is a one-line
  * change if a specialism should be called out.
@@ -32,7 +37,7 @@ export interface SkillGroup {
 export const skillGroups: SkillGroup[] = [
   {
     key: "backend",
-    wide: true,
+    span: 3,
     tiles: [
       { icon: "nodedotjs" },
       { icon: "python" },
@@ -46,6 +51,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     key: "frontend",
+    span: 4,
     tiles: [
       { icon: "react" },
       { icon: "nextdotjs" },
@@ -60,6 +66,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     key: "ai",
+    span: 5,
     tiles: [
       { word: "OpenAI", hex: "#0F0F0F" },
       { icon: "claude" },
@@ -76,7 +83,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     key: "mobile",
-    wide: true,
+    span: 4,
     tiles: [
       { icon: "react" },
       { icon: "flutter" },
@@ -89,6 +96,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     key: "cloud",
+    span: 4,
     tiles: [
       { word: "AWS", hex: "#FF9900" },
       { word: "Azure", hex: "#0078D4" },
@@ -100,6 +108,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     key: "business",
+    span: 4,
     tiles: [
       { icon: "odoo" },
       { word: "Bubble", hex: "#0034FF" },

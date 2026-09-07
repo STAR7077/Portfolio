@@ -199,7 +199,7 @@ const en: Dictionary = {
     coreFocus: "Core focus",
     backendTitle: "Backend",
     backendBody:
-      "APIs, databases, queues and the services behind them. Node.js and Python systems with REST interfaces, background jobs and caching, built to stay predictable as the load grows rather than only on the day they ship.",
+      "APIs, databases, queues and the services behind them, in Node.js and Python, built to stay predictable as the load grows.",
     frontendTitle: "Frontend",
     frontendBody:
       "Responsive interfaces in React and Next.js, typed end to end, styled in Tailwind or Sass, and pushed further with WebGL where a page needs to do more than sit still.",
@@ -208,13 +208,13 @@ const en: Dictionary = {
       "Agents that hold a real conversation, call your own tools, answer from your data with retrieval, and pass a hot lead to a person at the right moment.",
     businessTitle: "Business & Delivery",
     businessBody:
-      "ERP implementation, no-code builds and the tools a project is actually run and tracked in.",
+      "ERP implementation, no-code builds and the tools a project is actually run and tracked in day to day.",
     mobileTitle: "Mobile",
     mobileBody:
-      "Cross-platform apps for iOS and Android from one codebase, in React Native or Flutter, taken from the first screen through to the store listing and the releases after it.",
+      "Cross-platform apps for iOS and Android from one codebase, in React Native or Flutter, from the first screen to the store listing.",
     cloudTitle: "Cloud & Data",
     cloudBody:
-      "Hosting, storage and the managed services that keep it all running.",
+      "Hosting, storage and the managed services that keep it all running, on AWS, Azure or Google Cloud depending on where you already are.",
   },
   services: {
     eyebrow: "What I do",
@@ -356,7 +356,7 @@ const pt: Dictionary = {
     coreFocus: "Foco principal",
     backendTitle: "Backend",
     backendBody:
-      "APIs, bancos de dados, filas e os serviços por trás deles. Sistemas em Node.js e Python com interfaces REST, tarefas em segundo plano e cache, feitos para continuar previsíveis conforme a carga cresce, e não apenas no dia em que entram no ar.",
+      "APIs, bancos de dados, filas e os serviços por trás deles, em Node.js e Python, feitos para continuar previsíveis conforme a carga cresce.",
     frontendTitle: "Frontend",
     frontendBody:
       "Interfaces responsivas em React e Next.js, tipadas de ponta a ponta, estilizadas com Tailwind ou Sass, e levadas além com WebGL quando a página precisa de mais do que ficar parada.",
@@ -365,13 +365,13 @@ const pt: Dictionary = {
       "Agentes que conduzem uma conversa de verdade, acionam as suas ferramentas, respondem a partir dos seus dados com busca e passam um lead quente para uma pessoa na hora certa.",
     businessTitle: "Negócio e Entrega",
     businessBody:
-      "Implantação de ERP, projetos no-code e as ferramentas em que o trabalho é de fato tocado e acompanhado.",
+      "Implantação de ERP, projetos no-code e as ferramentas em que o trabalho é de fato tocado e acompanhado no dia a dia.",
     mobileTitle: "Mobile",
     mobileBody:
-      "Aplicativos multiplataforma para iOS e Android a partir de um só código, em React Native ou Flutter, da primeira tela até a publicação na loja e as versões seguintes.",
+      "Aplicativos multiplataforma para iOS e Android a partir de um só código, em React Native ou Flutter, da primeira tela até a publicação na loja.",
     cloudTitle: "Cloud e Dados",
     cloudBody:
-      "Hospedagem, armazenamento e os serviços gerenciados que mantêm tudo no ar.",
+      "Hospedagem, armazenamento e os serviços gerenciados que mantêm tudo no ar, na AWS, no Azure ou no Google Cloud, conforme onde você já está.",
   },
   services: {
     eyebrow: "O que eu faço",
@@ -514,7 +514,7 @@ const es: Dictionary = {
     coreFocus: "Enfoque principal",
     backendTitle: "Backend",
     backendBody:
-      "APIs, bases de datos, colas y los servicios que hay detrás. Sistemas en Node.js y Python con interfaces REST, tareas en segundo plano y caché, hechos para seguir siendo predecibles a medida que crece la carga, y no solo el día en que salen a producción.",
+      "APIs, bases de datos, colas y los servicios que hay detrás, en Node.js y Python, hechos para seguir siendo predecibles a medida que crece la carga.",
     frontendTitle: "Frontend",
     frontendBody:
       "Interfaces responsivas en React y Next.js, tipadas de principio a fin, con Tailwind o Sass, y llevadas más lejos con WebGL cuando la página necesita algo más que quedarse quieta.",
@@ -523,13 +523,13 @@ const es: Dictionary = {
       "Agentes que mantienen una conversación de verdad, invocan tus herramientas, responden desde tus datos con búsqueda y pasan un lead caliente a una persona en el momento justo.",
     businessTitle: "Negocio y Entrega",
     businessBody:
-      "Implantación de ERP, proyectos no-code y las herramientas con las que el trabajo se lleva y se sigue de verdad.",
+      "Implantación de ERP, proyectos no-code y las herramientas con las que el trabajo se lleva y se sigue de verdad cada día.",
     mobileTitle: "Móvil",
     mobileBody:
-      "Aplicaciones multiplataforma para iOS y Android desde un solo código, en React Native o Flutter, desde la primera pantalla hasta la publicación en la tienda y las versiones siguientes.",
+      "Aplicaciones multiplataforma para iOS y Android desde un solo código, en React Native o Flutter, desde la primera pantalla hasta la tienda.",
     cloudTitle: "Cloud y Datos",
     cloudBody:
-      "Alojamiento, almacenamiento y los servicios gestionados que lo mantienen todo en marcha.",
+      "Alojamiento, almacenamiento y los servicios gestionados que lo mantienen todo en marcha, en AWS, Azure o Google Cloud según donde ya estés.",
   },
   services: {
     eyebrow: "Lo que hago",
