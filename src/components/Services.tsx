@@ -1,8 +1,6 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { testimonials } from "@/data/testimonials";
-import { locales } from "@/i18n/config";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
@@ -111,16 +109,13 @@ export default function Services() {
     },
   ];
 
-  // Counted from the real data, so these cannot drift from the page below.
-  const fiveStar = testimonials.filter((item) => item.rating === 5).length;
-
-  // Total delivered work across every engagement, which is far more than
-  // the handful of case studies shown in Work.
+  // Career totals, supplied by Lucas. They cover every engagement, so they
+  // are deliberately not counted from the handful of case studies in Work.
   const numbers = [
-    { value: "100+", label: t.stats.projects },
-    { value: String(fiveStar), label: t.stats.reviews },
-    { value: String(locales.length), label: t.stats.languages },
-    { value: "3", label: t.stats.platforms },
+    { value: "150+", label: t.stats.projects },
+    { value: "12+", label: t.stats.years },
+    { value: "100+", label: t.stats.customers },
+    { value: "21+", label: t.stats.countries },
   ];
 
   return (

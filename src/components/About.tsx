@@ -5,13 +5,6 @@ import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
 import SectionScenery from "./SectionScenery";
 
-// Tool and language names are proper nouns, so they read the same in every locale.
-const skills = [
-  "Node.js", "Python", "React", "Next.js", "TypeScript", "Django",
-  "PostgreSQL", "Redis", "React Native", "Flutter", "OpenAI / LLMs",
-  "Docker / AWS", "Odoo / ERP",
-];
-
 export default function About() {
   const { t } = useLanguage();
 
@@ -28,18 +21,6 @@ export default function About() {
           <Reveal delay={140}><p>{t.about.paragraph2}</p></Reveal>
         </div>
 
-        <Reveal delay={200}>
-          <div className="mt-10 flex flex-wrap gap-3">
-            {skills.map((skill) => (
-              <span
-                key={skill}
-                className="rounded-full border border-[var(--border)] bg-white px-4 py-2 text-sm text-[var(--foreground)] shadow-sm transition-colors duration-500 hover:border-[var(--accent)]"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-        </Reveal>
       </div>
     </section>
   );

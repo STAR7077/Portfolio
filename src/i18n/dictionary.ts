@@ -45,9 +45,26 @@ export interface Dictionary {
   };
   stats: {
     projects: string;
-    reviews: string;
-    languages: string;
-    platforms: string;
+    years: string;
+    customers: string;
+    countries: string;
+  };
+  skills: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    backendTitle: string;
+    backendBody: string;
+    frontendTitle: string;
+    frontendBody: string;
+    aiTitle: string;
+    aiBody: string;
+    businessTitle: string;
+    businessBody: string;
+    mobileTitle: string;
+    mobileBody: string;
+    cloudTitle: string;
+    cloudBody: string;
   };
   services: {
     eyebrow: string;
@@ -162,16 +179,40 @@ const en: Dictionary = {
     ctaContact: "Get in touch",
   },
   stats: {
-    projects: "Projects delivered",
-    reviews: "Five-star reviews",
-    languages: "Languages spoken",
-    platforms: "AI, web and mobile",
+    projects: "Completed Projects",
+    years: "Years of Experience",
+    customers: "Global Customers",
+    countries: "Countries Clients Served",
+  },
+  skills: {
+    eyebrow: "Tech stack",
+    title: "Skills.",
+    intro:
+      "The tools I reach for, grouped by the part of the build they belong to.",
+    backendTitle: "Backend",
+    backendBody:
+      "APIs, databases, queues and the services behind them. Node.js and Python systems built to stay predictable as the load grows.",
+    frontendTitle: "Frontend",
+    frontendBody:
+      "Responsive interfaces in React and Next.js that hold their shape on every screen.",
+    aiTitle: "AI & Automation",
+    aiBody:
+      "LLM agents, document pipelines and workflows that run without anyone watching them.",
+    businessTitle: "Business & Delivery",
+    businessBody:
+      "ERP implementation, no-code builds and the tools a project is actually run and tracked in.",
+    mobileTitle: "Mobile",
+    mobileBody:
+      "Cross-platform apps for iOS and Android from one codebase.",
+    cloudTitle: "Cloud & Data",
+    cloudBody:
+      "Hosting, storage and the managed services that keep it all running.",
   },
   services: {
     eyebrow: "What I do",
     title: "Services.",
     intro:
-      "Over 100 projects delivered for founders and teams who needed something built properly the first time.",
+      "Over 150 projects delivered for founders and teams who needed something built properly the first time.",
     aiTitle: "AI Agents & Automation",
     aiBody:
       "WhatsApp and chat agents, document and OCR pipelines, lead scoring and outbound automation, built on OpenAI, Gemini and Claude.",
@@ -291,16 +332,40 @@ const pt: Dictionary = {
     ctaContact: "Entre em contato",
   },
   stats: {
-    projects: "Projetos entregues",
-    reviews: "Avaliações cinco estrelas",
-    languages: "Idiomas falados",
-    platforms: "IA, web e mobile",
+    projects: "Projetos concluídos",
+    years: "Anos de experiência",
+    customers: "Clientes no mundo",
+    countries: "Países atendidos",
+  },
+  skills: {
+    eyebrow: "Stack técnica",
+    title: "Habilidades.",
+    intro:
+      "As ferramentas que eu uso, agrupadas pela parte do projeto a que pertencem.",
+    backendTitle: "Backend",
+    backendBody:
+      "APIs, bancos de dados, filas e os serviços por trás deles. Sistemas em Node.js e Python feitos para continuar previsíveis conforme a carga cresce.",
+    frontendTitle: "Frontend",
+    frontendBody:
+      "Interfaces responsivas em React e Next.js que mantêm a forma em qualquer tela.",
+    aiTitle: "IA e Automação",
+    aiBody:
+      "Agentes com LLM, pipelines de documentos e fluxos que rodam sem ninguém olhando.",
+    businessTitle: "Negócio e Entrega",
+    businessBody:
+      "Implantação de ERP, projetos no-code e as ferramentas em que o trabalho é de fato tocado e acompanhado.",
+    mobileTitle: "Mobile",
+    mobileBody:
+      "Aplicativos multiplataforma para iOS e Android a partir de um só código.",
+    cloudTitle: "Cloud e Dados",
+    cloudBody:
+      "Hospedagem, armazenamento e os serviços gerenciados que mantêm tudo no ar.",
   },
   services: {
     eyebrow: "O que eu faço",
     title: "Serviços.",
     intro:
-      "Mais de 100 projetos entregues para fundadores e equipes que precisavam de algo bem feito já na primeira vez.",
+      "Mais de 150 projetos entregues para fundadores e equipes que precisavam de algo bem feito já na primeira vez.",
     aiTitle: "Agentes de IA e Automação",
     aiBody:
       "Agentes de WhatsApp e chat, pipelines de documentos e OCR, pontuação de leads e automação de prospecção, com OpenAI, Gemini e Claude.",
@@ -421,16 +486,40 @@ const es: Dictionary = {
     ctaContact: "Contáctame",
   },
   stats: {
-    projects: "Proyectos entregados",
-    reviews: "Reseñas de cinco estrellas",
-    languages: "Idiomas hablados",
-    platforms: "IA, web y móvil",
+    projects: "Proyectos completados",
+    years: "Años de experiencia",
+    customers: "Clientes globales",
+    countries: "Países atendidos",
+  },
+  skills: {
+    eyebrow: "Stack técnico",
+    title: "Habilidades.",
+    intro:
+      "Las herramientas que uso, agrupadas por la parte del proyecto a la que pertenecen.",
+    backendTitle: "Backend",
+    backendBody:
+      "APIs, bases de datos, colas y los servicios que hay detrás. Sistemas en Node.js y Python hechos para seguir siendo predecibles a medida que crece la carga.",
+    frontendTitle: "Frontend",
+    frontendBody:
+      "Interfaces responsivas en React y Next.js que mantienen la forma en cualquier pantalla.",
+    aiTitle: "IA y Automatización",
+    aiBody:
+      "Agentes con LLM, pipelines de documentos y flujos que funcionan sin que nadie los vigile.",
+    businessTitle: "Negocio y Entrega",
+    businessBody:
+      "Implantación de ERP, proyectos no-code y las herramientas con las que el trabajo se lleva y se sigue de verdad.",
+    mobileTitle: "Móvil",
+    mobileBody:
+      "Aplicaciones multiplataforma para iOS y Android desde un solo código.",
+    cloudTitle: "Cloud y Datos",
+    cloudBody:
+      "Alojamiento, almacenamiento y los servicios gestionados que lo mantienen todo en marcha.",
   },
   services: {
     eyebrow: "Lo que hago",
     title: "Servicios.",
     intro:
-      "Más de 100 proyectos entregados para fundadores y equipos que necesitaban algo bien hecho a la primera.",
+      "Más de 150 proyectos entregados para fundadores y equipos que necesitaban algo bien hecho a la primera.",
     aiTitle: "Agentes de IA y Automatización",
     aiBody:
       "Agentes de WhatsApp y chat, pipelines de documentos y OCR, puntuación de leads y automatización de prospección, con OpenAI, Gemini y Claude.",
