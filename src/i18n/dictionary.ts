@@ -36,7 +36,10 @@ export interface Dictionary {
     headline1: string;
     headline2: string;
     headline3: string;
-    subtitle: string;
+    promiseLabel: string;
+    promiseTime: string;
+    promiseDeadlines: string;
+    promiseComms: string;
     ctaWork: string;
     ctaContact: string;
   };
@@ -133,8 +136,10 @@ const en: Dictionary = {
     headline1: "AI agents, web",
     headline2: "and mobile apps,",
     headline3: "built to ship.",
-    subtitle:
-      "I turn manual, messy processes into automated systems a team can actually run. Node.js, Python, React, Next.js, LLMs and Odoo.",
+    promiseLabel: "My promise to you",
+    promiseTime: "Manual work automated",
+    promiseDeadlines: "Deadlines respected",
+    promiseComms: "Clear communication",
     ctaWork: "See my work",
     ctaContact: "Get in touch",
   },
@@ -235,8 +240,10 @@ const pt: Dictionary = {
     headline1: "Agentes de IA, web",
     headline2: "e aplicativos móveis,",
     headline3: "prontos para produção.",
-    subtitle:
-      "Transformo processos manuais e confusos em sistemas automatizados que a equipe consegue operar de verdade. Node.js, Python, React, Next.js, LLMs e Odoo.",
+    promiseLabel: "Meu compromisso com você",
+    promiseTime: "Trabalho manual automatizado",
+    promiseDeadlines: "Prazos respeitados",
+    promiseComms: "Comunicação clara",
     ctaWork: "Veja meu trabalho",
     ctaContact: "Entre em contato",
   },
@@ -338,8 +345,10 @@ const es: Dictionary = {
     headline1: "Agentes de IA, web",
     headline2: "y aplicaciones móviles,",
     headline3: "listos para producción.",
-    subtitle:
-      "Convierto procesos manuales y desordenados en sistemas automatizados que un equipo puede operar de verdad. Node.js, Python, React, Next.js, LLMs y Odoo.",
+    promiseLabel: "Mi compromiso contigo",
+    promiseTime: "Trabajo manual automatizado",
+    promiseDeadlines: "Plazos respetados",
+    promiseComms: "Comunicación clara",
     ctaWork: "Ver mi trabajo",
     ctaContact: "Contáctame",
   },

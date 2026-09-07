@@ -3,6 +3,7 @@
 import { useLanguage } from "@/i18n/LanguageProvider";
 import Reveal from "./Reveal";
 import HeroIllustration from "./HeroIllustration";
+import PromiseCard from "./PromiseCard";
 
 /* eslint-disable @next/next/no-img-element */
 
@@ -69,7 +70,7 @@ export default function Hero() {
           </Reveal>
 
           <Reveal delay={180}>
-            <p className="lead mt-6 max-w-lg text-[var(--muted)]">{t.hero.subtitle}</p>
+            <PromiseCard />
           </Reveal>
 
           <Reveal delay={260}>
