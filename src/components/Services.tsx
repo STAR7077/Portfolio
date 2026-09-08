@@ -130,21 +130,20 @@ export default function Services() {
           {cards.map((card, i) => (
             <Reveal key={card.title} delay={i * 70} className="h-full">
               <article className="service-card group relative h-full overflow-hidden rounded-2xl bg-white p-7 shadow-[0_14px_40px_-30px_rgba(22,21,28,0.6)]">
-                {/* A disc centred on the corner, so the card's own clipping
-                    leaves the quarter that shows. */}
-                <span
-                  className="pointer-events-none absolute right-0 top-0 h-40 w-40 -translate-y-1/2 translate-x-1/2 rounded-full bg-[var(--accent)]/25 transition-opacity duration-500 group-hover:opacity-0"
-                  aria-hidden="true"
-                />
+                {/* The fan in the corner, which on hover becomes the wave
+                    that carries the accent across the card. */}
+                <span className="service-wave" aria-hidden="true" />
 
-                <span className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--accent)] text-white transition-colors duration-500 group-hover:bg-white group-hover:text-[var(--accent)]">
+                {/* Each piece flips as the wave reaches it, so the delays
+                    grow with the distance from the top-right corner. */}
+                <span className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--accent)] text-white transition-colors duration-300 group-hover:bg-white group-hover:text-[var(--accent)] group-hover:delay-[240ms]">
                   {card.icon}
                 </span>
 
-                <h3 className="relative mt-6 font-heading text-xl font-bold text-[var(--foreground)] transition-colors duration-500 group-hover:text-white">
+                <h3 className="relative mt-6 font-heading text-xl font-bold text-[var(--foreground)] transition-colors duration-300 group-hover:text-white group-hover:delay-[280ms]">
                   {card.title}
                 </h3>
-                <p className="relative mt-3 text-[15px] leading-relaxed text-[var(--muted)] transition-colors duration-500 group-hover:text-white/85">
+                <p className="relative mt-3 text-[15px] leading-relaxed text-[var(--muted)] transition-colors duration-300 group-hover:text-white/85 group-hover:delay-[320ms]">
                   {card.body}
                 </p>
               </article>

@@ -155,19 +155,47 @@ h3,
 }
 .panel-in { animation: panel-in 620ms cubic-bezier(0.16, 1, 0.3, 1) both; }
 
-/* Service card: the whole card takes the accent on hover, so the fill
-   and the lift have to travel together. The children invert through
-   group-hover utilities on the markup. */
+/* Service card: the accent does not cross-fade over the whole card. It
+   travels out from the fan in the top-right corner, which grows until it
+   has swallowed the card. The card itself only lifts. */
 .service-card {
   transition:
     transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
-    background-color 500ms cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 .service-card:hover {
-  background-color: var(--accent);
   transform: translate3d(0, -6px, 0);
   box-shadow: 0 26px 60px -26px rgba(109, 40, 217, 0.6);
+}
+
+/* The fan. Its own centre sits on the card's top-right corner, so scaling
+   it about that centre spreads it from the corner. The card clips it, which
+   is what leaves a quarter showing at rest. */
+.service-wave {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 9999px;
+  background-color: rgba(109, 40, 217, 0.25);
+  transform: translate(50%, -50%) scale(1);
+  transform-origin: center;
+  pointer-events: none;
+  will-change: transform;
+  /* A gentle ease-out, not the expo used elsewhere on the site: expo puts
+     nearly all of the distance in the first fifth of the time, which makes
+     a spreading edge read as an instant fill. */
+  transition:
+    transform 700ms ease-out,
+    background-color 220ms linear;
+}
+/* The far corner of a card sits about 480px from the centre of the fan, so
+   6.2 times its 80px radius covers it and little more. Overshooting just
+   spends the tail of the animation with nothing left to reveal. */
+.service-card:hover .service-wave {
+  background-color: var(--accent);
+  transform: translate(50%, -50%) scale(6.2);
 }
 
 /* Skill card: a faint graph-paper wash behind the logo tiles, the way the
@@ -216,6 +244,10 @@ h3,
   .lift:hover { transform: none; }
   .service-card:hover { transform: none; }
   .skill-tile:hover { transform: none; }
+  /* No sweep for anyone who asked for less motion: the card just fills. */
+  .service-wave { transition: background-color 200ms linear; }
+  .service-card:hover { background-color: var(--accent); }
+  .service-card:hover .service-wave { transform: translate(50%, -50%) scale(1); }
 }
 
 @keyframes ripple {
