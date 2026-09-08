@@ -204,6 +204,36 @@ h3,
   transform: translate(50%, -50%) scale(6.2);
 }
 
+/* The children invert here rather than through group-hover utilities.
+   Tailwind wraps those in @media (hover: hover), which is false on a touch
+   screen, while the wave rule above is unwrapped: tapping a card on a phone
+   filled it with the accent and left the copy dark. Both live in the same
+   stylesheet now, so they agree wherever they run.
+
+   The delays are roughly when the wave arrives at each piece, and they only
+   apply on the way in: leaving reverts everything at once, since the wave
+   recedes from the far side first. */
+.service-icon,
+.service-title,
+.service-body {
+  transition:
+    background-color 300ms ease,
+    color 300ms ease;
+}
+.service-card:hover .service-icon {
+  background-color: #ffffff;
+  color: var(--accent);
+  transition-delay: 240ms;
+}
+.service-card:hover .service-title {
+  color: #ffffff;
+  transition-delay: 280ms;
+}
+.service-card:hover .service-body {
+  color: rgba(255, 255, 255, 0.85);
+  transition-delay: 320ms;
+}
+
 /* Skill card: a faint graph-paper wash behind the logo tiles, the way the
    reference fills the empty space in each group. */
 .skill-card::before {

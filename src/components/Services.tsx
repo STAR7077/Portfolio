@@ -144,21 +144,21 @@ export default function Services() {
         <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {cards.map((card, i) => (
             <Reveal key={card.title} delay={i * 70} className="h-full">
-              <article className="service-card group relative h-full overflow-hidden rounded-2xl bg-white p-7 shadow-[0_14px_40px_-30px_rgba(22,21,28,0.6)]">
+              <article className="service-card relative h-full overflow-hidden rounded-2xl bg-white p-7 shadow-[0_14px_40px_-30px_rgba(22,21,28,0.6)]">
                 {/* The fan in the corner, which on hover becomes the wave
                     that carries the accent across the card. */}
                 <span className="service-wave" aria-hidden="true" />
 
-                {/* Each piece flips as the wave reaches it, so the delays
-                    grow with the distance from the top-right corner. */}
-                <span className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--accent)] text-white transition-colors duration-300 group-hover:bg-white group-hover:text-[var(--accent)] group-hover:delay-[240ms]">
+                {/* The inversions live in globals.css beside the wave, so
+                    they fire on touch as well as on hover. */}
+                <span className="service-icon relative flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--accent)] text-white">
                   {card.icon}
                 </span>
 
-                <h3 className="relative mt-6 font-heading text-xl font-bold text-[var(--foreground)] transition-colors duration-300 group-hover:text-white group-hover:delay-[280ms]">
+                <h3 className="service-title relative mt-6 font-heading text-xl font-bold text-[var(--foreground)]">
                   {card.title}
                 </h3>
-                <p className="relative mt-3 text-[15px] leading-relaxed text-[var(--muted)] transition-colors duration-300 group-hover:text-white/85 group-hover:delay-[320ms]">
+                <p className="service-body relative mt-3 text-[15px] leading-relaxed text-[var(--muted)]">
                   {card.body}
                 </p>
               </article>
