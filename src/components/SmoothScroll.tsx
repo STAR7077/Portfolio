@@ -35,6 +35,18 @@ export default function SmoothScroll() {
       frame = requestAnimationFrame(raf);
     }
 
+    /**
+     * How far to stop short of a target, so it clears the fixed header.
+     * The header is two rows tall on small screens and one on large, so
+     * this is measured rather than assumed.
+     */
+    function headerOffset() {
+      const header = document.querySelector("header");
+      if (!header) return -90;
+      // A fixed element's bottom is already its distance from the viewport top.
+      return -(header.getBoundingClientRect().bottom + 18);
+    }
+
     function scrollTo(target: HTMLElement | number, offset = 0, immediate = false) {
       if (lenis) {
         lenis.scrollTo(target, { offset, immediate });
@@ -85,7 +97,7 @@ export default function SmoothScroll() {
         // left to finish instead of being restarted every tick.
         if (!Number.isFinite(aimedAt) || Math.abs(top - aimedAt) > 8) {
           aimedAt = top;
-          scrollTo(el, -90, true);
+          scrollTo(el, headerOffset(), true);
         }
         settleTimer = Date.now() < deadline ? window.setTimeout(hold, 180) : 0;
         if (!settleTimer) stopSettling();
@@ -106,7 +118,7 @@ export default function SmoothScroll() {
       // in-page click happens on a page that has stopped moving, where an
       // eased scroll reads better than a jump.
       if (arriving) settleOn(work);
-      else scrollTo(work, -90);
+      else scrollTo(work, headerOffset());
       return true;
     }
 
@@ -138,7 +150,7 @@ export default function SmoothScroll() {
         return;
       }
 
-      scrollTo(target, -90);
+      scrollTo(target, headerOffset());
     }
     document.addEventListener("click", onAnchorClick);
 

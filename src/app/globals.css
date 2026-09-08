@@ -323,3 +323,13 @@ h3,
     stroke-dashoffset: 0;
   }
 }
+
+/* The small-screen link rail scrolls sideways when six labels will not fit,
+   without a scrollbar sitting under them. */
+.nav-rail {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.nav-rail::-webkit-scrollbar {
+  display: none;
+}

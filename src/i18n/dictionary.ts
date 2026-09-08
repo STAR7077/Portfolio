@@ -2,15 +2,14 @@ import type { Locale } from "./config";
 
 export interface Dictionary {
   nav: {
+    services: string;
     about: string;
+    skills: string;
     work: string;
     testimonials: string;
     contact: string;
     cta: string;
     languageLabel: string;
-    menu: string;
-    closeMenu: string;
-    browseWork: string;
   };
   reach: {
     eyebrow: string;
@@ -140,15 +139,14 @@ export interface Dictionary {
 
 const en: Dictionary = {
   nav: {
+    services: "Services",
     about: "About",
+    skills: "Skills",
     work: "Work",
     testimonials: "Testimonials",
     contact: "Contact",
     cta: "Let's talk",
     languageLabel: "Change language",
-    menu: "Menu",
-    closeMenu: "Close menu",
-    browseWork: "Browse the work",
   },
   reach: {
     eyebrow: "Where I work",
@@ -297,15 +295,14 @@ const en: Dictionary = {
 
 const pt: Dictionary = {
   nav: {
+    services: "Serviços",
     about: "Sobre",
+    skills: "Habilidades",
     work: "Projetos",
     testimonials: "Depoimentos",
     contact: "Contato",
     cta: "Vamos conversar",
     languageLabel: "Mudar idioma",
-    menu: "Menu",
-    closeMenu: "Fechar menu",
-    browseWork: "Ver os projetos",
   },
   reach: {
     eyebrow: "Onde eu trabalho",
@@ -455,15 +452,14 @@ const pt: Dictionary = {
 
 const es: Dictionary = {
   nav: {
+    services: "Servicios",
     about: "Sobre mí",
+    skills: "Habilidades",
     work: "Proyectos",
     testimonials: "Testimonios",
     contact: "Contacto",
     cta: "Hablemos",
     languageLabel: "Cambiar idioma",
-    menu: "Menú",
-    closeMenu: "Cerrar menú",
-    browseWork: "Ver los proyectos",
   },
   reach: {
     eyebrow: "Dónde trabajo",
