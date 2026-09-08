@@ -126,6 +126,21 @@ export default function Services() {
           <p className="lead -mt-2 max-w-2xl text-[var(--muted)]">{t.services.intro}</p>
         </Reveal>
 
+        {/* The figures sit under the title, where they qualify the section
+            before the services themselves are read. */}
+        <Reveal delay={80}>
+          <dl className="mt-9 grid grid-cols-2 gap-x-8 gap-y-7 border-y border-[var(--border)] py-8 sm:grid-cols-4">
+            {numbers.map((item) => (
+              <div key={item.label}>
+                <dt className="text-gradient-brand font-heading text-3xl font-bold tracking-tight sm:text-4xl">
+                  {item.value}
+                </dt>
+                <dd className="mt-1.5 text-[13px] text-[var(--muted)]">{item.label}</dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
+
         <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {cards.map((card, i) => (
             <Reveal key={card.title} delay={i * 70} className="h-full">
@@ -150,19 +165,6 @@ export default function Services() {
             </Reveal>
           ))}
         </div>
-
-        <Reveal delay={140}>
-          <dl className="mt-12 grid grid-cols-2 gap-x-8 gap-y-7 border-t border-[var(--border)] pt-9 sm:grid-cols-4">
-            {numbers.map((item) => (
-              <div key={item.label}>
-                <dt className="text-gradient-brand font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-                  {item.value}
-                </dt>
-                <dd className="mt-1.5 text-[13px] text-[var(--muted)]">{item.label}</dd>
-              </div>
-            ))}
-          </dl>
-        </Reveal>
       </div>
     </section>
   );
