@@ -101,6 +101,8 @@ export interface Dictionary {
     playStore: string;
     projectFiles: string;
     tryBot: string;
+    prevProject: string;
+    nextProject: string;
   };
   categories: {
     ai: string;
@@ -256,6 +258,8 @@ const en: Dictionary = {
     playStore: "View on Google Play ->",
     projectFiles: "View project files ->",
     tryBot: "Try the bot",
+    prevProject: "Previous project",
+    nextProject: "Next project",
   },
   categories: {
     ai: "AI & Automation",
@@ -412,6 +416,8 @@ const pt: Dictionary = {
     playStore: "Ver no Google Play ->",
     projectFiles: "Ver arquivos do projeto ->",
     tryBot: "Teste o bot",
+    prevProject: "Projeto anterior",
+    nextProject: "Próximo projeto",
   },
   categories: {
     ai: "IA e Automação",
@@ -569,6 +575,8 @@ const es: Dictionary = {
     playStore: "Ver en Google Play ->",
     projectFiles: "Ver archivos del proyecto ->",
     tryBot: "Prueba el bot",
+    prevProject: "Proyecto anterior",
+    nextProject: "Proyecto siguiente",
   },
   categories: {
     ai: "IA y Automatización",

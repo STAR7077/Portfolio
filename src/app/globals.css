@@ -143,14 +143,35 @@ h3,
 }
 
 /* ---------------------------------------------------------------
-   Sticky card stack, the assistantly "what makes us different"
-   pattern: each card pins a little lower than the one before, so
-   they deal onto each other like a deck as you scroll.
+   The Work carousel. Projects run sideways one to a slide, so the
+   section stays one project tall and a downward scroll from
+   anywhere inside it carries on to the next section.
    --------------------------------------------------------------- */
-.stack-card {
-  position: sticky;
-  /* --i is set per card from its index. */
-  top: calc(var(--stack-top, 112px) + (var(--i, 0) * var(--stack-step, 16px)));
+.work-track {
+  cursor: grab;
+  /* Let the browser handle vertical panning itself: only sideways
+     movement is ours, so a downward drag still scrolls the page. */
+  touch-action: pan-y;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* Nothing sits outside the track, so an over-scroll at either end
+     should not rubber-band the page behind it. */
+  overscroll-behavior-x: contain;
+}
+.work-track::-webkit-scrollbar {
+  display: none;
+}
+/* Belt and braces with the dragstart handler: images and links are
+   draggable by default, and a drag begun on one never reaches the track. */
+.work-track img,
+.work-track a {
+  -webkit-user-drag: none;
+}
+.work-track.is-dragging {
+  cursor: grabbing;
+  /* Snapping mid-drag would fight the pointer for the scroll position. */
+  scroll-snap-type: none;
+  user-select: none;
 }
 
 /* The tab panel grows from nothing when a filter changes, the way the
