@@ -127,10 +127,30 @@ export default function Work() {
   }, [normalize]);
 
   /**
-   * Takes a real project number. One past the last and one before the first
-   * are the copies, so asking for either animates a single slide and lands
-   * on the genuine article.
+   * One project forward or back from wherever the track actually is.
+   *
+   * Deliberately not "one on from the index we are displaying". At the end
+   * of a wrap the index already reads as the first project, because the copy
+   * it has just landed on is a copy of the first, while the track is still
+   * physically at the far end for another frame or two. Stepping from the
+   * index there would animate the whole way back down the track. Reading the
+   * position instead cannot disagree with itself.
    */
+  const nudge = useCallback(
+    (dir: 1 | -1) => {
+      const el = track.current;
+      const step = stride();
+      if (!el || !step) return;
+      // If it is resting on a copy, stand on the real slide first. They look
+      // the same, so nothing is seen to move.
+      normalize(el, step);
+      const here = Math.round(el.scrollLeft / step);
+      glideTo(el, (here + dir) * step, step);
+    },
+    [stride, glideTo, normalize]
+  );
+
+  /** Jumps to a project by number, for the row of ticks. */
   const goTo = useCallback(
     (i: number) => {
       const el = track.current;
@@ -138,10 +158,10 @@ export default function Work() {
       if (!el || !step) return;
       const { count: n, offset: off } = geom.current;
       if (!n) return;
-      const clamped = Math.max(-1, Math.min(i, n));
-      glideTo(el, (clamped + off) * step, step);
+      normalize(el, step);
+      glideTo(el, (Math.max(0, Math.min(i, n - 1)) + off) * step, step);
     },
-    [stride, glideTo]
+    [stride, glideTo, normalize]
   );
 
   // Follow the scroll position rather than owning it, so dragging, the
@@ -203,6 +223,9 @@ export default function Work() {
       cancelAnimationFrame(glide.current);
       glide.current = 0;
       el!.classList.remove("is-settling");
+      // Same reason as the buttons: begin from a real slide, so the drag
+      // cannot start on a copy and be corrected out from under the finger.
+      normalize(el!, stride());
       startLeft = el!.scrollLeft;
       lastDx = 0;
       dragging = true;
@@ -371,10 +394,10 @@ export default function Work() {
         onKeyDown={(e) => {
           if (e.key === "ArrowRight") {
             e.preventDefault();
-            goTo(at + 1);
+            nudge(1);
           } else if (e.key === "ArrowLeft") {
             e.preventDefault();
-            goTo(at - 1);
+            nudge(-1);
           }
         }}
       >
@@ -408,7 +431,7 @@ export default function Work() {
       <div className="relative z-10 mx-auto mt-7 flex max-w-6xl items-center gap-4 px-6">
         <button
           type="button"
-          onClick={() => goTo(at - 1)}
+          onClick={() => nudge(-1)}
           aria-label={t.work.prevProject}
           className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-white hover:bg-white hover:text-[#1B1E87]"
         >
@@ -418,7 +441,7 @@ export default function Work() {
         </button>
         <button
           type="button"
-          onClick={() => goTo(at + 1)}
+          onClick={() => nudge(1)}
           aria-label={t.work.nextProject}
           className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-white hover:bg-white hover:text-[#1B1E87]"
         >
