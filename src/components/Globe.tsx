@@ -122,6 +122,14 @@ export default function Globe({ points, labels }: GlobeProps) {
     const chipSizes: { w: number; h: number }[] = [];
     const chipText: string[] = [];
 
+    // Leader lines, drawn whenever a chip has to sit away from its marker.
+    // Europe puts five countries inside about fifty pixels, so without these
+    // the only options are overlapping chips or dropping most of them.
+    const leaderLayer = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    leaderLayer.setAttribute("class", "pointer-events-none absolute inset-0 h-full w-full");
+    chips.appendChild(leaderLayer);
+    const leaders: SVGLineElement[] = [];
+
     points.forEach((m) => {
       const at = toVector(m.lat, m.lon, 1.015);
       const color = new THREE.Color(m.color);
@@ -165,6 +173,14 @@ export default function Globe({ points, labels }: GlobeProps) {
       chipEls.push(chip);
       chipSizes.push({ w: 0, h: 0 });
       chipText.push("");
+
+      const leader = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      leader.setAttribute("stroke", m.color);
+      leader.setAttribute("stroke-width", "1");
+      leader.setAttribute("stroke-opacity", "0");
+      leader.setAttribute("stroke-linecap", "round");
+      leaderLayer.appendChild(leader);
+      leaders.push(leader);
     });
 
     function resize() {
@@ -277,6 +293,15 @@ export default function Globe({ points, labels }: GlobeProps) {
       taken.length = 0;
       const shown = new Set<number>();
 
+      const free = (left: number, top: number, cw: number, ch: number) =>
+        !taken.some(
+          (r) =>
+            left < r.x + r.w + LABEL_GAP &&
+            left + cw + LABEL_GAP > r.x &&
+            top < r.y + r.h + LABEL_GAP &&
+            top + ch + LABEL_GAP > r.y
+        );
+
       for (const slot of candidates) {
         const el = chipEls[slot.i];
         const text = labelsRef.current[points[slot.i].id] ?? points[slot.i].id;
@@ -292,25 +317,57 @@ export default function Globe({ points, labels }: GlobeProps) {
         if (!size.w) size.w = el.offsetWidth || 60;
         if (!size.h) size.h = el.offsetHeight || 20;
 
-        // Sit above the marker, kept inside the box.
         const cx = clamp(slot.x, size.w / 2, Math.max(size.w / 2, w - size.w / 2));
-        const cy = clamp(slot.y - size.h - 8, 0, Math.max(0, h - size.h));
+        const left = cx - size.w / 2;
+        const above = slot.y - size.h - 9;
+        const step = size.h + LABEL_GAP;
 
-        const collides = taken.some(
-          (r) =>
-            Math.abs(r.x - cx) < (r.w + size.w) / 2 + LABEL_GAP &&
-            Math.abs(r.y - cy) < (r.h + size.h) / 2 + LABEL_GAP
-        );
-        if (collides) continue;
+        // The marker's own slot first, then rungs climbing away from it above
+        // and below in turn. Whoever faces the camera most directly is served
+        // first, so the front marker keeps the slot next to its dot and the
+        // ones behind it step aside rather than disappearing.
+        let top = NaN;
+        let moved = false;
+        for (let k = 0; k <= 8 && Number.isNaN(top); k++) {
+          const tries = k === 0 ? [above] : [above - k * step, slot.y + 11 + (k - 1) * step];
+          for (const t of tries) {
+            const y = clamp(t, 0, Math.max(0, h - size.h));
+            if (free(left, y, size.w, size.h)) {
+              top = y;
+              moved = k > 0;
+              break;
+            }
+          }
+        }
+        if (Number.isNaN(top)) continue;
 
-        taken.push({ x: cx, y: cy, w: size.w, h: size.h });
+        taken.push({ x: left, y: top, w: size.w, h: size.h });
         shown.add(slot.i);
-        el.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%, 0)`;
+        el.style.transform = `translate3d(${cx}px, ${top}px, 0) translate(-50%, 0)`;
         el.style.opacity = "1";
+
+        // Tie the chip back to its marker whenever it had to step aside.
+        // Whether it was actually moved is known here, so use that rather
+        // than guessing from the distance: a chip nudged only slightly still
+        // needs the line, or its dot is anybody's guess in a cluster.
+        const anchorY = top > slot.y ? top : top + size.h;
+        const leader = leaders[slot.i];
+        if (moved) {
+          leader.setAttribute("x1", String(cx));
+          leader.setAttribute("y1", String(anchorY));
+          leader.setAttribute("x2", String(slot.x));
+          leader.setAttribute("y2", String(slot.y));
+          leader.setAttribute("stroke-opacity", "0.55");
+        } else {
+          leader.setAttribute("stroke-opacity", "0");
+        }
       }
 
       for (let i = 0; i < chipEls.length; i++) {
-        if (!shown.has(i)) chipEls[i].style.opacity = "0";
+        if (!shown.has(i)) {
+          chipEls[i].style.opacity = "0";
+          leaders[i].setAttribute("stroke-opacity", "0");
+        }
       }
 
       renderer.render(scene, camera);
@@ -328,6 +385,7 @@ export default function Globe({ points, labels }: GlobeProps) {
       canvas.removeEventListener("pointerleave", onUp);
       canvas.remove();
       chipEls.forEach((el) => el.remove());
+      leaderLayer.remove();
       renderer.dispose();
       landTexture.dispose();
       scene.traverse((obj) => {
