@@ -73,9 +73,10 @@ export default function Work() {
     }
 
     el.classList.add("is-settling");
-    // Long enough to read as movement, short enough not to feel slow, and
-    // scaled a little by how far it has to go.
-    const ms = Math.min(620, Math.max(300, Math.abs(delta) * 0.42));
+    // Unhurried enough to follow with the eye. The upper bound matters for
+    // the wrap from the last project back to the first, which crosses every
+    // slide at once and would otherwise take several seconds.
+    const ms = Math.min(900, Math.max(420, Math.abs(delta) * 0.6));
     const start = performance.now();
     const ease = (x: number) => 1 - Math.pow(1 - x, 3);
 
@@ -92,13 +93,15 @@ export default function Work() {
     glide.current = requestAnimationFrame(step);
   }, []);
 
+  /** Wraps, so the carousel has no ends: past the last comes the first. */
   const goTo = useCallback(
     (i: number) => {
       const el = track.current;
       const step = stride();
       if (!el || !step) return;
-      const clamped = Math.max(0, Math.min(i, el.children.length - 1));
-      glideTo(el, clamped * step);
+      const n = el.children.length;
+      if (!n) return;
+      glideTo(el, (((i % n) + n) % n) * step);
     },
     [stride, glideTo]
   );
@@ -201,8 +204,11 @@ export default function Work() {
       const target = decisive
         ? from + (lastDx < 0 ? 1 : -1)
         : Math.round(el!.scrollLeft / step);
-      const clamped = Math.max(0, Math.min(target, el!.children.length - 1));
-      glideTo(el!, clamped * step);
+      // Wraps like the buttons do. Dragging on past the last project cannot
+      // move the track any further, but the flick still counts, so letting
+      // go there comes back round to the first.
+      const n = el!.children.length;
+      glideTo(el!, (((target % n) + n) % n) * step);
     }
 
     /** A drag that ends on a link must not also follow it. */
@@ -270,7 +276,6 @@ export default function Work() {
           <h2 className="mt-2 font-heading text-[42px] font-semibold leading-[1.16667] tracking-[-0.5px] text-white lg:text-[56px] xl:text-[72px]">
             {t.work.title}
           </h2>
-          <p className="lead mt-7 max-w-2xl text-white/70">{t.work.intro}</p>
         </Reveal>
 
         <Reveal delay={80}>
@@ -340,9 +345,8 @@ export default function Work() {
         <button
           type="button"
           onClick={() => goTo(at - 1)}
-          disabled={at <= 0}
           aria-label={t.work.prevProject}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-white hover:bg-white hover:text-[#1B1E87] disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-white"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-white hover:bg-white hover:text-[#1B1E87]"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M15 5l-7 7 7 7" />
@@ -351,9 +355,8 @@ export default function Work() {
         <button
           type="button"
           onClick={() => goTo(at + 1)}
-          disabled={at >= count - 1}
           aria-label={t.work.nextProject}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-white hover:bg-white hover:text-[#1B1E87] disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-white"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-white hover:bg-white hover:text-[#1B1E87]"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M9 5l7 7-7 7" />

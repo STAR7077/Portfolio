@@ -95,7 +95,6 @@ export interface Dictionary {
   work: {
     eyebrow: string;
     title: string;
-    intro: string;
     filterAll: string;
     companySite: string;
     playStore: string;
@@ -251,8 +250,6 @@ const en: Dictionary = {
   work: {
     eyebrow: "Selected projects",
     title: "Work.",
-    intro:
-      "A mix of AI-agent systems, SaaS platforms and mobile apps from recent freelance and contract engagements. Client codebases are private, so these are summarized case studies rather than public repos.",
     filterAll: "All",
     companySite: "Company site ->",
     playStore: "View on Google Play ->",
@@ -409,8 +406,6 @@ const pt: Dictionary = {
   work: {
     eyebrow: "Projetos selecionados",
     title: "Trabalho.",
-    intro:
-      "Uma seleção de sistemas de agentes de IA, plataformas SaaS e aplicativos móveis de projetos freelance e contratos recentes. O código dos clientes é privado, então estes são estudos de caso resumidos, e não repositórios públicos.",
     filterAll: "Todos",
     companySite: "Site da empresa ->",
     playStore: "Ver no Google Play ->",
@@ -568,8 +563,6 @@ const es: Dictionary = {
   work: {
     eyebrow: "Proyectos seleccionados",
     title: "Trabajo.",
-    intro:
-      "Una selección de sistemas de agentes de IA, plataformas SaaS y aplicaciones móviles de proyectos freelance y contratos recientes. El código de los clientes es privado, así que estos son casos de estudio resumidos, no repositorios públicos.",
     filterAll: "Todos",
     companySite: "Sitio de la empresa ->",
     playStore: "Ver en Google Play ->",
