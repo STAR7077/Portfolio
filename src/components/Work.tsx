@@ -46,15 +46,61 @@ export default function Work() {
     return first.offsetWidth + gap;
   }, []);
 
+  const glide = useRef(0);
+
+  /**
+   * Moves the track to a slide and animates getting there.
+   *
+   * Two reasons this is hand-rolled rather than scrollTo with a smooth
+   * behaviour. Mandatory snapping has to be suspended for the duration,
+   * because applying it to a track sitting between two slides jumps it to
+   * the nearest one at once, which is what turned a released drag into a
+   * teleport. And native smooth scrolling is not always available: plenty of
+   * machines have it switched off, and there it lands instantly however it
+   * is asked. A frame loop behaves the same everywhere.
+   */
+  const glideTo = useCallback((el: HTMLDivElement, left: number) => {
+    cancelAnimationFrame(glide.current);
+
+    const from = el.scrollLeft;
+    const delta = left - from;
+    if (Math.abs(delta) < 1) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.scrollLeft = left;
+      el.classList.remove("is-settling");
+      return;
+    }
+
+    el.classList.add("is-settling");
+    // Long enough to read as movement, short enough not to feel slow, and
+    // scaled a little by how far it has to go.
+    const ms = Math.min(620, Math.max(300, Math.abs(delta) * 0.42));
+    const start = performance.now();
+    const ease = (x: number) => 1 - Math.pow(1 - x, 3);
+
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / ms);
+      el.scrollLeft = from + delta * ease(t);
+      if (t < 1) {
+        glide.current = requestAnimationFrame(step);
+      } else {
+        glide.current = 0;
+        el.classList.remove("is-settling");
+      }
+    };
+    glide.current = requestAnimationFrame(step);
+  }, []);
+
   const goTo = useCallback(
     (i: number) => {
       const el = track.current;
       const step = stride();
       if (!el || !step) return;
       const clamped = Math.max(0, Math.min(i, el.children.length - 1));
-      el.scrollTo({ left: clamped * step, behavior: "smooth" });
+      glideTo(el, clamped * step);
     },
-    [stride]
+    [stride, glideTo]
   );
 
   // Follow the scroll position rather than owning it, so dragging, the
@@ -101,6 +147,9 @@ export default function Work() {
       id = e.pointerId;
       startX = e.clientX;
       startY = e.clientY;
+      cancelAnimationFrame(glide.current);
+      glide.current = 0;
+      el!.classList.remove("is-settling");
       startLeft = el!.scrollLeft;
       lastDx = 0;
       dragging = true;
@@ -132,6 +181,9 @@ export default function Work() {
       if (!dragging || e.pointerId !== id) return;
       dragging = false;
       if (!moved) return;
+      // is-settling takes over before is-dragging comes off, so snapping
+      // is never briefly live while the track sits between two slides.
+      el!.classList.add("is-settling");
       el!.classList.remove("is-dragging");
       try {
         el!.releasePointerCapture(e.pointerId);
@@ -150,7 +202,7 @@ export default function Work() {
         ? from + (lastDx < 0 ? 1 : -1)
         : Math.round(el!.scrollLeft / step);
       const clamped = Math.max(0, Math.min(target, el!.children.length - 1));
-      el!.scrollTo({ left: clamped * step, behavior: "smooth" });
+      glideTo(el!, clamped * step);
     }
 
     /** A drag that ends on a link must not also follow it. */
@@ -173,6 +225,8 @@ export default function Work() {
     el.addEventListener("pointercancel", release);
     el.addEventListener("click", onClick, true);
     return () => {
+      cancelAnimationFrame(glide.current);
+      el.classList.remove("is-dragging", "is-settling");
       el.removeEventListener("dragstart", onDragStart);
       el.removeEventListener("pointerdown", onDown);
       el.removeEventListener("pointermove", onMove);
@@ -180,7 +234,7 @@ export default function Work() {
       el.removeEventListener("pointercancel", release);
       el.removeEventListener("click", onClick, true);
     };
-  }, [stride]);
+  }, [stride, glideTo]);
 
   // A new filter shows a different set, so start it at the beginning.
   useEffect(() => {
@@ -249,9 +303,8 @@ export default function Work() {
           tall as a single project, so scrolling down from anywhere in it
           carries straight on to the next section. */}
       <div
-        key={active}
         ref={track}
-        className="work-track panel-in relative z-10 mx-auto mt-10 flex max-w-6xl snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-6 pb-2"
+        className="work-track relative z-10 mx-auto mt-10 flex max-w-6xl snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-2"
         role="group"
         aria-roledescription="carousel"
         aria-label={t.work.title}
@@ -268,8 +321,12 @@ export default function Work() {
       >
         {visible.map((project, i) => (
           <div
-            key={project.slug}
-            className="w-full flex-none snap-center"
+            // Keyed by the filter as well, so a new set of slides is a new
+            // set of elements and the entrance animation plays again. The
+            // track itself is deliberately not keyed: remounting it would
+            // strand the drag listeners on a detached node.
+            key={`${active}-${project.slug}`}
+            className="panel-in w-full flex-none snap-center"
             role="group"
             aria-roledescription="slide"
             aria-label={`${i + 1} / ${count}`}

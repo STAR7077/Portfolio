@@ -173,6 +173,13 @@ h3,
   scroll-snap-type: none;
   user-select: none;
 }
+/* And it has to stay off while the track glides to the slide it settled
+   on. Mandatory snapping applied to a track sitting between two slides
+   jumps it to the nearest one immediately, which reads as a teleport
+   rather than a movement. */
+.work-track.is-settling {
+  scroll-snap-type: none;
+}
 
 /* The tab panel grows from nothing when a filter changes, the way the
    dropship tab wrap animates its height. */
