@@ -34,8 +34,29 @@ export default function Work() {
   const visible =
     active === "all" ? projects : projects.filter((p) => p.categories.includes(active));
 
+  const count = visible.length;
+
+  /**
+   * A copy of the last project sits before the first and a copy of the first
+   * sits after the last, so going on from the twelfth project has a slide to
+   * move into rather than a rewind across the other eleven. The moment the
+   * movement ends on a copy, the track is placed on the real slide it
+   * duplicates. The two look identical, so the correction is invisible.
+   */
+  const loop = count > 1;
+  const rendered = loop ? [visible[count - 1], ...visible, visible[0]] : visible;
+  /** Real project i is this far along the track. */
+  const offset = loop ? 1 : 0;
+
   const track = useRef<HTMLDivElement | null>(null);
   const [at, setAt] = useState(0);
+
+  // The listeners below are attached once and outlive any filter change,
+  // so what they need to know has to reach them through refs.
+  const geom = useRef({ count, offset, loop });
+  useEffect(() => {
+    geom.current = { count, offset, loop };
+  }, [count, offset, loop]);
 
   /** Width of one slide plus the gap, which is the distance between slides. */
   const stride = useCallback(() => {
@@ -59,7 +80,16 @@ export default function Work() {
    * machines have it switched off, and there it lands instantly however it
    * is asked. A frame loop behaves the same everywhere.
    */
-  const glideTo = useCallback((el: HTMLDivElement, left: number) => {
+  /** Puts the track on the real slide whenever it has landed on a copy. */
+  const normalize = useCallback((el: HTMLDivElement, step: number) => {
+    const { count: n, loop: on } = geom.current;
+    if (!on || !step || !n) return;
+    const i = Math.round(el.scrollLeft / step);
+    if (i <= 0) el.scrollLeft = n * step;
+    else if (i >= n + 1) el.scrollLeft = step;
+  }, []);
+
+  const glideTo = useCallback((el: HTMLDivElement, left: number, stepPx = 0) => {
     cancelAnimationFrame(glide.current);
 
     const from = el.scrollLeft;
@@ -68,15 +98,17 @@ export default function Work() {
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       el.scrollLeft = left;
+      normalize(el, stepPx);
       el.classList.remove("is-settling");
       return;
     }
 
     el.classList.add("is-settling");
-    // Unhurried enough to follow with the eye. The upper bound matters for
-    // the wrap from the last project back to the first, which crosses every
-    // slide at once and would otherwise take several seconds.
-    const ms = Math.min(900, Math.max(420, Math.abs(delta) * 0.6));
+    // Timed by how many slides are being crossed rather than by pixels, so
+    // it feels the same on a phone as on a desktop instead of being twice
+    // as quick wherever the slides happen to be narrower.
+    const slides = Math.abs(delta) / Math.max(1, stepPx || Math.abs(delta));
+    const ms = Math.min(1450, 1050 * Math.min(1.35, Math.max(1, Math.sqrt(slides))));
     const start = performance.now();
     const ease = (x: number) => 1 - Math.pow(1 - x, 3);
 
@@ -87,21 +119,27 @@ export default function Work() {
         glide.current = requestAnimationFrame(step);
       } else {
         glide.current = 0;
+        normalize(el, stepPx);
         el.classList.remove("is-settling");
       }
     };
     glide.current = requestAnimationFrame(step);
-  }, []);
+  }, [normalize]);
 
-  /** Wraps, so the carousel has no ends: past the last comes the first. */
+  /**
+   * Takes a real project number. One past the last and one before the first
+   * are the copies, so asking for either animates a single slide and lands
+   * on the genuine article.
+   */
   const goTo = useCallback(
     (i: number) => {
       const el = track.current;
       const step = stride();
       if (!el || !step) return;
-      const n = el.children.length;
+      const { count: n, offset: off } = geom.current;
       if (!n) return;
-      glideTo(el, (((i % n) + n) % n) * step);
+      const clamped = Math.max(-1, Math.min(i, n));
+      glideTo(el, (clamped + off) * step, step);
     },
     [stride, glideTo]
   );
@@ -113,21 +151,33 @@ export default function Work() {
     if (!el) return;
 
     let frame = 0;
+    let idle = 0;
     const read = () => {
       frame = 0;
       const step = stride();
-      if (step) setAt(Math.round(el.scrollLeft / step));
+      if (!step) return;
+      const { count: n, offset: off } = geom.current;
+      const raw = Math.round(el.scrollLeft / step);
+      setAt(n ? (((raw - off) % n) + n) % n : 0);
     };
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(read);
+      // A trackpad swipe can also come to rest on a copy, with no glide and
+      // no drag to tidy up after it.
+      clearTimeout(idle);
+      idle = window.setTimeout(() => {
+        if (glide.current || el.classList.contains("is-dragging")) return;
+        normalize(el, stride());
+      }, 180);
     };
 
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       el.removeEventListener("scroll", onScroll);
+      clearTimeout(idle);
       if (frame) cancelAnimationFrame(frame);
     };
-  }, [stride]);
+  }, [stride, normalize]);
 
   // Drag sideways with the pointer. The track scrolls natively, so this only
   // has to translate pointer movement into scrollLeft and then get out of the
@@ -204,11 +254,10 @@ export default function Work() {
       const target = decisive
         ? from + (lastDx < 0 ? 1 : -1)
         : Math.round(el!.scrollLeft / step);
-      // Wraps like the buttons do. Dragging on past the last project cannot
-      // move the track any further, but the flick still counts, so letting
-      // go there comes back round to the first.
-      const n = el!.children.length;
-      glideTo(el!, (((target % n) + n) % n) * step);
+      // No wrapping needed here: the copies at either end give the drag
+      // somewhere to go, and landing on one is corrected afterwards.
+      const last = el!.children.length - 1;
+      glideTo(el!, Math.max(0, Math.min(target, last)) * step, step);
     }
 
     /** A drag that ends on a link must not also follow it. */
@@ -240,17 +289,22 @@ export default function Work() {
       el.removeEventListener("pointercancel", release);
       el.removeEventListener("click", onClick, true);
     };
-  }, [stride, glideTo]);
+  }, [stride, glideTo, normalize]);
 
-  // A new filter shows a different set, so start it at the beginning.
+  // A new filter shows a different set, so start it on that set's first
+  // project, which sits one slide along from the copy that precedes it.
   useEffect(() => {
     const el = track.current;
     if (!el) return;
-    el.scrollLeft = 0;
-    setAt(0);
-  }, [active]);
-
-  const count = visible.length;
+    const place = () => {
+      el.scrollLeft = offset * stride();
+      setAt(0);
+    };
+    place();
+    // Widths are not settled on the very first paint after a change.
+    const frame = requestAnimationFrame(place);
+    return () => cancelAnimationFrame(frame);
+  }, [active, offset, stride]);
 
   return (
     <section id="work" className="relative bg-[#1B1E87] py-24 sm:py-28">
@@ -324,21 +378,31 @@ export default function Work() {
           }
         }}
       >
-        {visible.map((project, i) => (
-          <div
-            // Keyed by the filter as well, so a new set of slides is a new
-            // set of elements and the entrance animation plays again. The
-            // track itself is deliberately not keyed: remounting it would
-            // strand the drag listeners on a detached node.
-            key={`${active}-${project.slug}`}
-            className="panel-in w-full flex-none snap-center"
-            role="group"
-            aria-roledescription="slide"
-            aria-label={`${i + 1} / ${count}`}
-          >
-            <ProjectSlide project={project} index={i} total={count} />
-          </div>
-        ))}
+        {rendered.map((project, i) => {
+          // With the copies in place, real project numbers run from
+          // i - offset. The first and last rendered slides are the copies.
+          const real = ((i - offset) % count + count) % count;
+          const isCopy = loop && (i === 0 || i === rendered.length - 1);
+          return (
+            <div
+              // Keyed by the filter as well, so a new set of slides is a new
+              // set of elements and the entrance animation plays again. The
+              // track itself is deliberately not keyed: remounting it would
+              // strand the drag listeners on a detached node.
+              key={`${active}-${i}-${project.slug}`}
+              className="panel-in w-full flex-none snap-center"
+              role="group"
+              aria-roledescription="slide"
+              // A copy is scenery: it must not be read out or tabbed into,
+              // or every project would be announced twice.
+              aria-hidden={isCopy || undefined}
+              inert={isCopy || undefined}
+              aria-label={isCopy ? undefined : `${real + 1} / ${count}`}
+            >
+              <ProjectSlide project={project} index={real} total={count} />
+            </div>
+          );
+        })}
       </div>
 
       <div className="relative z-10 mx-auto mt-7 flex max-w-6xl items-center gap-4 px-6">
