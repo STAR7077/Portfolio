@@ -80,7 +80,7 @@ export default function Work() {
                 </button>
               );
             })}
-            <span className="ml-2 font-mono text-sm text-white/50">
+            <span className="ml-2 font-mono text-sm text-white/70">
               {String(visible.length).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
             </span>
           </div>

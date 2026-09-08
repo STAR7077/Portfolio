@@ -98,7 +98,9 @@ export const skillGroups: SkillGroup[] = [
     key: "cloud",
     span: 4,
     tiles: [
-      { word: "AWS", hex: "#FF9900" },
+      // AWS orange on white is 2.1:1 at this size. Squid ink is equally an
+      // AWS brand colour and is legible.
+      { word: "AWS", hex: "#232F3E" },
       { word: "Azure", hex: "#0078D4" },
       { icon: "googlecloud" },
       { icon: "firebase" },

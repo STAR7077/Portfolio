@@ -13,11 +13,17 @@
 
   --foreground: #16151c;
   --muted: #5a5865;
-  --faint: #8a8894;
+  /* Darkened from #8a8894, which fell to 3.1:1 on the grey ground and
+     3.5:1 on white. It carries small print in six places: card counters,
+     region headings, contact labels and the footer line. */
+  --faint: #6b6976;
 
   --accent: #6d28d9;
   --accent-bright: #7c3aed;
   --accent-tint: #ede9fe;
+  /* A barely-there violet for a section that has to sit apart from the
+     grey ground while still holding white cards legibly. */
+  --surface-tint: #f4f2fb;
   --accent-2: #c026d3;
 
   --font-heading: var(--font-manrope);

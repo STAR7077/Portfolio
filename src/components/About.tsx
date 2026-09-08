@@ -9,7 +9,10 @@ export default function About() {
   const { t } = useLanguage();
 
   return (
-    <section id="about" className="relative overflow-hidden border-t border-[var(--border)] py-24 sm:py-28">
+    <section
+      id="about"
+      className="relative overflow-hidden border-t border-[var(--border)] bg-white py-24 sm:py-28"
+    >
       <SectionScenery preset="about" />
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <Reveal>
