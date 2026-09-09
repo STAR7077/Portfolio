@@ -31,7 +31,7 @@ export const testimonials: Testimonial[] = [
     role: "Fullstack Marketplace Project",
     source: "Workana",
     rating: 5,
-    avatarFile: "marcos.jpg",
+    avatarFile: "marcos.webp",
   },
   {
     quote: {
@@ -44,7 +44,7 @@ export const testimonials: Testimonial[] = [
     role: "Marketplace Architecture Project",
     source: "Workana",
     rating: 5,
-    avatarFile: "inigo-toledo.jpg",
+    avatarFile: "inigo-toledo.webp",
   },
   {
     quote: {
@@ -57,7 +57,7 @@ export const testimonials: Testimonial[] = [
     role: "Real Estate Automation Project",
     source: "Workana",
     rating: 5,
-    avatarFile: "agustin-quintana.jpg",
+    avatarFile: "agustin-quintana.webp",
   },
   {
     quote: {
@@ -70,7 +70,7 @@ export const testimonials: Testimonial[] = [
     role: "Upwork",
     source: "Upwork",
     rating: 5,
-    avatarFile: "julian.jpg",
+    avatarFile: "julian.webp",
   },
   {
     quote: {
@@ -83,7 +83,7 @@ export const testimonials: Testimonial[] = [
     role: "AI Automation Project",
     source: "Upwork",
     rating: 5,
-    avatarFile: "daniel.jpg",
+    avatarFile: "daniel.webp",
   },
   {
     quote: {
@@ -96,6 +96,6 @@ export const testimonials: Testimonial[] = [
     role: "Upwork",
     source: "Upwork",
     rating: 5,
-    avatarFile: "pablo.jpg",
+    avatarFile: "pablo.webp",
   },
 ];

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --foreground: #16151c;
+    --muted: #5a5865;
+    --faint: #6b6976;
+    --border: #e4e4ea;
+    --accent: #6d28d9;
+    --coral: #F04438;
+  }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    font-family: Manrope, Arial, sans-serif;
+    background: #ffffff;
+    color: var(--foreground);
+    overflow: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* The same diagonal indigo panel the hero uses, so a preview and the
+     page it leads to are recognisably the same thing. */
+  .panel {
+    position: absolute; right: 0; top: 0;
+    height: 100%; width: auto; max-width: none;
+  }
+  .art { position: absolute; right: -30px; bottom: -48px; width: 430px; height: 430px; }
+  .art img { position: absolute; }
+
+  .inner { position: relative; padding: 54px 60px; height: 100%; display: flex; flex-direction: column; }
+
+  .who { display: flex; align-items: center; gap: 16px; }
+  .who img { width: 62px; height: 62px; border-radius: 999px; object-fit: cover;
+             box-shadow: 0 0 0 3px rgba(109,40,217,0.22); }
+  .name { font-size: 27px; font-weight: 700; letter-spacing: -0.02em; }
+  .role { font-size: 16px; color: var(--muted); margin-top: 2px; letter-spacing: -0.01em; }
+
+  h1 { margin-top: 34px; font-size: 52px; font-weight: 700; line-height: 1.13;
+       letter-spacing: -0.03em; max-width: 660px; }
+  .mark { position: relative; display: inline-block; }
+  .mark svg { position: absolute; left: 0; top: 92%; width: 100%; height: 0.24em; }
+
+  .figures { margin-top: 42px; display: flex; gap: 42px; padding-top: 26px;
+             border-top: 1px solid var(--border); max-width: 660px; }
+  .fig b { display: block; font-size: 32px; font-weight: 800; letter-spacing: -0.02em;
+           background: linear-gradient(96deg, #7c3aed, #c026d3 55%, #4f46e5);
+           -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .fig span { display: block; font-size: 13.5px; color: var(--muted); margin-top: 5px; }
+
+  .url { position: absolute; left: 60px; bottom: 42px; font-size: 15px;
+         font-weight: 600; color: var(--faint); letter-spacing: -0.01em; }
+</style>
+</head>
+<body>
+  <img class="panel" src="FILE_HERO/bg-main.jpg" alt="" />
+  <div class="art">
+    <img src="FILE_HERO/floor.png" style="left:0; bottom:0; width:100%" />
+    <img src="FILE_HERO/pink-floor-square.png" style="left:6%; bottom:6%; width:62%" />
+    <img src="FILE_HERO/left-blue.png" style="left:2%; bottom:22%; width:47%" />
+    <img src="FILE_HERO/right-yellow.png" style="right:6%; bottom:26%; width:42%" />
+    <img src="FILE_HERO/orange-ball.png" style="left:44%; bottom:33%; width:13%" />
+    <img src="FILE_HERO/white-ball.png" style="left:30%; bottom:30%; width:10%" />
+  </div>
+
+  <div class="inner">
+    <div class="who">
+      <img src="FILE_ROOT/lucas.jpg" alt="" />
+      <div>
+        <div class="name">Lucas Marley</div>
+        <div class="role">AI agents, web platforms and mobile apps</div>
+      </div>
+    </div>
+
+    <h1>
+      I build <span class="mark">complex<svg viewBox="0 0 240 14" preserveAspectRatio="none" fill="none"><path d="M4 7.4C70 1.9 165 2.4 236 6.4 175 11.4 85 11.9 6 9.4" stroke="#F04438" stroke-width="3.4" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg></span><br />
+      software systems<br />
+      to last <span class="mark">and<svg viewBox="0 0 240 14" preserveAspectRatio="none" fill="none"><path d="M5 8.6C62 4.2 168 4.6 236 7.9" stroke="#F04438" stroke-width="3.4" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg></span>
+      <span class="mark">scale<svg viewBox="0 0 240 14" preserveAspectRatio="none" fill="none"><path d="M3 8.2C74 2.8 158 3.2 235 6.1 168 10.6 92 11.2 12 9.6" stroke="#F04438" stroke-width="3.4" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg></span>
+    </h1>
+
+    <div class="figures">
+      <div class="fig"><b>150+</b><span>Completed projects</span></div>
+      <div class="fig"><b>12+</b><span>Years of experience</span></div>
+      <div class="fig"><b>100+</b><span>Global customers</span></div>
+      <div class="fig"><b>21+</b><span>Countries served</span></div>
+    </div>
+  </div>
+
+  <div class="url">lucas-marley.vercel.app</div>
+</body>
+</html>

@@ -110,6 +110,7 @@ export default function ProjectSlide({ project, index, total }: ProjectSlideProp
         <ProjectCarousel
           title={project.title}
           images={project.images.map((f) => `/projects/${f}`)}
+          priority={index === 0}
         />
       </div>
     </article>

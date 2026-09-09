@@ -25,22 +25,22 @@ interface Piece {
 
 const PRESETS: Record<string, Piece[]> = {
   about: [
-    { src: "/hero/pink-floor-square.png", className: "-right-[14%] top-[6%] w-[46%]", speed: -200, opacity: 0.5 },
-    { src: "/hero/white-floor-square.png", className: "left-[4%] top-[62%] w-[16%]", speed: -400, opacity: 0.9 },
-    { src: "/hero/white-floor-square.png", className: "left-[38%] top-[2%] w-[11%]", speed: 200, opacity: 0.7, blur: true },
+    { src: "/hero/pink-floor-square.webp", className: "-right-[14%] top-[6%] w-[46%]", speed: -200, opacity: 0.5 },
+    { src: "/hero/white-floor-square.webp", className: "left-[4%] top-[62%] w-[16%]", speed: -400, opacity: 0.9 },
+    { src: "/hero/white-floor-square.webp", className: "left-[38%] top-[2%] w-[11%]", speed: 200, opacity: 0.7, blur: true },
   ],
   reach: [
-    { src: "/hero/orange-ball.png", className: "left-[7%] top-[12%] w-[5%]", speed: 260, opacity: 0.85 },
-    { src: "/hero/purple-top.png", className: "-left-[8%] bottom-[8%] w-[24%]", speed: -240, opacity: 0.35 },
-    { src: "/hero/white-floor-square.png", className: "right-[6%] top-[8%] w-[12%]", speed: -380, opacity: 0.8, blur: true },
+    { src: "/hero/orange-ball.webp", className: "left-[7%] top-[12%] w-[5%]", speed: 260, opacity: 0.85 },
+    { src: "/hero/purple-top.webp", className: "-left-[8%] bottom-[8%] w-[24%]", speed: -240, opacity: 0.35 },
+    { src: "/hero/white-floor-square.webp", className: "right-[6%] top-[8%] w-[12%]", speed: -380, opacity: 0.8, blur: true },
   ],
   testimonials: [
-    { src: "/hero/pink-floor-square.png", className: "-left-[16%] top-[10%] w-[42%]", speed: -200, opacity: 0.4 },
-    { src: "/hero/white-floor-square.png", className: "right-[5%] top-[4%] w-[13%]", speed: 220, opacity: 0.85, blur: true },
+    { src: "/hero/pink-floor-square.webp", className: "-left-[16%] top-[10%] w-[42%]", speed: -200, opacity: 0.4 },
+    { src: "/hero/white-floor-square.webp", className: "right-[5%] top-[4%] w-[13%]", speed: 220, opacity: 0.85, blur: true },
   ],
   contact: [
-    { src: "/hero/white-floor-square.png", className: "-left-[6%] top-[4%] w-[34%]", speed: -260, opacity: 0.6 },
-    { src: "/hero/floor-ball.png", className: "right-[9%] bottom-[14%] w-[9%]", speed: 240, opacity: 0.8 },
+    { src: "/hero/white-floor-square.webp", className: "-left-[6%] top-[4%] w-[34%]", speed: -260, opacity: 0.6 },
+    { src: "/hero/floor-ball.webp", className: "right-[9%] bottom-[14%] w-[9%]", speed: 240, opacity: 0.8 },
   ],
 };
 

@@ -36,7 +36,7 @@ export default function Nav() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/lucas.jpg"
+              src="/lucas.webp"
               alt="Lucas Marley"
               width={32}
               height={32}

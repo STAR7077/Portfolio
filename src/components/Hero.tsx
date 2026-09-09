@@ -25,7 +25,7 @@ export default function Hero() {
     >
       {/* Diagonal panel, anchored to the right edge and scaled to height. */}
       <img
-        src="/hero/bg-main.jpg"
+        src="/hero/bg-main.webp"
         alt=""
         className="pointer-events-none absolute right-0 top-0 hidden h-full max-w-none sm:block"
       />

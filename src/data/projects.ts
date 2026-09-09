@@ -37,7 +37,7 @@ export const projects: Project[] = [
     tech: ["Bubble.io", "BDK Native", "Figma", "Node.js", "API integration"],
     link: "https://play.google.com/store/apps/details?id=com.mycompany.swopmvp",
     linkKind: "playStore",
-    images: ["swop-1.png", "swop-2.png", "swop-3.png", "swop-4.png", "swop-5.png"],
+    images: ["swop-1.webp", "swop-2.webp", "swop-3.webp", "swop-4.webp", "swop-5.webp"],
   },
   {
     slug: "casefox",
@@ -55,7 +55,7 @@ export const projects: Project[] = [
     categories: ["web", "mobile"],
     tech: ["React", "Node.js", "React Native", "REST APIs", "PostgreSQL/MySQL", "Chrome Extension"],
     link: "https://www.casefox.com",
-    images: ["casefox-1.png", "casefox-2.png", "casefox-3.jpg", "casefox-4.jpg", "casefox-5.jpg", "casefox-6.jpg"],
+    images: ["casefox-1.webp", "casefox-2.webp", "casefox-3.webp", "casefox-4.webp", "casefox-5.webp", "casefox-6.webp"],
   },
   {
     slug: "vacation-calendar",
@@ -73,7 +73,7 @@ export const projects: Project[] = [
     categories: ["web", "mobile"],
     tech: ["Flutter", "Firebase", "React", "Node.js", "TypeScript", "PostgreSQL"],
     link: "https://www.thevacationcalendar.com",
-    images: ["vacation-calendar-1.jpeg"],
+    images: ["vacation-calendar-1.webp"],
   },
   {
     slug: "faire",
@@ -91,7 +91,7 @@ export const projects: Project[] = [
     categories: ["web", "mobile"],
     tech: ["TypeScript", "React", "Node.js", "React Native", "PostgreSQL", "Microservices", "REST APIs", "AWS"],
     link: "https://www.faire.com",
-    images: ["faire-1.png", "faire-2.jpg", "faire-3.jpeg", "faire-4.jpg", "faire-5.png", "faire-6.jpg"],
+    images: ["faire-1.webp", "faire-2.webp", "faire-3.webp", "faire-4.webp", "faire-5.webp", "faire-6.webp"],
   },
   {
     slug: "real-estate-whatsapp-ai-bot",
@@ -109,7 +109,7 @@ export const projects: Project[] = [
     },
     categories: ["ai"],
     tech: ["Python", "Django", "DRF", "OpenAI API", "Gemini API", "PostgreSQL", "Redis", "Celery", "Django Channels", "Airtable", "WhatsApp Cloud API", "Docker"],
-    images: ["real-estate-whatsapp-bot-1.png"],
+    images: ["real-estate-whatsapp-bot-1.webp"],
   },
   {
     slug: "inmatic-ai",
@@ -127,7 +127,7 @@ export const projects: Project[] = [
     categories: ["ai", "web"],
     tech: ["Node.js", "Python", "REST APIs", "PostgreSQL", "Redis", "OCR pipelines", "AWS/GCP", "LLM integration", "NLP"],
     link: "https://inmatic.ai",
-    images: ["inmatic-ai-1.jpg", "inmatic-ai-2.jpg", "inmatic-ai-3.jpg", "inmatic-ai-4.jpg", "inmatic-ai-5.jpg", "inmatic-ai-6.jpg"],
+    images: ["inmatic-ai-1.webp", "inmatic-ai-2.webp", "inmatic-ai-3.webp", "inmatic-ai-4.webp", "inmatic-ai-5.webp", "inmatic-ai-6.webp"],
   },
   {
     slug: "artisan",
@@ -145,7 +145,7 @@ export const projects: Project[] = [
     categories: ["ai"],
     tech: ["Node.js", "Python", "REST APIs", "PostgreSQL", "Redis", "Queue systems", "LLM integration (OpenAI/Claude)", "Workflow automation"],
     link: "https://www.artisan.co",
-    images: ["artisan-1.jpg", "artisan-2.jpg", "artisan-3.jpg", "artisan-4.jpg", "artisan-5.jpg", "artisan-6.jpg"],
+    images: ["artisan-1.webp", "artisan-2.webp", "artisan-3.webp", "artisan-4.webp", "artisan-5.webp", "artisan-6.webp"],
   },
   {
     slug: "edraw-ai",
@@ -163,7 +163,7 @@ export const projects: Project[] = [
     categories: ["ai", "web"],
     tech: ["Python", "AI/ML", "API Development", "Interactive editors", "Export pipelines"],
     link: "https://www.edraw.ai",
-    images: ["edraw-ai-1.jpg", "edraw-ai-2.jpg", "edraw-ai-3.jpg", "edraw-ai-4.jpg", "edraw-ai-5.jpg", "edraw-ai-6.jpg"],
+    images: ["edraw-ai-1.webp", "edraw-ai-2.webp", "edraw-ai-3.webp", "edraw-ai-4.webp", "edraw-ai-5.webp", "edraw-ai-6.webp"],
   },
   {
     slug: "infermedica",
@@ -181,7 +181,7 @@ export const projects: Project[] = [
     categories: ["ai", "web"],
     tech: ["Node.js", "Python", "AI/ML integration", "REST APIs", "HIPAA/GDPR-oriented data handling", "Cloud infrastructure"],
     link: "https://infermedica.com",
-    images: ["infermedica-1.jpeg", "infermedica-2.jpeg", "infermedica-3.jpeg", "infermedica-4.jpeg", "infermedica-5.jpeg", "infermedica-6.jpeg"],
+    images: ["infermedica-1.webp", "infermedica-2.webp", "infermedica-3.webp", "infermedica-4.webp", "infermedica-5.webp", "infermedica-6.webp"],
   },
   {
     slug: "planfy",
@@ -199,7 +199,7 @@ export const projects: Project[] = [
     categories: ["web"],
     tech: ["React.js", "Laravel", "Angular JS", "Zoho CRM", "Google Maps"],
     link: "https://www.planfy.com",
-    images: ["planfy-1.jpg", "planfy-2.jpg", "planfy-3.jpg", "planfy-4.jpg", "planfy-5.jpg", "planfy-6.jpg"],
+    images: ["planfy-1.webp", "planfy-2.webp", "planfy-3.webp", "planfy-4.webp", "planfy-5.webp", "planfy-6.webp"],
   },
   {
     slug: "tooltown",
@@ -217,7 +217,7 @@ export const projects: Project[] = [
     categories: ["web"],
     tech: ["React", "Tailwind CSS", "E-commerce UX", "Product catalog structure", "Conversion optimization"],
     link: "https://www.tooltown.mx",
-    images: ["tooltown-1.png", "tooltown-2.jpg", "tooltown-3.jpg", "tooltown-4.jpg", "tooltown-5.jpg", "tooltown-6.jpg"],
+    images: ["tooltown-1.webp", "tooltown-2.webp", "tooltown-3.webp", "tooltown-4.webp", "tooltown-5.webp", "tooltown-6.webp"],
   },
   {
     slug: "odoo-lift-maintenance-erp",
@@ -237,6 +237,6 @@ export const projects: Project[] = [
     // Public, link-shared folder of delivered documentation and walkthrough videos.
     link: "https://drive.google.com/drive/folders/1BpUk7OanJDgOy7NmOA5VBKK2DpliuPCv?usp=sharing",
     linkKind: "drive",
-    images: ["odoo-1.png"],
+    images: ["odoo-1.webp"],
   },
 ];

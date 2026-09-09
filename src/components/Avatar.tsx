@@ -26,7 +26,7 @@ function colorFor(name: string) {
 
 interface AvatarProps {
   name: string;
-  /** Path under /public, e.g. "/testimonials/gabriel-londero.jpg". Shown only if the file actually exists. */
+  /** Path under /public, e.g. "/testimonials/gabriel-londero.webp". Shown only if the file actually exists. */
   src: string;
   size?: number;
 }

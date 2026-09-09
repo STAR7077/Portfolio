@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState, type WheelEvent } from "react";
 
 const PALETTE = [
@@ -32,9 +33,15 @@ interface ProjectCarouselProps {
   title: string;
   /** Paths under /public. Missing files are skipped silently. */
   images: string[];
+  /**
+   * Fetch the first frame straight away. Only true for the project the
+   * carousel opens on: the other eleven sit off to the side of the track
+   * and have no business competing for the first screenful of bandwidth.
+   */
+  priority?: boolean;
 }
 
-export default function ProjectCarousel({ title, images }: ProjectCarouselProps) {
+export default function ProjectCarousel({ title, images, priority = false }: ProjectCarouselProps) {
   const [index, setIndex] = useState(0);
   const [broken, setBroken] = useState<Set<string>>(new Set());
   const lastWheel = useRef(0);
@@ -68,14 +75,17 @@ export default function ProjectCarousel({ title, images }: ProjectCarouselProps)
       onWheel={onWheel}
     >
       {usable.map((src, i) => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Image
           key={src}
           src={src}
           alt={`${title} screenshot ${i + 1}`}
-          loading={i === 0 ? "eager" : "lazy"}
-          decoding="async"
-          className="absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+          fill
+          // Half the width of the page on a desktop, all of it on a phone,
+          // which is what decides how small a copy gets sent.
+          sizes="(max-width: 1023px) 100vw, 50vw"
+          quality={72}
+          priority={priority && i === 0}
+          className="object-cover transition-[opacity,transform] duration-[700ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
           style={{
             opacity: i === safeIndex ? 1 : 0,
             transform: i === safeIndex ? "scale(1)" : "scale(1.04)",
