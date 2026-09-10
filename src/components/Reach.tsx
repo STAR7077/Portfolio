@@ -44,6 +44,8 @@ const PLACES = [
   { id: "colombia", lat: 4, lon: -73, region: "americas" },
   { id: "peru", lat: -10, lon: -76, region: "americas" },
   { id: "argentina", lat: -34, lon: -64, region: "americas" },
+  { id: "chile", lat: -35.5, lon: -71.3, region: "americas" },
+  { id: "uruguay", lat: -32.8, lon: -56, region: "americas" },
   { id: "unitedKingdom", lat: 54, lon: -2, region: "europe" },
   { id: "spain", lat: 40.2, lon: -3.7, region: "europe" },
   { id: "germany", lat: 51, lon: 10.4, region: "europe" },
