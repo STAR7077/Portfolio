@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { track } from "@vercel/analytics";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
@@ -14,22 +15,56 @@ const WHATSAPP_DISPLAY = "+55 99 94581-2563";
 const FIELD =
   "mt-1 w-full rounded-xl border border-[var(--border)] bg-white px-4 py-2.5 text-sm text-[var(--foreground)] outline-none transition-colors duration-500 placeholder:text-[var(--faint)] focus:border-[var(--accent)]";
 
+type Status = "idle" | "sending" | "sent" | "failed";
+
 export default function Contact() {
   const { t } = useLanguage();
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [draft, setDraft] = useState({ name: "", email: "", message: "" });
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  // When the form was first shown. A submission arriving implausibly soon
+  // after is a script rather than a person.
+  const openedAt = useRef(0);
+  useEffect(() => {
+    openedAt.current = Date.now();
+  }, []);
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = new FormData(e.currentTarget);
-    const name = form.get("name")?.toString() ?? "";
-    const email = form.get("email")?.toString() ?? "";
-    const message = form.get("message")?.toString() ?? "";
+    if (status === "sending") return;
 
-    const subject = encodeURIComponent(t.contact.mailSubject.replace("{name}", name));
-    const body = encodeURIComponent(`${message}\n\n${name} (${email})`);
-    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
-    setSent(true);
+    const form = new FormData(e.currentTarget);
+    const payload = {
+      name: form.get("name")?.toString() ?? "",
+      email: form.get("email")?.toString() ?? "",
+      message: form.get("message")?.toString() ?? "",
+      company: form.get("company")?.toString() ?? "",
+      startedAt: openedAt.current,
+    };
+    setDraft({ name: payload.name, email: payload.email, message: payload.message });
+    setStatus("sending");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      setStatus("sent");
+      track("contact_form_sent");
+    } catch {
+      // Never swallow a failure: say so, and offer the mail client as a way out.
+      setStatus("failed");
+      track("contact_form_failed");
+    }
   }
+
+  /** What the visitor already typed, handed on to their mail client. */
+  const mailtoFallback =
+    `mailto:${EMAIL}?subject=${encodeURIComponent(
+      t.contact.mailSubject.replace("{name}", draft.name)
+    )}&body=${encodeURIComponent(`${draft.message}\n\n${draft.name} (${draft.email})`)}`;
 
   return (
     <section
@@ -68,6 +103,7 @@ export default function Contact() {
             <Reveal delay={150}>
               <a
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                onClick={() => track("whatsapp_opened", { from: "contact" })}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="lift flex flex-col rounded-2xl border border-[var(--border)] bg-white px-5 py-3.5 shadow-sm hover:border-[var(--accent)]"
@@ -116,14 +152,42 @@ export default function Contact() {
                 className={FIELD}
               />
             </label>
+            {/* Invisible to a person, irresistible to a naive bot. */}
+            <input
+              type="text"
+              name="company"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute left-[-9999px] h-0 w-0 opacity-0"
+            />
+
             <button
               type="submit"
-              className="w-full rounded-full bg-[var(--accent)] px-6 py-3.5 text-sm font-bold text-white shadow-[0_14px_38px_-12px_rgba(109,40,217,0.8)] transition-transform duration-500 hover:scale-[1.02]"
+              disabled={status === "sending"}
+              className="w-full rounded-full bg-[var(--accent)] px-6 py-3.5 text-sm font-bold text-white shadow-[0_14px_38px_-12px_rgba(109,40,217,0.8)] transition-transform duration-500 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
             >
-              {t.contact.send}
+              {status === "sending" ? t.contact.sending : t.contact.send}
             </button>
-            <p className="text-xs text-[var(--faint)]">
-              {sent ? t.contact.hintSent : t.contact.hintIdle}
+
+            {/* Announced, because the outcome is the whole point of the form. */}
+            <p
+              role="status"
+              aria-live="polite"
+              className={`text-xs ${
+                status === "failed" ? "text-[#B42318]" : "text-[var(--faint)]"
+              }`}
+            >
+              {status === "sent" && t.contact.hintSent}
+              {status === "failed" && (
+                <>
+                  {t.contact.hintFailed}{" "}
+                  <a href={mailtoFallback} className="font-semibold underline">
+                    {t.contact.failedAction}
+                  </a>
+                </>
+              )}
+              {(status === "idle" || status === "sending") && t.contact.hintIdle}
             </p>
           </form>
         </Reveal>

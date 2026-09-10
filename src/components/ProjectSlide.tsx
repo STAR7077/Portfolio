@@ -2,6 +2,7 @@
 
 import type { Project, ProjectCategory } from "@/data/projects";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { track } from "@vercel/analytics";
 import ProjectCarousel from "./ProjectCarousel";
 
 interface ProjectSlideProps {
@@ -63,6 +64,7 @@ export default function ProjectSlide({ project, index, total }: ProjectSlideProp
             href={`https://wa.me/${project.demoWhatsApp.replace(/\D/g, "")}`}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => track("whatsapp_opened", { from: "bot_demo" })}
             className="mt-2.5 inline-flex w-fit items-center gap-2 rounded-full border border-[#25D366]/35 bg-[#25D366]/10 px-3 py-1.5 text-[13px] font-semibold text-[#0F7A42] transition-colors hover:bg-[#25D366]/20"
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -98,6 +100,7 @@ export default function ProjectSlide({ project, index, total }: ProjectSlideProp
             href={project.link}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => track("project_opened", { project: project.slug })}
             className="mt-4 inline-flex w-fit items-center gap-1 text-sm font-semibold text-[var(--accent)] transition-colors hover:text-[var(--accent-2)]"
           >
             {linkLabel}

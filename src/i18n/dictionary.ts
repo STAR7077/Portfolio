@@ -125,8 +125,11 @@ export interface Dictionary {
     messageLabel: string;
     messagePlaceholder: string;
     send: string;
+    sending: string;
     hintIdle: string;
     hintSent: string;
+    hintFailed: string;
+    failedAction: string;
     /** "{name}" is substituted with whatever the visitor typed. */
     mailSubject: string;
   };
@@ -281,9 +284,11 @@ const en: Dictionary = {
     messageLabel: "Your Message*",
     messagePlaceholder: "Tell me a bit about your project...",
     send: "Send",
-    hintIdle:
-      "This opens your email client with the message pre-filled. Nothing is sent from this page.",
-    hintSent: "Opening your email client now. If nothing happened, email me directly instead.",
+    sending: "Sending...",
+    hintFailed: "That did not go through. Please try again, or write to me directly:",
+    failedAction: "Open your email app instead",
+    hintIdle: "I usually reply within a day. Your message comes straight to my inbox.",
+    hintSent: "Thank you, your message is on its way. I will reply to the address you gave.",
     mailSubject: "Project inquiry from {name}",
   },
   footer: {
@@ -437,10 +442,11 @@ const pt: Dictionary = {
     messageLabel: "Sua mensagem*",
     messagePlaceholder: "Conte um pouco sobre o seu projeto...",
     send: "Enviar",
-    hintIdle:
-      "Isto abre o seu cliente de e-mail com a mensagem já preenchida. Nada é enviado a partir desta página.",
-    hintSent:
-      "Abrindo o seu cliente de e-mail. Se nada acontecer, envie um e-mail diretamente para mim.",
+    sending: "Enviando...",
+    hintIdle: "Costumo responder em até um dia. Sua mensagem chega direto na minha caixa de entrada.",
+    hintSent: "Obrigado, sua mensagem foi enviada. Respondo no endereço que você informou.",
+    hintFailed: "Não foi possível enviar. Tente de novo ou escreva direto para mim:",
+    failedAction: "Abrir seu aplicativo de e-mail",
     mailSubject: "Contato sobre projeto de {name}",
   },
   footer: {
@@ -594,9 +600,11 @@ const es: Dictionary = {
     messageLabel: "Tu mensaje*",
     messagePlaceholder: "Cuéntame un poco sobre tu proyecto...",
     send: "Enviar",
-    hintIdle:
-      "Esto abre tu cliente de correo con el mensaje ya escrito. No se envía nada desde esta página.",
-    hintSent: "Abriendo tu cliente de correo. Si no ocurre nada, escríbeme directamente.",
+    sending: "Enviando...",
+    hintIdle: "Suelo responder en un día. Tu mensaje llega directo a mi bandeja de entrada.",
+    hintSent: "Gracias, tu mensaje ya está en camino. Te responderé a la dirección que indicaste.",
+    hintFailed: "No se pudo enviar. Inténtalo de nuevo o escríbeme directamente:",
+    failedAction: "Abrir tu aplicación de correo",
     mailSubject: "Consulta de proyecto de {name}",
   },
   footer: {

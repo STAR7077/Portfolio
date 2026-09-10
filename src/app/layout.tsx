@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
 import SmoothScroll from "@/components/SmoothScroll";
 
@@ -67,6 +69,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col bg-[#f2f2f5] text-[#16151c] selection:bg-violet-200 selection:text-violet-950">
         <SmoothScroll />
         <LanguageProvider>{children}</LanguageProvider>
+        {/* Cookieless, so no consent banner is owed. Speed Insights reports
+            what real visitors on real connections actually experience,
+            which is the only way to know whether the weight work landed. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

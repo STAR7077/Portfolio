@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import { locales, localeNames } from "@/i18n/config";
 import { useLanguage } from "@/i18n/LanguageProvider";
 
@@ -18,7 +19,11 @@ export default function LanguageSwitcher() {
           <button
             key={code}
             type="button"
-            onClick={() => setLocale(code)}
+            onClick={() => {
+              setLocale(code);
+              // Whether the other two languages earn their keep.
+              track("language_switched", { to: code });
+            }}
             aria-pressed={active}
             title={localeNames[code].label}
             className={`rounded-full px-2.5 py-1 text-[11px] font-bold transition-colors duration-300 ${
