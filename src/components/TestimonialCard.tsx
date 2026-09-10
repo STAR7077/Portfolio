@@ -5,7 +5,13 @@ import { useLanguage } from "@/i18n/LanguageProvider";
 import Avatar from "./Avatar";
 
 export default function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
-  const { locale } = useLanguage();
+  const { locale, t } = useLanguage();
+
+  // Job title and country, for the clients who gave one. The country comes from
+  // the reach dictionary, so it reads in whichever language the visitor chose.
+  const attribution = [testimonial.role, t.reach[testimonial.country]]
+    .filter(Boolean)
+    .join(" · ");
 
   // No h-full: the cards are laid out in columns, so each one ends where its
   // quote ends rather than being stretched to match a row.
@@ -18,11 +24,14 @@ export default function TestimonialCard({ testimonial }: { testimonial: Testimon
         </blockquote>
       </div>
 
-      <figcaption className="mt-6 flex items-center gap-3">
+      <figcaption className="mt-6 flex items-start gap-3">
         <Avatar name={testimonial.name} src={`/testimonials/${testimonial.avatarFile}`} />
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-[var(--foreground)]">{testimonial.name}</span>
-          <span className="text-xs text-amber-500">{"★".repeat(testimonial.rating)}</span>
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-x-2">
+            <span className="text-sm font-semibold text-[var(--foreground)]">{testimonial.name}</span>
+            <span className="text-xs text-amber-500">{"★".repeat(testimonial.rating)}</span>
+          </div>
+          <p className="mt-0.5 text-xs leading-snug text-[var(--muted)]">{attribution}</p>
         </div>
       </figcaption>
     </figure>

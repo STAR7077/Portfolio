@@ -7,14 +7,19 @@ photos here — keep those in the private `Client/` folder instead.
 If a file listed below is missing, that testimonial falls back to a clean initials badge
 automatically — nothing breaks, and nothing is misrepresented.
 
-| Filename | Person | Shown as |
+Published copies are 200x200 WebP. Avatars render at 44px and circular, so crop to head and
+shoulders rather than dropping in a whole scene: an uncropped wide shot leaves the face a few
+pixels across.
+
+| Filename | Person | Country |
 |---|---|---|
-| marcos.jpg | Marcos | Visão Na Web BR |
-| inigo-toledo.jpg | Iñigo Toledo | Gabriel Londero |
-| agustin-quintana.jpg | Agustín Quintana | Agustín Quintana |
-| julian.jpg | Julian | Julian |
-| daniel.jpg | Daniel | Daniel |
-| pablo.jpg | Pablo | Pablo |
+| marcos.webp | Marcos Nazareth Souza | Brazil |
+| inigo-toledo.webp | Iñigo Toledo | Spain |
+| craig-austin.webp | Craig Austin | United States |
+| agustin-quintana.webp | Agustín Quintana | Uruguay |
+| julian.webp | Julián Bracamonte | Argentina |
+| daniel.webp | Daniel Baven | Denmark |
+| pablo.webp | Pablo Alvarez Blanco | Spain |
 
 Source photos live in `portfolio/Client/`. Jackshon and Luciano have photos there but no
 matching review, so they are intentionally not published.

@@ -24,6 +24,7 @@ export interface Dictionary {
     unitedStates: string;
     canada: string;
     argentina: string;
+    uruguay: string;
     peru: string;
     colombia: string;
     unitedKingdom: string;
@@ -176,6 +177,7 @@ const en: Dictionary = {
     unitedStates: "United States",
     canada: "Canada",
     argentina: "Argentina",
+    uruguay: "Uruguay",
     peru: "Peru",
     colombia: "Colombia",
     unitedKingdom: "United Kingdom",
@@ -347,6 +349,7 @@ const pt: Dictionary = {
     unitedStates: "Estados Unidos",
     canada: "Canadá",
     argentina: "Argentina",
+    uruguay: "Uruguai",
     peru: "Peru",
     colombia: "Colômbia",
     unitedKingdom: "Reino Unido",
@@ -518,6 +521,7 @@ const es: Dictionary = {
     unitedStates: "Estados Unidos",
     canada: "Canadá",
     argentina: "Argentina",
+    uruguay: "Uruguay",
     peru: "Perú",
     colombia: "Colombia",
     unitedKingdom: "Reino Unido",
