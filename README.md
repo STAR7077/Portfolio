@@ -29,8 +29,37 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Deploying
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Pushing to `main` publishes the site. [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+lints, builds and only then deploys, so a commit that does not compile stops
+in CI instead of on the public URL. Every other branch and pull request gets
+a preview deployment on the same pipeline.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The live site is **<https://lucas-marley.vercel.app/>**. That is the link to
+share. The per-deployment URLs the CLI prints sit behind Vercel's login wall,
+so they look fine to whoever is signed in and show a login page to everyone
+else.
+
+### One-time setup
+
+The workflow needs three repository secrets, under
+*Settings → Secrets and variables → Actions*:
+
+| Secret | Where it comes from |
+| --- | --- |
+| `VERCEL_TOKEN` | <https://vercel.com/account/tokens> — scope it to the team that owns the project |
+| `VERCEL_ORG_ID` | the `orgId` in `.vercel/project.json`, created by `vercel link` |
+| `VERCEL_PROJECT_ID` | the `projectId` in the same file |
+
+Nothing else needs copying into GitHub. `vercel pull` fetches the project's
+environment variables at build time, so `RESEND_API_KEY` and `CONTACT_TO`
+stay in Vercel and never exist in this repo.
+
+### Deploying by hand
+
+Still works, and does not go through CI:
+
+```bash
+npx vercel deploy --prod --yes
+```

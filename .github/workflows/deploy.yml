@@ -1,0 +1,116 @@
+# Push to main and the site goes live. Nothing deploys unless it lints and
+# builds first, so a broken commit stops here rather than on the public URL.
+#
+# Branches and pull requests get a preview deployment on the same pipeline,
+# which is the safe way to look at a change before it reaches production.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# A second push to main must not race the first one to production. Preview
+# runs are throwaway, so a superseded one is cancelled instead of queued.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    # Secrets are not exposed to pull requests opened from a fork, so a run
+    # from one could only fail. There are no outside contributors on this
+    # repo; if that changes, split the lint and build steps into a job of
+    # their own that needs no secrets.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Matches the Node that Vercel runs Next 16 on.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Next 16 dropped `next lint`, so the build no longer runs ESLint.
+      # It has to be its own gate or nothing checks it.
+      - name: Lint
+        run: npm run lint
+
+      # A build cache only ever makes the build faster, never wrong, so the
+      # key deliberately misses every commit and falls back to the newest
+      # cache built against the same lockfile.
+      - name: Restore the Next build cache
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: next-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-${{ github.sha }}
+          restore-keys: |
+            next-${{ runner.os }}-${{ hashFiles('package-lock.json') }}-
+            next-${{ runner.os }}-
+
+      - name: Install the Vercel CLI
+        run: npm i -g vercel@latest
+
+      - name: Work out which environment this is
+        id: target
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "target=production" >> "$GITHUB_OUTPUT"
+            echo "flag=--prod" >> "$GITHUB_OUTPUT"
+          else
+            echo "target=preview" >> "$GITHUB_OUTPUT"
+            echo "flag=" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Brings down the project's environment variables, so RESEND_API_KEY
+      # and CONTACT_TO stay in Vercel and are never copied into GitHub.
+      - name: Pull the Vercel environment
+        run: vercel pull --yes --environment=${{ steps.target.outputs.target }} --token="$VERCEL_TOKEN"
+
+      # This is the build and the TypeScript check in one. If it fails, the
+      # deploy step below never runs.
+      - name: Build
+        run: vercel build ${{ steps.target.outputs.flag }} --token="$VERCEL_TOKEN"
+
+      # --prebuilt uploads what was just built and verified rather than
+      # asking Vercel to build it again, so what shipped is what CI checked.
+      - name: Deploy
+        id: deploy
+        run: |
+          url=$(vercel deploy --prebuilt ${{ steps.target.outputs.flag }} --token="$VERCEL_TOKEN")
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Report where it went
+        run: |
+          if [ "${{ steps.target.outputs.target }}" = "production" ]; then
+            {
+              echo "### Live"
+              echo ""
+              echo "<https://lucas-marley.vercel.app/>"
+              echo ""
+              echo "Deployment: \`${{ steps.deploy.outputs.url }}\` — this one is"
+              echo "behind Vercel's login wall, so share the link above instead."
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            {
+              echo "### Preview"
+              echo ""
+              echo "${{ steps.deploy.outputs.url }}"
+              echo ""
+              echo "Sign in to Vercel as the project owner to open it."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
