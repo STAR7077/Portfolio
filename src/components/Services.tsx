@@ -151,7 +151,7 @@ export default function Services() {
 
                 {/* The inversions live in globals.css beside the wave, so
                     they fire on touch as well as on hover. */}
-                <span className="service-icon relative flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--accent)] text-white">
+                <span className="service-icon relative flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--accent)] grad-accent text-white">
                   {card.icon}
                 </span>
 

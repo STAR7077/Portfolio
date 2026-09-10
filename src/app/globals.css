@@ -5,7 +5,7 @@
    violet accent carries the brand across from the previous design.
    --------------------------------------------------------------- */
 :root {
-  --background: #f2f2f5;
+  --background: #f8f4fb;
   --surface: #ffffff;
   --surface-veil: rgba(255, 255, 255, 0.62);
   --border: #e4e4ea;
@@ -18,13 +18,27 @@
      region headings, contact labels and the footer line. */
   --faint: #6b6976;
 
-  --accent: #6d28d9;
-  --accent-bright: #7c3aed;
-  --accent-tint: #ede9fe;
-  /* A barely-there violet for a section that has to sit apart from the
+  /* One accent, expressed once. Anything needing a translucent version reads
+     --accent-rgb instead of repeating the literal, which is what used to make
+     a palette change a twenty-file edit. Changing the brand is now this block. */
+  --accent: #9333ea;
+  --accent-rgb: 147, 51, 234;
+  --accent-bright: #a855f7;
+  --accent-bright-rgb: 168, 85, 247;
+  --accent-tint: #f7ebff;
+  --accent-2: #e879f9;
+  /* A barely-there tint for a section that has to sit apart from the
      grey ground while still holding white cards legibly. */
-  --surface-tint: #f4f2fb;
-  --accent-2: #c026d3;
+  --surface-tint: #fbf5ff;
+
+  /* The brand gradients. Declared here so no component invents its own.
+     Both are capped at the light end by contrast rather than by taste: white
+     text needs 4.5:1, and the brighter stops these started on (#d946ef on the
+     button, #a855f7 on the slab) measured 3.46:1 and 3.96:1. The stops below
+     are the lightest that still carry white small print. */
+  --grad-accent: linear-gradient(135deg, #9333ea 0%, #c026d3 100%);
+  --grad-slab: linear-gradient(155deg, #7c3aed 0%, #6d28d9 45%, #4338ca 100%);
+  --grad-heading: linear-gradient(96deg, var(--accent-bright), var(--accent-2) 55%, var(--accent));
 
   --font-heading: var(--font-manrope);
   --font-body: var(--font-manrope);
@@ -105,7 +119,7 @@ h3,
 
 /* Gradient headline, retuned for a light background. */
 .text-gradient-brand {
-  background-image: linear-gradient(96deg, var(--accent-bright), var(--accent-2) 55%, #4f46e5);
+  background-image: var(--grad-heading);
   background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -139,7 +153,7 @@ h3,
 }
 .lift:hover {
   transform: translate3d(0, -6px, 0);
-  box-shadow: 0 24px 60px -24px rgba(109, 40, 217, 0.35);
+  box-shadow: 0 24px 60px -24px rgba(var(--accent-rgb), 0.35);
 }
 
 /* ---------------------------------------------------------------
@@ -199,7 +213,7 @@ h3,
 }
 .service-card:hover {
   transform: translate3d(0, -6px, 0);
-  box-shadow: 0 26px 60px -26px rgba(109, 40, 217, 0.6);
+  box-shadow: 0 26px 60px -26px rgba(var(--accent-rgb), 0.6);
 }
 
 /* The fan. Its own centre sits on the card's top-right corner, so scaling
@@ -212,7 +226,7 @@ h3,
   width: 10rem;
   height: 10rem;
   border-radius: 9999px;
-  background-color: rgba(109, 40, 217, 0.25);
+  background-color: rgba(var(--accent-rgb), 0.25);
   transform: translate(50%, -50%) scale(1);
   transform-origin: center;
   pointer-events: none;
@@ -282,8 +296,8 @@ h3,
     box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 .skill-card:hover {
-  border-color: rgba(109, 40, 217, 0.35);
-  box-shadow: 0 22px 50px -30px rgba(109, 40, 217, 0.45);
+  border-color: rgba(var(--accent-rgb), 0.35);
+  box-shadow: 0 22px 50px -30px rgba(var(--accent-rgb), 0.45);
 }
 
 .skill-tile {
@@ -294,7 +308,7 @@ h3,
 }
 .skill-tile:hover {
   transform: translate3d(0, -3px, 0);
-  border-color: rgba(109, 40, 217, 0.4);
+  border-color: rgba(var(--accent-rgb), 0.4);
   box-shadow: 0 12px 24px -14px rgba(22, 21, 28, 0.45);
 }
 
@@ -310,14 +324,14 @@ h3,
   .skill-tile:hover { transform: none; }
   /* No sweep for anyone who asked for less motion: the card just fills. */
   .service-wave { transition: background-color 200ms linear; }
-  .service-card:hover { background-color: var(--accent); }
+  .service-card:hover { background-color: var(--accent); background-image: var(--grad-accent); }
   .service-card:hover .service-wave { transform: translate(50%, -50%) scale(1); }
 }
 
 @keyframes ripple {
-  0%   { box-shadow: 0 0 0 0 rgba(109, 40, 217, 0.45); }
-  70%  { box-shadow: 0 0 0 16px rgba(109, 40, 217, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(109, 40, 217, 0); }
+  0%   { box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.45); }
+  70%  { box-shadow: 0 0 0 16px rgba(var(--accent-rgb), 0); }
+  100% { box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0); }
 }
 
 /* Contact and footer sit behind the page and are revealed as the
@@ -338,7 +352,7 @@ h3,
   background-image: repeating-linear-gradient(
     -22deg,
     transparent 0 118px,
-    rgba(109, 40, 217, 0.055) 118px 119px
+    rgba(var(--accent-rgb), 0.055) 118px 119px
   );
   background-size: 340px 340px;
   animation: line-drift 26s linear infinite;
@@ -396,4 +410,24 @@ h3,
 }
 .nav-rail::-webkit-scrollbar {
   display: none;
+}
+
+/* ---------------------------------------------------------------
+   Brand gradients on solid accent surfaces. background-image paints
+   over background-color, so anything that cannot show a gradient
+   still has the flat accent underneath it.
+   --------------------------------------------------------------- */
+.grad-accent {
+  background-image: var(--grad-accent);
+}
+
+/* Work used to be a flat #1B1E87 that matched nothing else on the page. */
+.work-slab {
+  background-color: var(--accent-bright);
+  background-image: var(--grad-slab);
+}
+
+/* The fan carries the gradient as it spreads rather than a flat fill. */
+.service-card:hover .service-wave {
+  background-image: var(--grad-accent);
 }

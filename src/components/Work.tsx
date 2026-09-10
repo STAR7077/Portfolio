@@ -330,7 +330,7 @@ export default function Work() {
   }, [active, offset, stride]);
 
   return (
-    <section id="work" className="relative bg-[#1B1E87] py-24 sm:py-28">
+    <section id="work" className="relative work-slab py-24 sm:py-28">
       {/* One viewport of decoration at the top of the section: two
           concentric rings and the cube cluster, all sharing the reference's
           anchor point of top 50% / right 30%. */}
@@ -347,7 +347,7 @@ export default function Work() {
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <Reveal>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-violet-300">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-200">
             {t.work.eyebrow}
           </p>
           <h2 className="mt-2 font-heading text-[42px] font-semibold leading-[1.16667] tracking-[-0.5px] text-white lg:text-[56px] xl:text-[72px]">
@@ -366,7 +366,7 @@ export default function Work() {
                   aria-pressed={on}
                   className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-500 ${
                     on
-                      ? "bg-white text-[#1B1E87] shadow-[0_10px_28px_-10px_rgba(0,0,0,0.5)]"
+                      ? "bg-white text-[var(--accent)] shadow-[0_10px_28px_-10px_rgba(0,0,0,0.5)]"
                       : "border border-white/25 bg-white/5 text-white/80 backdrop-blur hover:border-white hover:text-white"
                   }`}
                 >
@@ -374,7 +374,7 @@ export default function Work() {
                 </button>
               );
             })}
-            <span className="ml-2 font-mono text-sm text-white/70">
+            <span className="ml-2 font-mono text-sm text-white/90">
               {String(count).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
             </span>
           </div>
@@ -433,7 +433,7 @@ export default function Work() {
           type="button"
           onClick={() => nudge(-1)}
           aria-label={t.work.prevProject}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-white hover:bg-white hover:text-[#1B1E87]"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-white hover:bg-white hover:text-[var(--accent)]"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M15 5l-7 7 7 7" />
@@ -443,7 +443,7 @@ export default function Work() {
           type="button"
           onClick={() => nudge(1)}
           aria-label={t.work.nextProject}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-white hover:bg-white hover:text-[#1B1E87]"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-white hover:bg-white hover:text-[var(--accent)]"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M9 5l7 7-7 7" />
@@ -467,7 +467,7 @@ export default function Work() {
           ))}
         </div>
 
-        <span className="shrink-0 font-mono text-sm text-white/70">
+        <span className="shrink-0 font-mono text-sm text-white/90">
           {String(Math.min(at + 1, count)).padStart(2, "0")} / {String(count).padStart(2, "0")}
         </span>
       </div>

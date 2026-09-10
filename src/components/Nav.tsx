@@ -62,7 +62,7 @@ export default function Nav() {
 
             <a
               href="#contact"
-              className="hidden rounded-full bg-[var(--accent)] px-5 py-2.5 text-[13px] font-bold text-white shadow-[0_10px_28px_-10px_rgba(109,40,217,0.75)] transition-transform duration-500 hover:scale-[1.04] sm:inline-block"
+              className="hidden rounded-full bg-[var(--accent)] grad-accent px-5 py-2.5 text-[13px] font-bold text-white shadow-[0_10px_28px_-10px_rgba(var(--accent-rgb),0.75)] transition-transform duration-500 hover:scale-[1.04] sm:inline-block"
             >
               {t.nav.cta}
             </a>

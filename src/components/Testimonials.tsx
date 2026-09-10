@@ -18,10 +18,10 @@ export default function Testimonials() {
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <Parallax speed={-200} className="absolute -left-40 top-20 h-[620px] w-[620px]">
-          <div className="mesh-b h-full w-full rounded-full bg-[radial-gradient(circle,rgba(124,58,237,0.10)_0%,rgba(124,58,237,0)_66%)] blur-3xl" />
+          <div className="mesh-b h-full w-full rounded-full bg-[radial-gradient(circle,rgba(var(--accent-bright-rgb),0.10)_0%,rgba(var(--accent-bright-rgb),0)_66%)] blur-3xl" />
         </Parallax>
         <Parallax speed={260} className="absolute right-[6%] top-[18%] hidden lg:block">
-          <div className="h-14 w-14 rotate-12 rounded-2xl bg-violet-300/25 blur-[1px]" />
+          <div className="h-14 w-14 rotate-12 rounded-2xl bg-purple-300/25 blur-[1px]" />
         </Parallax>
       </div>
       <SectionScenery preset="testimonials" />

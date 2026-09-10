@@ -66,7 +66,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${manrope.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-[#f2f2f5] text-[#16151c] selection:bg-violet-200 selection:text-violet-950">
+      <body className="flex min-h-full flex-col bg-[#f2f2f5] text-[#16151c] selection:bg-purple-200 selection:text-purple-950">
         <SmoothScroll />
         <LanguageProvider>{children}</LanguageProvider>
         {/* Cookieless, so no consent banner is owed. Speed Insights reports

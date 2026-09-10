@@ -4,10 +4,10 @@ import Image from "next/image";
 import { useRef, useState, type WheelEvent } from "react";
 
 const PALETTE = [
-  "from-violet-300/60 via-fuchsia-200/40 to-transparent",
-  "from-indigo-300/60 via-violet-200/40 to-transparent",
+  "from-purple-300/60 via-fuchsia-200/40 to-transparent",
+  "from-purple-300/60 via-purple-200/40 to-transparent",
   "from-fuchsia-300/60 via-pink-200/40 to-transparent",
-  "from-sky-300/60 via-violet-200/40 to-transparent",
+  "from-sky-300/60 via-purple-200/40 to-transparent",
 ];
 
 function colorFor(title: string) {

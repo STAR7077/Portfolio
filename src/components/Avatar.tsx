@@ -13,10 +13,10 @@ function initials(name: string) {
 
 // Deterministic-ish color pick from name so the same person always gets the same tint.
 const PALETTE = [
-  "from-violet-500 to-fuchsia-500",
-  "from-indigo-500 to-violet-500",
+  "from-purple-500 to-fuchsia-500",
+  "from-purple-500 to-purple-500",
   "from-fuchsia-500 to-pink-500",
-  "from-sky-500 to-violet-500",
+  "from-sky-500 to-purple-500",
 ];
 
 function colorFor(name: string) {

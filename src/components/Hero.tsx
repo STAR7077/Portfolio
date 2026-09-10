@@ -63,7 +63,7 @@ export default function Hero() {
             <div className="mt-9 flex flex-wrap gap-3.5">
               <a
                 href="#work"
-                className="rounded-full bg-[var(--accent)] px-7 py-3.5 text-sm font-bold text-white shadow-[0_14px_38px_-12px_rgba(109,40,217,0.8)] transition-transform duration-500 hover:scale-[1.03]"
+                className="rounded-full bg-[var(--accent)] grad-accent px-7 py-3.5 text-sm font-bold text-white shadow-[0_14px_38px_-12px_rgba(var(--accent-rgb),0.8)] transition-transform duration-500 hover:scale-[1.03]"
               >
                 {t.hero.ctaWork}
               </a>

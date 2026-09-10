@@ -76,7 +76,7 @@ export default function Contact() {
           <div className="mesh-c h-full w-full rounded-full bg-[radial-gradient(circle,rgba(192,38,211,0.12)_0%,rgba(192,38,211,0)_66%)] blur-3xl" />
         </Parallax>
         <Parallax speed={300} className="absolute left-[5%] top-[12%] hidden lg:block">
-          <div className="h-12 w-12 -rotate-6 rounded-2xl bg-indigo-300/25 blur-[2px]" />
+          <div className="h-12 w-12 -rotate-6 rounded-2xl bg-purple-300/25 blur-[2px]" />
         </Parallax>
       </div>
 
@@ -165,7 +165,7 @@ export default function Contact() {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="w-full rounded-full bg-[var(--accent)] px-6 py-3.5 text-sm font-bold text-white shadow-[0_14px_38px_-12px_rgba(109,40,217,0.8)] transition-transform duration-500 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
+              className="w-full rounded-full bg-[var(--accent)] grad-accent px-6 py-3.5 text-sm font-bold text-white shadow-[0_14px_38px_-12px_rgba(var(--accent-rgb),0.8)] transition-transform duration-500 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
             >
               {status === "sending" ? t.contact.sending : t.contact.send}
             </button>
