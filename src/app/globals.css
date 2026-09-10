@@ -32,13 +32,16 @@
   --surface-tint: #fbf5ff;
 
   /* The brand gradients. Declared here so no component invents its own.
-     Both are capped at the light end by contrast rather than by taste: white
-     text needs 4.5:1, and the brighter stops these started on (#d946ef on the
-     button, #a855f7 on the slab) measured 3.46:1 and 3.96:1. The stops below
-     are the lightest that still carry white small print. */
+     --grad-accent is capped at the light end by contrast rather than taste:
+     white text needs 4.5:1, and the #d946ef it was drafted with measured
+     3.46:1. #c026d3 is the lightest stop that still carries white small print. */
   --grad-accent: linear-gradient(135deg, #9333ea 0%, #c026d3 100%);
-  --grad-slab: linear-gradient(155deg, #7c3aed 0%, #6d28d9 45%, #4338ca 100%);
   --grad-heading: linear-gradient(96deg, var(--accent-bright), var(--accent-2) 55%, var(--accent));
+
+  /* Work keeps the deep indigo it has always had. It is deliberately outside
+     the accent family: the section is a full-bleed slab and this is the one
+     place the page goes dark. A token so it is still changed in one place. */
+  --slab: #1b1e87;
 
   --font-heading: var(--font-manrope);
   --font-body: var(--font-manrope);
@@ -423,8 +426,7 @@ h3,
 
 /* Work used to be a flat #1B1E87 that matched nothing else on the page. */
 .work-slab {
-  background-color: var(--accent-bright);
-  background-image: var(--grad-slab);
+  background-color: var(--slab);
 }
 
 /* The fan carries the gradient as it spreads rather than a flat fill. */

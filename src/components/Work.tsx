@@ -347,7 +347,7 @@ export default function Work() {
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <Reveal>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-200">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-300">
             {t.work.eyebrow}
           </p>
           <h2 className="mt-2 font-heading text-[42px] font-semibold leading-[1.16667] tracking-[-0.5px] text-white lg:text-[56px] xl:text-[72px]">
@@ -374,7 +374,7 @@ export default function Work() {
                 </button>
               );
             })}
-            <span className="ml-2 font-mono text-sm text-white/90">
+            <span className="ml-2 font-mono text-sm text-white/70">
               {String(count).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
             </span>
           </div>
@@ -467,7 +467,7 @@ export default function Work() {
           ))}
         </div>
 
-        <span className="shrink-0 font-mono text-sm text-white/90">
+        <span className="shrink-0 font-mono text-sm text-white/70">
           {String(Math.min(at + 1, count)).padStart(2, "0")} / {String(count).padStart(2, "0")}
         </span>
       </div>
