@@ -90,7 +90,17 @@ export interface Dictionary {
     eyebrow: string;
     title: string;
     paragraph1: string;
-    paragraph2: string;
+    portraitAlt: string;
+    role: string;
+    workHeading: string;
+    work1Title: string;
+    work1Body: string;
+    work2Title: string;
+    work2Body: string;
+    work3Title: string;
+    work3Body: string;
+    work4Title: string;
+    work4Body: string;
   };
   work: {
     eyebrow: string;
@@ -247,8 +257,21 @@ const en: Dictionary = {
     title: "Overview.",
     paragraph1:
       "I'm a full-stack and AI automation developer. Over the past several years I've worked across SaaS platforms, marketplaces, mobile apps and AI-agent systems. I usually join as the engineer who turns a manual, messy process into something automated, reliable and easy to operate.",
-    paragraph2:
-      "On the backend I work mainly in Node.js and Python, with Django, REST APIs, PostgreSQL, Redis and queue-driven architectures. On the AI side I build LLM-integrated workflows: document/OCR pipelines, WhatsApp and chat agents, outbound automation, and classification systems using OpenAI, Gemini and Claude. On the frontend and mobile side I work in React, Next.js, TypeScript, React Native and Flutter, and I've shipped production apps in no-code tools like Bubble.io when speed-to-market mattered more than a custom stack. I also take on Odoo ERP implementations for small and mid-sized businesses: scoping the modules a company actually needs, configuring sales, purchasing, inventory and invoicing as one flow, and migrating historical customer and billing data.",
+    portraitAlt: "Lucas Marley",
+    role: "Full-stack and AI automation developer",
+    workHeading: "How I work",
+    work1Title: "One person, start to finish",
+    work1Body:
+      "No account manager and no handover. Whoever you brief is the person who writes the code.",
+    work2Title: "Scope and dates agreed up front",
+    work2Body:
+      "You know what you are getting and when. If either has to move, you hear it from me early rather than on the day.",
+    work3Title: "You always know where it stands",
+    work3Body:
+      "Regular updates while the work is running, in English, Portuguese or Spanish.",
+    work4Title: "Yours to run at the end",
+    work4Body:
+      "Code, documentation and access handed over, so your team can run it and change it without me.",
   },
   work: {
     eyebrow: "Selected projects",
@@ -405,8 +428,21 @@ const pt: Dictionary = {
     title: "Visão geral.",
     paragraph1:
       "Sou desenvolvedor full-stack e de automação com IA. Nos últimos anos trabalhei com plataformas SaaS, marketplaces, aplicativos móveis e sistemas de agentes de IA. Normalmente entro como o engenheiro que transforma um processo manual e confuso em algo automatizado, confiável e fácil de operar.",
-    paragraph2:
-      "No backend trabalho principalmente com Node.js e Python, além de Django, APIs REST, PostgreSQL, Redis e arquiteturas orientadas a filas. Na parte de IA construo fluxos integrados a LLMs: pipelines de documentos/OCR, agentes de WhatsApp e chat, automação de prospecção e sistemas de classificação usando OpenAI, Gemini e Claude. No frontend e no mobile trabalho com React, Next.js, TypeScript, React Native e Flutter, e já coloquei aplicativos em produção com ferramentas no-code como o Bubble.io quando a velocidade de lançamento importava mais do que uma stack sob medida. Também faço implantações de ERP Odoo para pequenas e médias empresas: defino os módulos que a empresa realmente precisa, configuro vendas, compras, estoque e faturamento como um único fluxo e migro os dados históricos de clientes e cobranças.",
+    portraitAlt: "Lucas Marley",
+    role: "Desenvolvedor full-stack e de automação com IA",
+    workHeading: "Como eu trabalho",
+    work1Title: "Uma pessoa, do início ao fim",
+    work1Body:
+      "Sem gerente de contas e sem repasse. Quem recebe o briefing é quem escreve o código.",
+    work2Title: "Escopo e prazos combinados no início",
+    work2Body:
+      "Você sabe o que vai receber e quando. Se algo precisar mudar, fica sabendo cedo, e não no dia da entrega.",
+    work3Title: "Você sempre sabe como está",
+    work3Body:
+      "Atualizações regulares enquanto o trabalho corre, em inglês, português ou espanhol.",
+    work4Title: "Seu para operar no final",
+    work4Body:
+      "Código, documentação e acessos entregues, para a sua equipe rodar e alterar sem depender de mim.",
   },
   work: {
     eyebrow: "Projetos selecionados",
@@ -563,8 +599,21 @@ const es: Dictionary = {
     title: "Resumen.",
     paragraph1:
       "Soy desarrollador full-stack y de automatización con IA. Durante los últimos años he trabajado en plataformas SaaS, marketplaces, aplicaciones móviles y sistemas de agentes de IA. Normalmente me incorporo como el ingeniero que convierte un proceso manual y desordenado en algo automatizado, fiable y fácil de operar.",
-    paragraph2:
-      "En el backend trabajo principalmente con Node.js y Python, además de Django, APIs REST, PostgreSQL, Redis y arquitecturas basadas en colas. En el lado de la IA construyo flujos integrados con LLMs: pipelines de documentos/OCR, agentes de WhatsApp y chat, automatización de prospección y sistemas de clasificación con OpenAI, Gemini y Claude. En el frontend y móvil trabajo con React, Next.js, TypeScript, React Native y Flutter, y he lanzado a producción aplicaciones con herramientas no-code como Bubble.io cuando la velocidad de salida al mercado importaba más que un stack a medida. También realizo implantaciones de ERP Odoo para pequeñas y medianas empresas: defino los módulos que la empresa realmente necesita, configuro ventas, compras, inventario y facturación como un solo flujo y migro los datos históricos de clientes y facturación.",
+    portraitAlt: "Lucas Marley",
+    role: "Desarrollador full-stack y de automatización con IA",
+    workHeading: "Cómo trabajo",
+    work1Title: "Una sola persona, de principio a fin",
+    work1Body:
+      "Sin gestor de cuentas ni traspasos. Quien recibe el briefing es quien escribe el código.",
+    work2Title: "Alcance y fechas acordados desde el principio",
+    work2Body:
+      "Sabes qué vas a recibir y cuándo. Si algo tiene que cambiar, te enteras pronto y no el día de la entrega.",
+    work3Title: "Siempre sabes cómo va",
+    work3Body:
+      "Actualizaciones periódicas mientras avanza el trabajo, en inglés, portugués o español.",
+    work4Title: "Tuyo para operarlo al final",
+    work4Body:
+      "Código, documentación y accesos entregados, para que tu equipo lo mantenga y lo cambie sin depender de mí.",
   },
   work: {
     eyebrow: "Proyectos seleccionados",
