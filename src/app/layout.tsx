@@ -1,17 +1,34 @@
-import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { JetBrains_Mono, Manrope } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
 import SmoothScroll from "@/components/SmoothScroll";
+import MotionProvider from "@/components/MotionProvider";
+import NoiseOverlay from "@/components/NoiseOverlay";
 
-// One family for everything, matching the reference site.
+// Headlines and body. Holds up at 800 with tight tracking, which is what the
+// display statements lean on.
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
+
+// Labels, section numbers and the data inside interface panels: the
+// technical register, kept to small sizes so it never has to carry prose.
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+});
+
+// Browser chrome on phones matches the page ground instead of flashing white.
+export const viewport: Viewport = {
+  themeColor: "#080a0f",
+  colorScheme: "dark",
+};
 
 const SITE = "https://lucas-marley.vercel.app";
 const TITLE = "Lucas Marley | AI Agents, Web & Mobile Developer";
@@ -64,11 +81,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${manrope.variable} h-full antialiased`}
+      className={`${manrope.variable} ${jetbrains.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-[#f2f2f5] text-[#16151c] selection:bg-purple-200 selection:text-purple-950">
+      <body className="flex min-h-full flex-col bg-canvas text-fg">
         <SmoothScroll />
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          <MotionProvider>{children}</MotionProvider>
+        </LanguageProvider>
+        <NoiseOverlay />
         {/* Cookieless, so no consent banner is owed. Speed Insights reports
             what real visitors on real connections actually experience,
             which is the only way to know whether the weight work landed. */}

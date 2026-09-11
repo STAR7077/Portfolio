@@ -1,147 +1,401 @@
 @import "tailwindcss";
 
-/* ---------------------------------------------------------------
-   Light theme. Page sits on a soft grey, cards are white, and one
-   violet accent carries the brand across from the previous design.
-   --------------------------------------------------------------- */
+/* ===============================================================
+   DESIGN TOKENS
+   One dark system. Every colour on the page resolves to one of
+   these, so a palette change is this block and nothing else.
+   =============================================================== */
 :root {
-  --background: #f8f4fb;
-  --surface: #ffffff;
-  --surface-veil: rgba(255, 255, 255, 0.62);
-  --border: #e4e4ea;
-  --border-strong: #d5d5de;
+  /* ---- ground, from deepest to most raised ---- */
+  --bg-main: #080a0f;
+  --bg-secondary: #0d1118;
+  --surface: #121722;
+  --surface-card: #151b27;
+  --surface-elevated: #191f2c;
 
-  --foreground: #16151c;
-  --muted: #5a5865;
-  /* Darkened from #8a8894, which fell to 3.1:1 on the grey ground and
-     3.5:1 on white. It carries small print in six places: card counters,
-     region headings, contact labels and the footer line. */
-  --faint: #6b6976;
+  /* ---- text ----
+     --text-muted was specified as #697181, which measures 3.4 to 4.0:1 on
+     every ground here and fails small print. #7f8797 is the nearest value
+     that clears 4.5:1 on all four surfaces, including the raised one. */
+  --text-main: #f4f6fa;
+  --text-secondary: #929aaa;
+  --text-muted: #7f8797;
 
-  /* One accent, expressed once. Anything needing a translucent version reads
-     --accent-rgb instead of repeating the literal, which is what used to make
-     a palette change a twenty-file edit. Changing the brand is now this block. */
-  --accent: #9333ea;
-  --accent-rgb: 147, 51, 234;
-  --accent-bright: #a855f7;
-  --accent-bright-rgb: 168, 85, 247;
-  --accent-tint: #f7ebff;
-  --accent-2: #e879f9;
-  /* A barely-there tint for a section that has to sit apart from the
-     grey ground while still holding white cards legibly. */
-  --surface-tint: #fbf5ff;
+  /* ---- lines ---- */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
 
-  /* The brand gradients. Declared here so no component invents its own.
-     --grad-accent is capped at the light end by contrast rather than taste:
-     white text needs 4.5:1, and the #d946ef it was drafted with measured
-     3.46:1. #c026d3 is the lightest stop that still carries white small print. */
-  --grad-accent: linear-gradient(135deg, #9333ea 0%, #c026d3 100%);
-  --grad-heading: linear-gradient(96deg, var(--accent-bright), var(--accent-2) 55%, var(--accent));
+  /* ---- accent ----
+     #716bff carries glows, borders, icons and indicators. As text it only
+     clears 4.5:1 on the two darkest grounds, so accent text on a card uses
+     --accent-highlight. As a button fill it gives white text 4.0:1, so
+     filled buttons use --accent-strong (5.1:1) from the same hue. */
+  --accent: #716bff;
+  --accent-rgb: 113, 107, 255;
+  --accent-highlight: #8c83ff;
+  --accent-highlight-rgb: 140, 131, 255;
+  --accent-strong: #5e57f2;
+  --accent-strong-hover: #6660f6;
+  --accent-blue: #62b6ff;
+  --accent-blue-rgb: 98, 182, 255;
+  --accent-cyan: #58d6c9;
+  --accent-cyan-rgb: 88, 214, 201;
 
-  /* Work keeps the deep indigo it has always had. It is deliberately outside
-     the accent family: the section is a full-bleed slab and this is the one
-     place the page goes dark. A token so it is still changed in one place. */
-  --slab: #1b1e87;
+  /* The one brand gradient. Short display words, thin rules and glows only,
+     never behind body copy. */
+  --grad-brand: linear-gradient(100deg, #716bff 0%, #629bff 50%, #58d6c9 100%);
 
+  /* ---- shape ---- */
+  --radius-btn: 11px;
+  --radius-card: 16px;
+  --radius-panel: 22px;
+
+  /* ---- depth ----
+     Dark shadows barely read, so depth comes from a lighter top edge and a
+     soft ambient falloff rather than a big black drop. */
+  --edge-top: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.03), 0 18px 40px -28px rgba(0, 0, 0, 0.9);
+  --shadow-float: 0 24px 60px -30px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.06);
+
+  /* ---- motion ----
+     Timing lives here and in src/lib/motion.ts so it can be tuned once. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 250ms;
+  --dur-base: 350ms;
+  --dur-slow: 800ms;
+
+  /* ---- type ---- */
   --font-heading: var(--font-manrope);
   --font-body: var(--font-manrope);
+
+  /* ---- legacy names ----
+     Components not yet migrated still read these. Each resolves onto the
+     new system, and the block goes once nothing references it. */
+  --background: var(--bg-main);
+  --foreground: var(--text-main);
+  --muted: var(--text-secondary);
+  --faint: var(--text-muted);
+  --border: var(--border-subtle);
+  --surface-veil: rgba(13, 17, 24, 0.72);
+  --surface-tint: var(--bg-secondary);
+  --accent-tint: rgba(113, 107, 255, 0.14);
+  --accent-bright: var(--accent-highlight);
+  --accent-bright-rgb: var(--accent-highlight-rgb);
+  --accent-2: var(--accent-cyan);
+  --grad-accent: linear-gradient(135deg, #5e57f2 0%, #4f63e8 100%);
+  --grad-heading: linear-gradient(96deg, #8c83ff, #62b6ff 55%, #58d6c9);
+  --slab: var(--bg-secondary);
 }
 
+/* Utilities for the tokens: bg-canvas, bg-card, text-fg-2, border-line,
+   text-ai and so on. Names are chosen so none shadows a Tailwind palette. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-canvas: var(--bg-main);
+  --color-canvas-2: var(--bg-secondary);
+  --color-surface: var(--surface);
+  --color-card: var(--surface-card);
+  --color-raised: var(--surface-elevated);
+  --color-fg: var(--text-main);
+  --color-fg-2: var(--text-secondary);
+  --color-fg-3: var(--text-muted);
+  --color-line: var(--border-subtle);
+  --color-line-2: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-hi: var(--accent-highlight);
+  --color-azure: var(--accent-blue);
+  --color-ai: var(--accent-cyan);
+
+  --radius-btn: var(--radius-btn);
+  --radius-card: var(--radius-card);
+  --radius-panel: var(--radius-panel);
+
   --font-sans: var(--font-body);
   --font-heading: var(--font-heading);
+  --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Kept so the legacy bg-background / text-foreground classes resolve. */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
 }
 
+/* ===============================================================
+   BASE
+   =============================================================== */
 * {
   scroll-behavior: auto; /* Lenis drives scrolling; native smooth would fight it. */
 }
 
+html {
+  color-scheme: dark;
+  background: var(--bg-main);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-body), system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 h1,
 h2,
 h3,
 .font-heading {
-  font-family: var(--font-heading), Arial, Helvetica, sans-serif;
+  font-family: var(--font-heading), system-ui, sans-serif;
 }
 
-/* Type scale lifted from the reference site: tight tracking that gets
-   tighter as the type gets larger, and roomier body copy.
-   These live in @layer base so a Tailwind utility can still override them
-   per element. Unlayered rules beat layered utilities regardless of
-   specificity, which silently defeated tracking utilities on headings. */
+::selection {
+  background: rgba(113, 107, 255, 0.38);
+  color: #ffffff;
+}
+
+/* One visible focus state for everything a keyboard can land on. */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent-highlight);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* In @layer base so a Tailwind utility can still override per element.
+   Unlayered rules beat layered utilities regardless of specificity. */
 @layer base {
-  h1, .font-heading.text-h1 { letter-spacing: -0.03em; font-weight: 700; }
-  h2 { letter-spacing: -0.025em; font-weight: 600; }
-  h3 { letter-spacing: -0.03em; font-weight: 600; }
-  p { letter-spacing: -0.01em; }
-}
-.lead { font-size: 1.25rem; line-height: 1.5; letter-spacing: -0.01em; }
-@media (max-width: 640px) {
-  .lead { font-size: 1.0625rem; }
+  h1 { letter-spacing: -0.04em; font-weight: 800; }
+  h2 { letter-spacing: -0.03em; font-weight: 700; }
+  h3 { letter-spacing: -0.02em; font-weight: 700; }
+  p { letter-spacing: -0.005em; }
 }
 
-/* Ambient gradient blobs. Kept from the previous design but tinted for
-   light: soft violet washes rather than glowing neon. */
-@keyframes drift-a {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50%      { transform: translate3d(60px, 40px, 0) scale(1.12); }
+/* ===============================================================
+   TYPE SCALE
+   Display statements are the only place uppercase is used at size.
+   =============================================================== */
+.t-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
 }
-@keyframes drift-b {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1.08); }
-  50%      { transform: translate3d(-70px, 50px, 0) scale(0.94); }
+.t-eyebrow .t-index {
+  color: var(--accent-highlight);
 }
-@keyframes drift-c {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(0.96); }
-  50%      { transform: translate3d(40px, -60px, 0) scale(1.14); }
-}
-.mesh-a { animation: drift-a 22s ease-in-out infinite; }
-.mesh-b { animation: drift-b 28s ease-in-out infinite; }
-.mesh-c { animation: drift-c 34s ease-in-out infinite; }
 
-@keyframes spin-conic { to { transform: rotate(360deg); } }
-.animate-spin-conic { animation: spin-conic 18s linear infinite; }
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.35); }
-  50%      { opacity: 0.75; box-shadow: 0 0 0 6px rgba(22, 163, 74, 0); }
+.t-display {
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+  color: var(--text-main);
+  text-wrap: balance;
 }
-.animate-pulse-dot { animation: pulse-dot 2.4s ease-in-out infinite; }
 
-@keyframes float-slow {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+.t-hero {
+  font-weight: 800;
+  font-size: clamp(2.55rem, 5.2vw, 4.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  color: var(--text-main);
+  text-wrap: balance;
 }
-.animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
 
-/* Gradient headline, retuned for a light background. */
+.t-h2 {
+  font-weight: 700;
+  font-size: clamp(1.85rem, 3.2vw, 2.9rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--text-main);
+  text-wrap: balance;
+}
+
+.t-lead,
+.lead {
+  font-size: clamp(1.0625rem, 1.25vw, 1.1875rem);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  color: var(--text-secondary);
+}
+
+.t-mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+}
+
+/* The brand gradient on a short word. Static: an animated background on
+   text repaints the glyphs every frame. */
 .text-gradient-brand {
-  background-image: var(--grad-heading);
-  background-size: 220% 100%;
+  background-image: var(--grad-brand);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: sweep 14s ease-in-out infinite;
-}
-@keyframes sweep {
-  0%, 100% { background-position: 0% 50%; }
-  50%      { background-position: 100% 50%; }
 }
 
-/* Scroll reveal: a long expo-out settle. */
+/* ===============================================================
+   TEXTURE AND DEPTH
+   =============================================================== */
+
+/* Monochrome grain over the whole page. A static tile the compositor keeps
+   as one layer, so it costs nothing while scrolling. Low enough to feel
+   rather than see. */
+.noise {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* A faint engineering grid, faded out at the edges so it never reads as a
+   pattern tiled across the screen. */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+}
+
+.bg-dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 72%);
+}
+
+/* Glows are radial gradients, never blurred boxes: a gradient is painted
+   once, a filter blur is recomputed whenever the layer changes. */
+@keyframes glow-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(3%, 2%, 0); }
+}
+.glow-drift { animation: glow-drift 22s ease-in-out infinite; }
+
+/* A hairline in the brand gradient, used to mark a section edge. */
+.rule-brand {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.55) 30%, rgba(var(--accent-cyan-rgb), 0.45) 70%, transparent);
+}
+
+/* ===============================================================
+   SURFACES
+   =============================================================== */
+.card {
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  box-shadow: var(--edge-top), var(--shadow-card);
+}
+
+.card-hover {
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+.card-hover:hover {
+  transform: translate3d(0, -5px, 0);
+  border-color: rgba(var(--accent-rgb), 0.3);
+  box-shadow: var(--edge-top), 0 26px 50px -30px rgba(0, 0, 0, 0.95), 0 0 40px -20px rgba(var(--accent-rgb), 0.35);
+}
+
+/* A small floating interface panel, the building block of the hero
+   composition and the project overlays. */
+.panel {
+  background: linear-gradient(180deg, rgba(25, 31, 44, 0.92), rgba(18, 23, 34, 0.92));
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  box-shadow: var(--edge-top), var(--shadow-float);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* ===============================================================
+   BUTTONS
+   =============================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 46px;
+  padding: 0 1.3rem;
+  border-radius: var(--radius-btn);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.btn:hover { transform: translate3d(0, -1px, 0); }
+.btn:active { transform: translate3d(0, 0, 0); }
+
+.btn-primary {
+  background: var(--accent-strong);
+  color: #ffffff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 0 0 1px rgba(var(--accent-rgb), 0.55),
+    0 10px 28px -12px rgba(var(--accent-rgb), 0.7);
+}
+.btn-primary:hover {
+  background: var(--accent-strong-hover);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.26),
+    0 0 0 1px rgba(var(--accent-rgb), 0.7),
+    0 14px 34px -12px rgba(var(--accent-rgb), 0.85);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-main);
+  border: 1px solid var(--border-strong);
+}
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.055);
+  border-color: rgba(var(--accent-rgb), 0.45);
+}
+
+.btn-sm { height: 38px; padding: 0 1rem; font-size: 13.5px; }
+
+/* The arrow in a link or button nudges up and right on hover. */
+.nudge { transition: transform var(--dur-fast) var(--ease-out); }
+:where(a, button):hover .nudge { transform: translate3d(3px, -3px, 0); }
+
+/* ===============================================================
+   AMBIENT MOTION (CSS)
+   Loops that never stop live here rather than in JavaScript.
+   =============================================================== */
+@keyframes float-a { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -7px, 0); } }
+@keyframes float-b { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, 6px, 0); } }
+@keyframes float-c { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -5px, 0); } }
+.float-a { animation: float-a 6.2s ease-in-out infinite; }
+.float-b { animation: float-b 7.4s ease-in-out infinite; animation-delay: -2.1s; }
+.float-c { animation: float-c 5.6s ease-in-out infinite; animation-delay: -3.7s; }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(88, 214, 201, 0.45); }
+  50%      { opacity: 0.8; box-shadow: 0 0 0 5px rgba(88, 214, 201, 0); }
+}
+.animate-pulse-dot { animation: pulse-dot 2.4s ease-in-out infinite; }
+
+/* Legacy scroll reveal, used until every section moves to motion. */
 .reveal {
   opacity: 0;
-  transform: translate3d(0, 28px, 0);
+  transform: translate3d(0, 24px, 0);
   transition:
-    opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+    opacity 800ms var(--ease-out),
+    transform 800ms var(--ease-out);
 }
 .reveal-in {
   opacity: 1;
@@ -150,78 +404,73 @@ h3,
 
 .lift {
   transition:
-    transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 500ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    transform 400ms var(--ease-out),
+    border-color 400ms var(--ease-out),
+    box-shadow 400ms var(--ease-out);
 }
 .lift:hover {
-  transform: translate3d(0, -6px, 0);
-  box-shadow: 0 24px 60px -24px rgba(var(--accent-rgb), 0.35);
+  transform: translate3d(0, -4px, 0);
+  box-shadow: 0 24px 50px -28px rgba(var(--accent-rgb), 0.35);
 }
 
-/* ---------------------------------------------------------------
-   The Work carousel. Projects run sideways one to a slide, so the
-   section stays one project tall and a downward scroll from
-   anywhere inside it carries on to the next section.
-   --------------------------------------------------------------- */
+@keyframes drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.06); }
+  50%      { transform: translate3d(-50px, 36px, 0) scale(0.96); }
+}
+@keyframes drift-c {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(0.97); }
+  50%      { transform: translate3d(30px, -44px, 0) scale(1.1); }
+}
+.mesh-b { animation: drift-b 28s ease-in-out infinite; }
+.mesh-c { animation: drift-c 34s ease-in-out infinite; }
+
+/* ===============================================================
+   WORK CAROUSEL (until Phase 3 replaces it)
+   =============================================================== */
 .work-track {
   cursor: grab;
-  /* Let the browser handle vertical panning itself: only sideways
-     movement is ours, so a downward drag still scrolls the page. */
   touch-action: pan-y;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  /* Nothing sits outside the track, so an over-scroll at either end
-     should not rubber-band the page behind it. */
   overscroll-behavior-x: contain;
 }
-.work-track::-webkit-scrollbar {
-  display: none;
-}
-/* Belt and braces with the dragstart handler: images and links are
-   draggable by default, and a drag begun on one never reaches the track. */
+.work-track::-webkit-scrollbar { display: none; }
 .work-track img,
-.work-track a {
-  -webkit-user-drag: none;
-}
+.work-track a { -webkit-user-drag: none; }
 .work-track.is-dragging {
   cursor: grabbing;
-  /* Snapping mid-drag would fight the pointer for the scroll position. */
   scroll-snap-type: none;
   user-select: none;
 }
-/* And it has to stay off while the track glides to the slide it settled
-   on. Mandatory snapping applied to a track sitting between two slides
-   jumps it to the nearest one immediately, which reads as a teleport
-   rather than a movement. */
-.work-track.is-settling {
-  scroll-snap-type: none;
-}
+.work-track.is-settling { scroll-snap-type: none; }
 
-/* The tab panel grows from nothing when a filter changes, the way the
-   dropship tab wrap animates its height. */
 @keyframes panel-in {
   from { opacity: 0; transform: translate3d(0, 14px, 0); }
   to   { opacity: 1; transform: translate3d(0, 0, 0); }
 }
-.panel-in { animation: panel-in 620ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.panel-in { animation: panel-in 620ms var(--ease-out) both; }
 
-/* Service card: the accent does not cross-fade over the whole card. It
-   travels out from the fan in the top-right corner, which grows until it
-   has swallowed the card. The card itself only lifts. */
+.work-slab { background-color: var(--slab); }
+.grad-accent { background-image: var(--grad-accent); }
+
+/* ===============================================================
+   SERVICES: the wave
+   The accent travels out from the fan in the top-right corner until it
+   has swallowed the card. The card itself only lifts.
+   =============================================================== */
 .service-card {
   transition:
-    transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    transform 500ms var(--ease-out),
+    border-color 500ms var(--ease-out),
+    box-shadow 500ms var(--ease-out);
 }
 .service-card:hover {
-  transform: translate3d(0, -6px, 0);
-  box-shadow: 0 26px 60px -26px rgba(var(--accent-rgb), 0.6);
+  transform: translate3d(0, -5px, 0);
+  box-shadow: 0 26px 60px -30px rgba(var(--accent-rgb), 0.55);
 }
 
-/* The fan. Its own centre sits on the card's top-right corner, so scaling
-   it about that centre spreads it from the corner. The card clips it, which
-   is what leaves a quarter showing at rest. */
+/* Its centre sits on the card's top-right corner, so scaling it about that
+   centre spreads it from the corner. The card clips what is outside. */
 .service-wave {
   position: absolute;
   top: 0;
@@ -229,45 +478,37 @@ h3,
   width: 10rem;
   height: 10rem;
   border-radius: 9999px;
-  background-color: rgba(var(--accent-rgb), 0.25);
+  background-color: rgba(var(--accent-rgb), 0.16);
   transform: translate(50%, -50%) scale(1);
   transform-origin: center;
   pointer-events: none;
   will-change: transform;
-  /* A gentle ease-out, not the expo used elsewhere on the site: expo puts
-     nearly all of the distance in the first fifth of the time, which makes
-     a spreading edge read as an instant fill. */
+  /* A gentle ease-out rather than expo: expo spends nearly all of the
+     distance in the first fifth of the time and reads as an instant fill. */
   transition:
     transform 700ms ease-out,
     background-color 220ms linear;
 }
-/* The far corner of a card sits about 480px from the centre of the fan, so
-   6.2 times its 80px radius covers it and little more. Overshooting just
-   spends the tail of the animation with nothing left to reveal. */
+/* 6.2 times the 80px radius reaches the card's far corner and little more. */
 .service-card:hover .service-wave {
-  background-color: var(--accent);
+  background-color: var(--accent-strong);
   transform: translate(50%, -50%) scale(6.2);
 }
 
-/* The children invert here rather than through group-hover utilities.
-   Tailwind wraps those in @media (hover: hover), which is false on a touch
-   screen, while the wave rule above is unwrapped: tapping a card on a phone
-   filled it with the accent and left the copy dark. Both live in the same
-   stylesheet now, so they agree wherever they run.
-
-   The delays are roughly when the wave arrives at each piece, and they only
-   apply on the way in: leaving reverts everything at once, since the wave
-   recedes from the far side first. */
+/* Inversions live here, not in group-hover utilities: Tailwind wraps those
+   in @media (hover: hover), which is false on touch, while the wave above
+   is unwrapped. Delays track roughly when the wave reaches each piece. */
 .service-icon,
 .service-title,
 .service-body {
   transition:
     background-color 300ms ease,
-    color 300ms ease;
+    color 300ms ease,
+    border-color 300ms ease;
 }
 .service-card:hover .service-icon {
   background-color: #ffffff;
-  color: var(--accent);
+  color: var(--accent-strong);
   transition-delay: 240ms;
 }
 .service-card:hover .service-title {
@@ -275,100 +516,57 @@ h3,
   transition-delay: 280ms;
 }
 .service-card:hover .service-body {
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.88);
   transition-delay: 320ms;
 }
 
-/* Skill card: a faint graph-paper wash behind the logo tiles, the way the
-   reference fills the empty space in each group. */
+/* ===============================================================
+   SKILLS
+   =============================================================== */
 .skill-card::before {
   content: "";
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(to right, rgba(22, 21, 28, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(22, 21, 28, 0.035) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
   background-size: 34px 34px;
-  /* Fade it out towards the bottom so the copy stays on clean paper. */
-  mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 92%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 90%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 90%);
   pointer-events: none;
 }
 .skill-card {
   transition:
-    border-color 500ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    border-color 400ms var(--ease-out),
+    box-shadow 400ms var(--ease-out);
 }
 .skill-card:hover {
-  border-color: rgba(var(--accent-rgb), 0.35);
-  box-shadow: 0 22px 50px -30px rgba(var(--accent-rgb), 0.45);
+  border-color: rgba(var(--accent-rgb), 0.3);
+  box-shadow: var(--edge-top), 0 22px 50px -30px rgba(var(--accent-rgb), 0.4);
 }
-
 .skill-tile {
   transition:
-    transform 400ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 400ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    transform 300ms var(--ease-out),
+    border-color 300ms var(--ease-out),
+    background-color 300ms var(--ease-out);
 }
 .skill-tile:hover {
-  transform: translate3d(0, -3px, 0);
+  transform: translate3d(0, -2px, 0);
   border-color: rgba(var(--accent-rgb), 0.4);
-  box-shadow: 0 12px 24px -14px rgba(22, 21, 28, 0.45);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .mesh-a, .mesh-b, .mesh-c,
-  .animate-spin-conic, .animate-pulse-dot, .animate-float-slow,
-  .text-gradient-brand, .panel-in {
-    animation: none !important;
-  }
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .lift:hover { transform: none; }
-  .service-card:hover { transform: none; }
-  .skill-tile:hover { transform: none; }
-  /* No sweep for anyone who asked for less motion: the card just fills. */
-  .service-wave { transition: background-color 200ms linear; }
-  .service-card:hover { background-color: var(--accent); background-image: var(--grad-accent); }
-  .service-card:hover .service-wave { transform: translate(50%, -50%) scale(1); }
-}
-
-@keyframes ripple {
-  0%   { box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.45); }
-  70%  { box-shadow: 0 0 0 16px rgba(var(--accent-rgb), 0); }
-  100% { box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0); }
-}
-
-/* Contact and footer sit behind the page and are revealed as the
-   content above scrolls off them, the assistantly footer-sticky idea. */
-/* Faint diagonal guide lines drifting behind the content, the quiet
-   background motion both reference sites use. Drawn inside the opaque
-   page stack, since that layer covers the contact panel behind it. */
+/* ===============================================================
+   PAGE STACK AND REVEAL FOOTER
+   Contact and footer sit behind the page and are revealed as the
+   content above scrolls off them.
+   =============================================================== */
 .page-stack {
   position: relative;
-  background: var(--background);
-}
-.page-stack::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image: repeating-linear-gradient(
-    -22deg,
-    transparent 0 118px,
-    rgba(var(--accent-rgb), 0.055) 118px 119px
-  );
-  background-size: 340px 340px;
-  animation: line-drift 26s linear infinite;
-  mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 10%, #000 90%, transparent);
+  background: var(--bg-main);
 }
 .page-stack > * {
   position: relative;
   z-index: 1;
-}
-@keyframes line-drift {
-  from { background-position: 0 0; }
-  to   { background-position: 340px 340px; }
 }
 
 /* Only on wide screens, where the revealed panel reliably fits the
@@ -387,49 +585,34 @@ h3,
   }
 }
 
-/* Hand-marker underline beneath emphasised headline words. The stroke
-   draws itself once, shortly after the headline settles. */
+/* Hand-marker underline (until Phase 2 replaces the hero). */
 .underline-stroke path {
   stroke-dasharray: 300;
   stroke-dashoffset: 300;
-  animation: draw-stroke 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: draw-stroke 700ms var(--ease-out) both;
   animation-delay: inherit;
 }
-@keyframes draw-stroke {
-  to { stroke-dashoffset: 0; }
-}
+@keyframes draw-stroke { to { stroke-dashoffset: 0; } }
+
+/* The small-screen link rail scrolls sideways without a visible bar. */
+.nav-rail { scrollbar-width: none; -ms-overflow-style: none; }
+.nav-rail::-webkit-scrollbar { display: none; }
+
+/* ===============================================================
+   REDUCED MOTION
+   Ambient loops stop, reveals are immediate, hover lifts go flat.
+   =============================================================== */
 @media (prefers-reduced-motion: reduce) {
-  .underline-stroke path {
-    animation: none;
-    stroke-dashoffset: 0;
+  .glow-drift, .float-a, .float-b, .float-c,
+  .animate-pulse-dot, .mesh-b, .mesh-c, .panel-in {
+    animation: none !important;
   }
-}
-
-/* The small-screen link rail scrolls sideways when six labels will not fit,
-   without a scrollbar sitting under them. */
-.nav-rail {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.nav-rail::-webkit-scrollbar {
-  display: none;
-}
-
-/* ---------------------------------------------------------------
-   Brand gradients on solid accent surfaces. background-image paints
-   over background-color, so anything that cannot show a gradient
-   still has the flat accent underneath it.
-   --------------------------------------------------------------- */
-.grad-accent {
-  background-image: var(--grad-accent);
-}
-
-/* Work used to be a flat #1B1E87 that matched nothing else on the page. */
-.work-slab {
-  background-color: var(--slab);
-}
-
-/* The fan carries the gradient as it spreads rather than a flat fill. */
-.service-card:hover .service-wave {
-  background-image: var(--grad-accent);
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .lift:hover, .card-hover:hover, .btn:hover,
+  .service-card:hover, .skill-tile:hover { transform: none; }
+  .underline-stroke path { animation: none; stroke-dashoffset: 0; }
+  /* No sweep for anyone who asked for less motion: the card just fills. */
+  .service-wave { transition: background-color 200ms linear; }
+  .service-card:hover { background-color: var(--accent-strong); }
+  .service-card:hover .service-wave { transform: translate(50%, -50%) scale(1); }
 }
