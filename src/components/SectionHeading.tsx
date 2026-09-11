@@ -10,6 +10,8 @@ interface SectionHeadingProps {
    */
   statement?: string;
   intro?: string;
+  /** `md` for a statement that shares its row with another column. */
+  size?: "lg" | "md";
   className?: string;
 }
 
@@ -26,6 +28,7 @@ export default function SectionHeading({
   title,
   statement,
   intro,
+  size = "lg",
   className = "",
 }: SectionHeadingProps) {
   return (
@@ -41,7 +44,7 @@ export default function SectionHeading({
       </p>
 
       {statement ? (
-        <h2 className="t-display mt-5">
+        <h2 className={`t-display mt-5 ${size === "md" ? "t-display-md" : ""}`}>
           {statement.split("\n").map((line, i) => (
             <span key={i} className="block">
               {line}

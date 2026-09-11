@@ -199,6 +199,12 @@ h3,
     text-wrap: balance;
   }
 
+  /* The same statement for a half-width column. At full size the longest
+     words in any of the three languages overrun about 470px. */
+  .t-display.t-display-md {
+    font-size: clamp(2.35rem, 4.2vw, 3.75rem);
+  }
+
   .t-hero {
     font-weight: 800;
     font-size: clamp(2.55rem, 5.2vw, 4.25rem);
@@ -307,6 +313,14 @@ h3,
     transform: translate3d(0, -5px, 0);
     border-color: rgba(var(--accent-rgb), 0.3);
     box-shadow: var(--edge-top), 0 26px 50px -30px rgba(0, 0, 0, 0.95), 0 0 40px -20px rgba(var(--accent-rgb), 0.35);
+  }
+
+  /* Category accent on hover: the border and a faint glow take the tone
+     the card sets as --cat, so an AI project warms to cyan and a web one
+     to blue without the card itself changing colour. */
+  .card-cat:hover {
+    border-color: rgba(var(--cat), 0.34);
+    box-shadow: var(--edge-top), 0 26px 50px -30px rgba(0, 0, 0, 0.95), 0 0 44px -22px rgba(var(--cat), 0.45);
   }
 
   /* A small floating interface panel, the building block of the hero
@@ -467,35 +481,6 @@ h3,
 .mesh-c { animation: drift-c 34s ease-in-out infinite; }
 
 /* ===============================================================
-   WORK CAROUSEL (until Phase 3 replaces it)
-   =============================================================== */
-.work-track {
-  cursor: grab;
-  touch-action: pan-y;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  overscroll-behavior-x: contain;
-}
-.work-track::-webkit-scrollbar { display: none; }
-.work-track img,
-.work-track a { -webkit-user-drag: none; }
-.work-track.is-dragging {
-  cursor: grabbing;
-  scroll-snap-type: none;
-  user-select: none;
-}
-.work-track.is-settling { scroll-snap-type: none; }
-
-@keyframes panel-in {
-  from { opacity: 0; transform: translate3d(0, 14px, 0); }
-  to   { opacity: 1; transform: translate3d(0, 0, 0); }
-}
-.panel-in { animation: panel-in 620ms var(--ease-out) both; }
-
-.work-slab { background-color: var(--slab); }
-.grad-accent { background-image: var(--grad-accent); }
-
-/* ===============================================================
    SERVICES: the wave
    The accent travels out from the fan in the top-right corner until it
    has swallowed the card. The card itself only lifts.
@@ -520,7 +505,7 @@ h3,
   width: 10rem;
   height: 10rem;
   border-radius: 9999px;
-  background-color: rgba(var(--accent-rgb), 0.16);
+  background-color: rgba(var(--accent-rgb), 0.12);
   transform: translate(50%, -50%) scale(1);
   transform-origin: center;
   pointer-events: none;
@@ -534,6 +519,9 @@ h3,
 /* 6.2 times the 80px radius reaches the card's far corner and little more. */
 .service-card:hover .service-wave {
   background-color: var(--accent-strong);
+  /* Brightest at the corner it spreads from, deepest where the copy sits,
+     so the white text lands on the darkest part of the fill. */
+  background-image: radial-gradient(circle, #6a63f8 0%, #4c45d8 50%, #2f2a92 100%);
   transform: translate(50%, -50%) scale(6.2);
 }
 
@@ -639,7 +627,7 @@ h3,
    =============================================================== */
 @media (prefers-reduced-motion: reduce) {
   .glow-drift, .float-a, .float-b, .float-c,
-  .animate-pulse-dot, .mesh-b, .mesh-c, .panel-in {
+  .animate-pulse-dot, .mesh-b, .mesh-c {
     animation: none !important;
   }
   .reveal { opacity: 1; transform: none; transition: none; }

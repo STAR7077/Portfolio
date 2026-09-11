@@ -1,60 +1,51 @@
 "use client";
 
+import { m } from "motion/react";
 import { brandIcons } from "@/data/brandIcons";
-import { skillGroups, type SkillGroup, type SkillTile } from "@/data/skills";
+import { skillGroups, type SkillTile } from "@/data/skills";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import Reveal from "./Reveal";
+import { IN_VIEW, STAGGER, fadeUp, itemUp, stagger } from "@/lib/motion";
+import BackgroundGlow from "./BackgroundGlow";
 import SectionHeading from "./SectionHeading";
 
 /**
- * The stack as a bento of grouped cards, following the supplied reference:
- * a title, a wrapped grid of logo tiles and a line of copy, with the two
- * lead groups running double width.
+ * The stack, grouped by the part of the build each tool belongs to.
  *
- * Marks are drawn from inlined simple-icons paths in their own brand
- * colours. Tools whose owners have withdrawn their mark appear as wordmark
- * tiles, which is what the reference does for NEXT.js and iOS.
+ * Every tool is a named chip with its mark drawn in one neutral tone. On a
+ * dark ground a wall of full-colour logos reads as noise, and the name is
+ * what a reader is actually scanning for. There are no bars or
+ * percentages: a skill level is not something a number can honestly carry.
+ *
+ * Tools whose owners have withdrawn their mark from simple-icons appear as
+ * the name alone.
+ *
+ * It sits on the same ground as About directly above, so the two read as
+ * one account: how the work runs, then what it is built with.
  */
 
-/**
- * Written out rather than built from the number, because Tailwind reads
- * class names out of the source and never sees an interpolated one.
- */
-const SPAN_CLASS: Record<SkillGroup["span"], string> = {
-  3: "xl:col-span-3",
-  4: "xl:col-span-4",
-  5: "xl:col-span-5",
-};
-
-function Tile({ tile }: { tile: SkillTile }) {
+function Chip({ tile }: { tile: SkillTile }) {
   const isWord = "word" in tile;
   const label = isWord ? tile.word : brandIcons[tile.icon].title;
 
   return (
-    <li
-      className="skill-tile flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border)] bg-white"
-      title={label}
+    <m.li
+      variants={itemUp}
+      className="skill-tile inline-flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] px-2.5 py-1.5"
     >
-      {isWord ? (
-        <span
-          className="px-0.5 text-center text-[9.5px] font-bold leading-none tracking-tight"
-          style={{ color: tile.hex }}
-        >
-          {label}
-        </span>
-      ) : (
+      {!isWord && (
         <svg
-          width="22"
-          height="22"
+          width="14"
+          height="14"
           viewBox="0 0 24 24"
-          fill={brandIcons[tile.icon].hex}
-          role="img"
-          aria-label={label}
+          fill="currentColor"
+          aria-hidden="true"
+          className="shrink-0 text-fg-3"
         >
           <path d={brandIcons[tile.icon].path} />
         </svg>
       )}
-    </li>
+      <span className="text-[12.5px] leading-none text-fg-2">{label}</span>
+    </m.li>
   );
 }
 
@@ -62,53 +53,58 @@ export default function Skills() {
   const { t } = useLanguage();
 
   return (
-    <section id="skills" className="relative overflow-hidden border-t border-[var(--border)] py-20 sm:py-24">
-      <div className="relative z-10 mx-auto max-w-6xl px-6">
-        <Reveal>
-          <SectionHeading eyebrow={t.skills.eyebrow} title={t.skills.title} />
-          <p className="lead -mt-2 max-w-2xl text-[var(--muted)]">{t.skills.intro}</p>
-        </Reveal>
+    <section id="skills" className="relative overflow-hidden bg-canvas-2 pb-24 pt-10 sm:pb-32 sm:pt-12">
+      <BackgroundGlow preset="skills" />
 
-        {/* The twelfths only hold once the container has stopped growing, at
-            xl. Below that the row is too narrow for the widest group to keep
-            its tiles on two lines, so it pairs off instead. */}
-        <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-12">
-          {skillGroups.map((group, i) => (
-            <Reveal
+      <div className="relative z-10 mx-auto max-w-6xl px-6">
+        {/* A rule rather than a change of ground: this continues About. */}
+        <div aria-hidden="true" className="rule-brand mb-20 opacity-50 sm:mb-24" />
+
+        <m.div initial="hidden" whileInView="show" viewport={IN_VIEW} variants={fadeUp}>
+          <SectionHeading index="03" eyebrow={t.skills.eyebrow} title={t.skills.title} intro={t.skills.intro} />
+        </m.div>
+
+        <m.div
+          initial="hidden"
+          whileInView="show"
+          viewport={IN_VIEW}
+          variants={stagger(STAGGER.base, 0.1)}
+          className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3"
+        >
+          {skillGroups.map((group) => (
+            <m.article
               key={group.key}
-              delay={i * 70}
-              className={`h-full ${SPAN_CLASS[group.span]}`}
+              variants={fadeUp}
+              className="skill-card relative flex h-full flex-col overflow-hidden rounded-card border border-line bg-card p-6 shadow-[var(--edge-top)]"
             >
-              <article className="skill-card relative flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-white p-6">
-                <div className="relative flex flex-wrap items-center gap-3">
-                  <h3 className="font-heading text-lg font-bold text-[var(--foreground)]">
-                    {t.skills[`${group.key}Title`]}
-                  </h3>
+              <div className="relative flex items-center justify-between gap-3">
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <h3 className="text-[1.05rem] font-bold text-fg">{t.skills[`${group.key}Title`]}</h3>
                   {group.focus && (
-                    <span className="rounded-full bg-[var(--accent-tint)] px-2.5 py-1 text-[10.5px] font-bold uppercase tracking-wider text-[var(--accent)]">
+                    <span className="rounded-md border border-[rgba(113,107,255,0.3)] bg-[rgba(113,107,255,0.1)] px-2 py-0.5 font-mono text-[10.5px] uppercase tracking-[0.1em] text-accent-hi">
                       {t.skills.coreFocus}
                     </span>
                   )}
                 </div>
+                <span className="font-mono text-[11px] text-fg-3">
+                  {String(group.tiles.length).padStart(2, "0")}
+                </span>
+              </div>
 
-                <ul className="relative mt-5 flex flex-wrap gap-2.5">
-                  {group.tiles.map((tile, j) => (
-                    <Tile key={j} tile={tile} />
-                  ))}
-                </ul>
+              <m.ul variants={stagger(0.035)} className="relative mt-5 flex flex-wrap gap-2">
+                {group.tiles.map((tile, i) => (
+                  <Chip key={i} tile={tile} />
+                ))}
+              </m.ul>
 
-                {/* The copy follows the tiles rather than being pushed to the
-                    floor: groups hold very different numbers of tools, and
-                    bottom-aligning opens a hole in the middle of the shorter
-                    cards. Spare room collects at the foot instead, which is
-                    what the reference does. */}
-                <p className="relative mt-7 text-[14px] leading-relaxed text-[var(--muted)]">
-                  {t.skills[`${group.key}Body`]}
-                </p>
-              </article>
-            </Reveal>
+              {/* Pinned to the foot, so every card in a row ends on the same
+                  line however many tools it holds. */}
+              <p className="relative mt-auto pt-6 text-[14px] leading-relaxed text-fg-2">
+                {t.skills[`${group.key}Body`]}
+              </p>
+            </m.article>
           ))}
-        </div>
+        </m.div>
       </div>
     </section>
   );

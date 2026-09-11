@@ -108,3 +108,24 @@ export const IconCode = (p: IconProps) => (
     <path d="m8.5 8-4 4 4 4M15.5 8l4 4-4 4" />
   </Svg>
 );
+
+export const IconUser = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="12" cy="8" r="3.6" />
+    <path d="M5 20v-1.2A4.8 4.8 0 0 1 9.8 14h4.4a4.8 4.8 0 0 1 4.8 4.8V20" />
+  </Svg>
+);
+
+export const IconCalendarCheck = (p: IconProps) => (
+  <Svg {...p}>
+    <rect x="3.5" y="5" width="17" height="15.5" rx="2.5" />
+    <path d="M3.5 10h17M8 3v4M16 3v4M9 15l2 2 4-4" />
+  </Svg>
+);
+
+export const IconPackage = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 8.5 12 4l8 4.5v7L12 20l-8-4.5v-7Z" />
+    <path d="M4 8.5 12 13l8-4.5M12 13v7" />
+  </Svg>
+);

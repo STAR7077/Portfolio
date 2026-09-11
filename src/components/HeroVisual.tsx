@@ -13,6 +13,7 @@ import {
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { DURATION, EASE_OUT, STAGGER } from "@/lib/motion";
 import { IconBolt, IconChat, IconCheck, IconDatabase, IconSpark, IconUsers } from "./icons";
+import StatusChip, { type Tone } from "./StatusChip";
 
 /**
  * The hero's right-hand side: a few interface panels layered with depth,
@@ -29,42 +30,10 @@ import { IconBolt, IconChat, IconCheck, IconDatabase, IconSpark, IconUsers } fro
  * desktop pointers only, and a fade as the page scrolls away.
  */
 
-type Tone = "accent" | "cyan" | "blue";
-
-const TONE: Record<Tone, { dot: string; text: string; chip: string }> = {
-  accent: {
-    dot: "bg-accent",
-    text: "text-accent-hi",
-    chip: "border-[rgba(113,107,255,0.3)] bg-[rgba(113,107,255,0.1)]",
-  },
-  cyan: {
-    dot: "bg-ai",
-    text: "text-ai",
-    chip: "border-[rgba(88,214,201,0.28)] bg-[rgba(88,214,201,0.08)]",
-  },
-  blue: {
-    dot: "bg-azure",
-    text: "text-azure",
-    chip: "border-[rgba(98,182,255,0.28)] bg-[rgba(98,182,255,0.08)]",
-  },
-};
-
 const panelIn = {
   hidden: { opacity: 0, y: 16, scale: 0.98 },
   show: { opacity: 1, y: 0, scale: 1, transition: { duration: DURATION.reveal, ease: EASE_OUT } },
 };
-
-function Status({ tone, pulse, children }: { tone: Tone; pulse?: boolean; children: ReactNode }) {
-  const c = TONE[tone];
-  return (
-    <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 font-mono text-[10.5px] ${c.chip} ${c.text}`}
-    >
-      <span className={`h-1.5 w-1.5 rounded-full ${c.dot} ${pulse ? "animate-pulse-dot" : ""}`} />
-      {children}
-    </span>
-  );
-}
 
 /** A labelled bar that fills once the panel has arrived. */
 function Meter({ label, value, display }: { label: string; value: number; display: string }) {
@@ -106,7 +75,7 @@ function SystemRow({
         </span>
         {name}
       </span>
-      <Status tone={tone}>{status}</Status>
+      <StatusChip tone={tone}>{status}</StatusChip>
     </li>
   );
 }
@@ -229,9 +198,9 @@ export default function HeroVisual() {
                     <p className="font-mono text-[10.5px] text-fg-3">openai · gemini</p>
                   </div>
                 </div>
-                <Status tone="cyan" pulse>
+                <StatusChip tone="cyan" pulse>
                   {v.active}
-                </Status>
+                </StatusChip>
               </div>
 
               <div className="mt-4 flex items-center gap-3 rounded-xl border border-line bg-white/[0.025] px-3 py-2.5">
@@ -327,7 +296,7 @@ export default function HeroVisual() {
                 ))}
               </ol>
               <div className="mt-3 flex items-center justify-between gap-3 border-t border-line pt-2.5">
-                <Status tone="cyan">{v.executed}</Status>
+                <StatusChip tone="cyan">{v.executed}</StatusChip>
                 <span className="font-mono text-[10.5px] text-fg-3">run_8f2c</span>
               </div>
             </div>

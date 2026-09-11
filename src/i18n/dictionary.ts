@@ -111,6 +111,7 @@ export interface Dictionary {
     nocodeBody: string;
   };
   about: {
+    statement: string;
     eyebrow: string;
     title: string;
     paragraph1: string;
@@ -127,6 +128,13 @@ export interface Dictionary {
     work4Body: string;
   };
   work: {
+    readMore: string;
+    showLess: string;
+    statement: string;
+    decor: string;
+    explore: string;
+    moreTitle: string;
+    filterLabel: string;
     eyebrow: string;
     title: string;
     filterAll: string;
@@ -301,6 +309,7 @@ const en: Dictionary = {
       "Bubble.io builds for when reaching the market first matters more than a custom stack, ready to rebuild later.",
   },
   about: {
+    statement: "Engineering\nbeyond the\ninterface.",
     eyebrow: "Introduction",
     title: "Overview.",
     paragraph1:
@@ -322,12 +331,19 @@ const en: Dictionary = {
       "Code, documentation and access handed over, so your team can run it and change it without me.",
   },
   work: {
+    readMore: "Read more",
+    showLess: "Show less",
+    statement: "Systems\nbuilt for\nreal use.",
+    decor: "Systems",
+    explore: "Explore",
+    moreTitle: "More projects",
+    filterLabel: "Filter projects by category",
     eyebrow: "Selected projects",
     title: "Work.",
     filterAll: "All",
-    companySite: "Company site ->",
-    playStore: "View on Google Play ->",
-    projectFiles: "View project files ->",
+    companySite: "Company site",
+    playStore: "View on Google Play",
+    projectFiles: "View project files",
     tryBot: "Try the bot",
     prevProject: "Previous project",
     nextProject: "Next project",
@@ -496,6 +512,7 @@ const pt: Dictionary = {
       "Projetos em Bubble.io para quando chegar ao mercado primeiro importa mais do que uma stack sob medida, prontos para serem reconstruídos depois.",
   },
   about: {
+    statement: "Engenharia\nalém da\ninterface.",
     eyebrow: "Introdução",
     title: "Visão geral.",
     paragraph1:
@@ -517,12 +534,19 @@ const pt: Dictionary = {
       "Código, documentação e acessos entregues, para a sua equipe rodar e alterar sem depender de mim.",
   },
   work: {
+    readMore: "Ler mais",
+    showLess: "Mostrar menos",
+    statement: "Sistemas\nfeitos para\nuso real.",
+    decor: "Sistemas",
+    explore: "Explorar",
+    moreTitle: "Mais projetos",
+    filterLabel: "Filtrar projetos por categoria",
     eyebrow: "Projetos selecionados",
     title: "Trabalho.",
     filterAll: "Todos",
-    companySite: "Site da empresa ->",
-    playStore: "Ver no Google Play ->",
-    projectFiles: "Ver arquivos do projeto ->",
+    companySite: "Site da empresa",
+    playStore: "Ver no Google Play",
+    projectFiles: "Ver arquivos do projeto",
     tryBot: "Teste o bot",
     prevProject: "Projeto anterior",
     nextProject: "Próximo projeto",
@@ -691,6 +715,7 @@ const es: Dictionary = {
       "Proyectos en Bubble.io para cuando llegar antes al mercado importa más que un stack a medida, listos para reconstruirse después.",
   },
   about: {
+    statement: "Ingeniería\nmás allá de\nla interfaz.",
     eyebrow: "Introducción",
     title: "Resumen.",
     paragraph1:
@@ -712,12 +737,19 @@ const es: Dictionary = {
       "Código, documentación y accesos entregados, para que tu equipo lo mantenga y lo cambie sin depender de mí.",
   },
   work: {
+    readMore: "Leer más",
+    showLess: "Mostrar menos",
+    statement: "Sistemas\nhechos para\nel uso real.",
+    decor: "Sistemas",
+    explore: "Explorar",
+    moreTitle: "Más proyectos",
+    filterLabel: "Filtrar proyectos por categoría",
     eyebrow: "Proyectos seleccionados",
     title: "Trabajo.",
     filterAll: "Todos",
-    companySite: "Sitio de la empresa ->",
-    playStore: "Ver en Google Play ->",
-    projectFiles: "Ver archivos del proyecto ->",
+    companySite: "Sitio de la empresa",
+    playStore: "Ver en Google Play",
+    projectFiles: "Ver archivos del proyecto",
     tryBot: "Prueba el bot",
     prevProject: "Proyecto anterior",
     nextProject: "Proyecto siguiente",

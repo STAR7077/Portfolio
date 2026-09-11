@@ -1,475 +1,144 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useSyncExternalStore } from "react";
+import { AnimatePresence, m, type Variants } from "motion/react";
 import { projects } from "@/data/projects";
+import { FEATURED } from "@/data/showcase";
 import {
   getServerSnapshot,
   getSnapshot,
   setWorkFilter,
   subscribe,
-  type WorkFilter,
 } from "@/data/workFilter";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import ProjectSlide from "./ProjectSlide";
-import Reveal from "./Reveal";
-import CubeCluster from "./CubeCluster";
+import { DURATION, EASE_OUT, IN_VIEW, LAYOUT, cardSwap, fadeUp } from "@/lib/motion";
+import BackgroundGlow from "./BackgroundGlow";
+import ProjectCard from "./ProjectCard";
+import ProjectFilters from "./ProjectFilters";
+import ProjectShowcase from "./ProjectShowcase";
+import SectionHeading from "./SectionHeading";
 
-/** How far a pointer has to travel before it counts as a drag, not a click. */
-const DRAG_THRESHOLD = 6;
+/**
+ * The strongest section on the page. Four featured projects each get their
+ * own layout, then everything else sits in a compact grid.
+ *
+ * The category filter still lives in the URL hash, so #work/ai, #work/web
+ * and #work/mobile open straight onto a category and the back button and
+ * pasted links keep working. Filtering never removes an item abruptly:
+ * leaving items fade and shrink out of the layout while the rest slide into
+ * their new places.
+ *
+ * This replaces the horizontal carousel, which showed every project in the
+ * same slide one at a time.
+ */
+
+/** Showcases are large, so they rise rather than scale when they arrive. */
+const showcaseSwap: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0, transition: { duration: DURATION.reveal, ease: EASE_OUT } },
+  exit: { opacity: 0, transition: { duration: DURATION.fast, ease: EASE_OUT } },
+};
+
+const pad = (n: number) => String(n).padStart(2, "0");
 
 export default function Work() {
   const { t } = useLanguage();
-
-  // The URL hash is the filter, so #work/mobile opens straight onto the
-  // mobile projects and every filter click leaves a link worth sharing.
   const active = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  const filters: { key: WorkFilter; label: string }[] = [
-    { key: "all", label: t.work.filterAll },
-    { key: "ai", label: t.categories.ai },
-    { key: "web", label: t.categories.web },
-    { key: "mobile", label: t.categories.mobile },
-  ];
-
-  const visible =
-    active === "all" ? projects : projects.filter((p) => p.categories.includes(active));
-
-  const count = visible.length;
-
-  /**
-   * A copy of the last project sits before the first and a copy of the first
-   * sits after the last, so going on from the twelfth project has a slide to
-   * move into rather than a rewind across the other eleven. The moment the
-   * movement ends on a copy, the track is placed on the real slide it
-   * duplicates. The two look identical, so the correction is invisible.
-   */
-  const loop = count > 1;
-  const rendered = loop ? [visible[count - 1], ...visible, visible[0]] : visible;
-  /** Real project i is this far along the track. */
-  const offset = loop ? 1 : 0;
-
-  const track = useRef<HTMLDivElement | null>(null);
-  const [at, setAt] = useState(0);
-
-  // The listeners below are attached once and outlive any filter change,
-  // so what they need to know has to reach them through refs.
-  const geom = useRef({ count, offset, loop });
-  useEffect(() => {
-    geom.current = { count, offset, loop };
-  }, [count, offset, loop]);
-
-  /** Width of one slide plus the gap, which is the distance between slides. */
-  const stride = useCallback(() => {
-    const el = track.current;
-    const first = el?.firstElementChild as HTMLElement | undefined;
-    if (!el || !first) return 0;
-    const gap = parseFloat(getComputedStyle(el).columnGap || "0") || 0;
-    return first.offsetWidth + gap;
-  }, []);
-
-  const glide = useRef(0);
-
-  /**
-   * Moves the track to a slide and animates getting there.
-   *
-   * Two reasons this is hand-rolled rather than scrollTo with a smooth
-   * behaviour. Mandatory snapping has to be suspended for the duration,
-   * because applying it to a track sitting between two slides jumps it to
-   * the nearest one at once, which is what turned a released drag into a
-   * teleport. And native smooth scrolling is not always available: plenty of
-   * machines have it switched off, and there it lands instantly however it
-   * is asked. A frame loop behaves the same everywhere.
-   */
-  /** Puts the track on the real slide whenever it has landed on a copy. */
-  const normalize = useCallback((el: HTMLDivElement, step: number) => {
-    const { count: n, loop: on } = geom.current;
-    if (!on || !step || !n) return;
-    const i = Math.round(el.scrollLeft / step);
-    if (i <= 0) el.scrollLeft = n * step;
-    else if (i >= n + 1) el.scrollLeft = step;
-  }, []);
-
-  const glideTo = useCallback((el: HTMLDivElement, left: number, stepPx = 0) => {
-    cancelAnimationFrame(glide.current);
-
-    const from = el.scrollLeft;
-    const delta = left - from;
-    if (Math.abs(delta) < 1) return;
-
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      el.scrollLeft = left;
-      normalize(el, stepPx);
-      el.classList.remove("is-settling");
-      return;
-    }
-
-    el.classList.add("is-settling");
-    // Timed by how many slides are being crossed rather than by pixels, so
-    // it feels the same on a phone as on a desktop instead of being twice
-    // as quick wherever the slides happen to be narrower.
-    const slides = Math.abs(delta) / Math.max(1, stepPx || Math.abs(delta));
-    const ms = Math.min(1450, 1050 * Math.min(1.35, Math.max(1, Math.sqrt(slides))));
-    const start = performance.now();
-    const ease = (x: number) => 1 - Math.pow(1 - x, 3);
-
-    const step = (now: number) => {
-      const t = Math.min(1, (now - start) / ms);
-      el.scrollLeft = from + delta * ease(t);
-      if (t < 1) {
-        glide.current = requestAnimationFrame(step);
-      } else {
-        glide.current = 0;
-        normalize(el, stepPx);
-        el.classList.remove("is-settling");
-      }
-    };
-    glide.current = requestAnimationFrame(step);
-  }, [normalize]);
-
-  /**
-   * One project forward or back from wherever the track actually is.
-   *
-   * Deliberately not "one on from the index we are displaying". At the end
-   * of a wrap the index already reads as the first project, because the copy
-   * it has just landed on is a copy of the first, while the track is still
-   * physically at the far end for another frame or two. Stepping from the
-   * index there would animate the whole way back down the track. Reading the
-   * position instead cannot disagree with itself.
-   */
-  const nudge = useCallback(
-    (dir: 1 | -1) => {
-      const el = track.current;
-      const step = stride();
-      if (!el || !step) return;
-      // If it is resting on a copy, stand on the real slide first. They look
-      // the same, so nothing is seen to move.
-      normalize(el, step);
-      const here = Math.round(el.scrollLeft / step);
-      glideTo(el, (here + dir) * step, step);
-    },
-    [stride, glideTo, normalize]
-  );
-
-  /** Jumps to a project by number, for the row of ticks. */
-  const goTo = useCallback(
-    (i: number) => {
-      const el = track.current;
-      const step = stride();
-      if (!el || !step) return;
-      const { count: n, offset: off } = geom.current;
-      if (!n) return;
-      normalize(el, step);
-      glideTo(el, (Math.max(0, Math.min(i, n - 1)) + off) * step, step);
-    },
-    [stride, glideTo, normalize]
-  );
-
-  // Follow the scroll position rather than owning it, so dragging, the
-  // buttons, a trackpad swipe and the keyboard all report the same place.
-  useEffect(() => {
-    const el = track.current;
-    if (!el) return;
-
-    let frame = 0;
-    let idle = 0;
-    const read = () => {
-      frame = 0;
-      const step = stride();
-      if (!step) return;
-      const { count: n, offset: off } = geom.current;
-      const raw = Math.round(el.scrollLeft / step);
-      setAt(n ? (((raw - off) % n) + n) % n : 0);
-    };
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(read);
-      // A trackpad swipe can also come to rest on a copy, with no glide and
-      // no drag to tidy up after it.
-      clearTimeout(idle);
-      idle = window.setTimeout(() => {
-        if (glide.current || el.classList.contains("is-dragging")) return;
-        normalize(el, stride());
-      }, 180);
-    };
-
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      el.removeEventListener("scroll", onScroll);
-      clearTimeout(idle);
-      if (frame) cancelAnimationFrame(frame);
-    };
-  }, [stride, normalize]);
-
-  // Drag sideways with the pointer. The track scrolls natively, so this only
-  // has to translate pointer movement into scrollLeft and then get out of the
-  // way. Vertical movement is left alone, so a drag that is mostly downwards
-  // still scrolls the page on to the next section.
-  useEffect(() => {
-    const el = track.current;
-    if (!el) return;
-
-    let id: number | null = null;
-    let startX = 0;
-    let startY = 0;
-    let startLeft = 0;
-    let lastDx = 0;
-    let dragging = false;
-    let moved = false;
-
-    function onDown(e: PointerEvent) {
-      if (e.button !== 0 && e.pointerType === "mouse") return;
-      id = e.pointerId;
-      startX = e.clientX;
-      startY = e.clientY;
-      cancelAnimationFrame(glide.current);
-      glide.current = 0;
-      el!.classList.remove("is-settling");
-      // Same reason as the buttons: begin from a real slide, so the drag
-      // cannot start on a copy and be corrected out from under the finger.
-      normalize(el!, stride());
-      startLeft = el!.scrollLeft;
-      lastDx = 0;
-      dragging = true;
-      moved = false;
-    }
-
-    function onMove(e: PointerEvent) {
-      if (!dragging || e.pointerId !== id) return;
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
-      lastDx = dx;
-
-      if (!moved) {
-        // Let a mostly-vertical gesture go: it belongs to the page.
-        if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > DRAG_THRESHOLD) {
-          dragging = false;
-          return;
-        }
-        if (Math.abs(dx) < DRAG_THRESHOLD) return;
-        moved = true;
-        el!.setPointerCapture(e.pointerId);
-        el!.classList.add("is-dragging");
-      }
-
-      el!.scrollLeft = startLeft - dx;
-    }
-
-    function release(e: PointerEvent) {
-      if (!dragging || e.pointerId !== id) return;
-      dragging = false;
-      if (!moved) return;
-      // is-settling takes over before is-dragging comes off, so snapping
-      // is never briefly live while the track sits between two slides.
-      el!.classList.add("is-settling");
-      el!.classList.remove("is-dragging");
-      try {
-        el!.releasePointerCapture(e.pointerId);
-      } catch {
-        /* already released */
-      }
-      // Settle deliberately, since scroll snapping does not fire for a
-      // scrollLeft written by hand. A slide is the width of the track, so
-      // asking for half of it before the carousel moves means a lot of
-      // dragging: a decisive flick of a seventh of the width is enough.
-      const step = stride();
-      if (!step) return;
-      const from = Math.round(startLeft / step);
-      const decisive = Math.abs(lastDx) > el!.clientWidth * 0.14;
-      const target = decisive
-        ? from + (lastDx < 0 ? 1 : -1)
-        : Math.round(el!.scrollLeft / step);
-      // No wrapping needed here: the copies at either end give the drag
-      // somewhere to go, and landing on one is corrected afterwards.
-      const last = el!.children.length - 1;
-      glideTo(el!, Math.max(0, Math.min(target, last)) * step, step);
-    }
-
-    /** A drag that ends on a link must not also follow it. */
-    function onClick(e: MouseEvent) {
-      if (moved) {
-        e.preventDefault();
-        e.stopPropagation();
-        moved = false;
-      }
-    }
-
-    // Starting a drag on a project image otherwise begins a native image
-    // drag, which swallows the pointer stream: the events simply stop
-    // arriving mid-gesture and the carousel never moves.
-    const onDragStart = (e: Event) => e.preventDefault();
-    el.addEventListener("dragstart", onDragStart);
-    el.addEventListener("pointerdown", onDown);
-    el.addEventListener("pointermove", onMove);
-    el.addEventListener("pointerup", release);
-    el.addEventListener("pointercancel", release);
-    el.addEventListener("click", onClick, true);
-    return () => {
-      cancelAnimationFrame(glide.current);
-      el.classList.remove("is-dragging", "is-settling");
-      el.removeEventListener("dragstart", onDragStart);
-      el.removeEventListener("pointerdown", onDown);
-      el.removeEventListener("pointermove", onMove);
-      el.removeEventListener("pointerup", release);
-      el.removeEventListener("pointercancel", release);
-      el.removeEventListener("click", onClick, true);
-    };
-  }, [stride, glideTo, normalize]);
-
-  // A new filter shows a different set, so start it on that set's first
-  // project, which sits one slide along from the copy that precedes it.
-  useEffect(() => {
-    const el = track.current;
-    if (!el) return;
-    const place = () => {
-      el.scrollLeft = offset * stride();
-      setAt(0);
-    };
-    place();
-    // Widths are not settled on the very first paint after a change.
-    const frame = requestAnimationFrame(place);
-    return () => cancelAnimationFrame(frame);
-  }, [active, offset, stride]);
+  const visible = projects.filter((p) => active === "all" || p.categories.includes(active));
+  const featured = FEATURED.flatMap((f) => {
+    const project = visible.find((p) => p.slug === f.slug);
+    return project ? [{ project, layout: f.layout }] : [];
+  });
+  const featuredSlugs = new Set(featured.map((f) => f.project.slug));
+  const rest = visible.filter((p) => !featuredSlugs.has(p.slug));
 
   return (
-    <section id="work" className="relative work-slab py-24 sm:py-28">
-      {/* One viewport of decoration at the top of the section: two
-          concentric rings and the cube cluster, all sharing the reference's
-          anchor point of top 50% / right 30%. */}
+    <section id="work" className="relative overflow-hidden bg-canvas py-24 sm:py-32">
+      <BackgroundGlow preset="work" />
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 hidden h-screen overflow-hidden lg:block"
         aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-canvas-2 to-transparent"
+      />
+
+      {/* A single oversized word behind the heading. Decoration only: at
+          this opacity it registers as texture, never as something to read. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute right-[-3vw] top-16 select-none whitespace-nowrap font-heading text-[19vw] font-extrabold uppercase leading-none tracking-[-0.05em] text-white/[0.03] sm:top-20"
       >
-        <div className="absolute right-[30%] top-1/2 h-[160vh] w-[160vh] -translate-y-1/2 translate-x-1/2 rounded-full border border-white/15" />
-        <div className="absolute right-[30%] top-1/2 h-[100vh] w-[100vh] -translate-y-1/2 translate-x-1/2 rounded-full border border-white/15" />
-        <div className="absolute right-[30%] top-1/2 h-[100vh] w-[100vh] -translate-y-1/2 translate-x-1/2">
-          <CubeCluster />
-        </div>
+        {t.work.decor}
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
-        <Reveal>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-300">
-            {t.work.eyebrow}
-          </p>
-          <h2 className="mt-2 font-heading text-[42px] font-semibold leading-[1.16667] tracking-[-0.5px] text-white lg:text-[56px] xl:text-[72px]">
-            {t.work.title}
-          </h2>
-        </Reveal>
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+          <m.div initial="hidden" whileInView="show" viewport={IN_VIEW} variants={fadeUp}>
+            <SectionHeading index="04" eyebrow={t.work.eyebrow} statement={t.work.statement} />
+          </m.div>
 
-        <Reveal delay={80}>
-          <div className="mt-8 flex flex-wrap items-center gap-2">
-            {filters.map((f) => {
-              const on = active === f.key;
-              return (
-                <button
-                  key={f.key}
-                  onClick={() => setWorkFilter(f.key)}
-                  aria-pressed={on}
-                  className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-500 ${
-                    on
-                      ? "bg-white text-[var(--accent)] shadow-[0_10px_28px_-10px_rgba(0,0,0,0.5)]"
-                      : "border border-white/25 bg-white/5 text-white/80 backdrop-blur hover:border-white hover:text-white"
-                  }`}
-                >
-                  {f.label}
-                </button>
-              );
-            })}
-            <span className="ml-2 font-mono text-sm text-white/70">
-              {String(count).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
+          <m.div
+            initial="hidden"
+            whileInView="show"
+            viewport={IN_VIEW}
+            variants={fadeUp}
+            className="flex flex-col items-start gap-3 lg:items-end"
+          >
+            <ProjectFilters active={active} onChange={setWorkFilter} />
+            <span className="font-mono text-[11px] text-fg-3">
+              {pad(visible.length)} / {pad(projects.length)}
             </span>
-          </div>
-        </Reveal>
-      </div>
-
-      {/* The projects run sideways, one to a slide. The section is only as
-          tall as a single project, so scrolling down from anywhere in it
-          carries straight on to the next section. */}
-      <div
-        ref={track}
-        className="work-track relative z-10 mx-auto mt-10 flex max-w-6xl snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-2"
-        role="group"
-        aria-roledescription="carousel"
-        aria-label={t.work.title}
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "ArrowRight") {
-            e.preventDefault();
-            nudge(1);
-          } else if (e.key === "ArrowLeft") {
-            e.preventDefault();
-            nudge(-1);
-          }
-        }}
-      >
-        {rendered.map((project, i) => {
-          // With the copies in place, real project numbers run from
-          // i - offset. The first and last rendered slides are the copies.
-          const real = ((i - offset) % count + count) % count;
-          const isCopy = loop && (i === 0 || i === rendered.length - 1);
-          return (
-            <div
-              // Keyed by the filter as well, so a new set of slides is a new
-              // set of elements and the entrance animation plays again. The
-              // track itself is deliberately not keyed: remounting it would
-              // strand the drag listeners on a detached node.
-              key={`${active}-${i}-${project.slug}`}
-              className="panel-in w-full flex-none snap-center"
-              role="group"
-              aria-roledescription="slide"
-              // A copy is scenery: it must not be read out or tabbed into,
-              // or every project would be announced twice.
-              aria-hidden={isCopy || undefined}
-              inert={isCopy || undefined}
-              aria-label={isCopy ? undefined : `${real + 1} / ${count}`}
-            >
-              <ProjectSlide project={project} index={real} total={count} />
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="relative z-10 mx-auto mt-7 flex max-w-6xl items-center gap-4 px-6">
-        <button
-          type="button"
-          onClick={() => nudge(-1)}
-          aria-label={t.work.prevProject}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-white hover:bg-white hover:text-[var(--accent)]"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M15 5l-7 7 7 7" />
-          </svg>
-        </button>
-        <button
-          type="button"
-          onClick={() => nudge(1)}
-          aria-label={t.work.nextProject}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:border-white hover:bg-white hover:text-[var(--accent)]"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-
-        {/* One tick per project, so the length of the set is visible at a
-            glance without counting slides. */}
-        <div className="flex flex-1 items-center gap-1.5">
-          {visible.map((project, i) => (
-            <button
-              key={project.slug}
-              type="button"
-              onClick={() => goTo(i)}
-              aria-label={project.title}
-              aria-current={i === at}
-              className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
-                i === at ? "bg-white" : "bg-white/25 hover:bg-white/50"
-              }`}
-            />
-          ))}
+          </m.div>
         </div>
 
-        <span className="shrink-0 font-mono text-sm text-white/70">
-          {String(Math.min(at + 1, count)).padStart(2, "0")} / {String(count).padStart(2, "0")}
-        </span>
+        <div className="mt-16 space-y-20 sm:mt-20 sm:space-y-28">
+          <AnimatePresence mode="popLayout">
+            {featured.map((f, i) => (
+              <m.div
+                key={f.project.slug}
+                layout="position"
+                transition={{ layout: LAYOUT }}
+                variants={showcaseSwap}
+                initial="hidden"
+                whileInView="show"
+                exit="exit"
+                viewport={IN_VIEW}
+              >
+                <ProjectShowcase project={f.project} layout={f.layout} number={pad(i + 1)} />
+              </m.div>
+            ))}
+          </AnimatePresence>
+        </div>
+
+        {rest.length > 0 && (
+          <m.div layout="position" transition={{ layout: LAYOUT }} className="mt-20 sm:mt-28">
+            <div className="flex items-center gap-4">
+              <p className="t-eyebrow shrink-0">{t.work.moreTitle}</p>
+              <span aria-hidden="true" className="h-px flex-1 bg-line" />
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-4">
+              <AnimatePresence mode="popLayout">
+                {rest.map((project, i) => (
+                  <m.div
+                    key={project.slug}
+                    layout
+                    transition={{ layout: LAYOUT }}
+                    variants={cardSwap}
+                    initial="hidden"
+                    whileInView="show"
+                    exit="exit"
+                    viewport={IN_VIEW}
+                    // Cards share each row between them, so a short last row
+                    // is filled rather than left with a gap.
+                    className="min-w-0 grow basis-full md:basis-[calc(50%-0.5rem)] lg:basis-[calc(33.333%-0.667rem)]"
+                  >
+                    <ProjectCard project={project} number={pad(featured.length + i + 1)} />
+                  </m.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </m.div>
+        )}
       </div>
     </section>
   );

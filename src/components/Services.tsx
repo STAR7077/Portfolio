@@ -2,7 +2,9 @@
 
 import type { ReactNode } from "react";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import Reveal from "./Reveal";
+import { m } from "motion/react";
+import { IN_VIEW, STAGGER, fadeUp, stagger } from "@/lib/motion";
+import BackgroundGlow from "./BackgroundGlow";
 import SectionHeading from "./SectionHeading";
 
 /**
@@ -33,6 +35,17 @@ function Icon({ children }: { children: ReactNode }) {
     </svg>
   );
 }
+
+/**
+ * Dividers for the figures: two per row on a phone, four on anything wider.
+ * Written out per cell because a rule has to know where its row starts.
+ */
+const CELL = [
+  "pr-5 sm:pr-6",
+  "border-l border-line pl-5 sm:px-6",
+  "border-t border-line pr-5 sm:border-l sm:border-t-0 sm:px-6",
+  "border-l border-t border-line pl-5 sm:border-t-0 sm:px-6",
+];
 
 export default function Services() {
   const { t } = useLanguage();
@@ -119,52 +132,69 @@ export default function Services() {
   ];
 
   return (
-    <section id="services" className="relative py-16 sm:py-20">
-      <div className="mx-auto max-w-6xl px-6">
-        <Reveal>
-          <SectionHeading eyebrow={t.services.eyebrow} title={t.services.title} />
-          <p className="lead -mt-2 max-w-2xl text-[var(--muted)]">{t.services.intro}</p>
-        </Reveal>
+    <section id="services" className="relative overflow-hidden bg-canvas py-24 sm:py-32">
+      <BackgroundGlow preset="services" />
+      <div className="relative z-10 mx-auto max-w-6xl px-6">
+        <m.div initial="hidden" whileInView="show" viewport={IN_VIEW} variants={fadeUp}>
+          <SectionHeading index="01" eyebrow={t.services.eyebrow} title={t.services.title} intro={t.services.intro} />
+        </m.div>
 
         {/* The figures sit under the title, where they qualify the section
             before the services themselves are read. */}
-        <Reveal delay={80}>
-          <dl className="mt-9 grid grid-cols-2 gap-x-8 gap-y-7 border-y border-[var(--border)] py-8 sm:grid-cols-4">
-            {numbers.map((item) => (
-              <div key={item.label}>
-                <dt className="text-gradient-brand font-heading text-3xl font-bold tracking-tight sm:text-4xl">
-                  {item.value}
-                </dt>
-                <dd className="mt-1.5 text-[13px] text-[var(--muted)]">{item.label}</dd>
-              </div>
-            ))}
-          </dl>
-        </Reveal>
+        {/* The figures read as a row of instrument readouts: the number large,
+            the plus in the accent, the label in the mono register. */}
+        <m.dl
+          initial="hidden"
+          whileInView="show"
+          viewport={IN_VIEW}
+          variants={stagger(STAGGER.tight)}
+          className="mt-12 grid grid-cols-2 border-y border-line sm:grid-cols-4"
+        >
+          {numbers.map((item, i) => (
+            <m.div
+              key={item.label}
+              variants={fadeUp}
+              className={`py-7 ${CELL[i]}`}
+            >
+              <dt className="font-heading text-4xl font-extrabold tracking-[-0.04em] text-fg sm:text-[2.75rem]">
+                {item.value.replace("+", "")}
+                <span className="text-accent-hi">+</span>
+              </dt>
+              <dd className="mt-2 font-mono text-[11.5px] uppercase tracking-[0.12em] text-fg-3">{item.label}</dd>
+            </m.div>
+          ))}
+        </m.dl>
 
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {cards.map((card, i) => (
-            <Reveal key={card.title} delay={i * 70} className="h-full">
-              <article className="service-card relative h-full overflow-hidden rounded-2xl bg-white p-7 shadow-[0_14px_40px_-30px_rgba(22,21,28,0.6)]">
+        <m.div
+          initial="hidden"
+          whileInView="show"
+          viewport={IN_VIEW}
+          variants={stagger(STAGGER.base)}
+          className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {cards.map((card) => (
+            <m.div key={card.title} variants={fadeUp} className="h-full">
+              <article className="service-card relative h-full overflow-hidden rounded-card border border-line bg-card p-7 shadow-[var(--edge-top)]">
                 {/* The fan in the corner, which on hover becomes the wave
                     that carries the accent across the card. */}
                 <span className="service-wave" aria-hidden="true" />
 
                 {/* The inversions live in globals.css beside the wave, so
                     they fire on touch as well as on hover. */}
-                <span className="service-icon relative flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--accent)] grad-accent text-white">
+                <span className="service-icon relative flex h-12 w-12 items-center justify-center rounded-xl border border-[rgba(113,107,255,0.35)] bg-[rgba(113,107,255,0.12)] text-accent-hi">
                   {card.icon}
                 </span>
 
-                <h3 className="service-title relative mt-6 font-heading text-xl font-bold text-[var(--foreground)]">
+                <h3 className="service-title relative mt-6 text-[1.2rem] font-bold text-fg">
                   {card.title}
                 </h3>
-                <p className="service-body relative mt-3 text-[15px] leading-relaxed text-[var(--muted)]">
+                <p className="service-body relative mt-3 text-[15px] leading-relaxed text-fg-2">
                   {card.body}
                 </p>
               </article>
-            </Reveal>
+            </m.div>
           ))}
-        </div>
+        </m.div>
       </div>
     </section>
   );
