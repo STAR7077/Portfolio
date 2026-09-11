@@ -4,6 +4,7 @@ import { track } from "@vercel/analytics";
 import { locales, localeNames } from "@/i18n/config";
 import { useLanguage } from "@/i18n/LanguageProvider";
 
+/** A three-way segmented control in the header's mono register. */
 export default function LanguageSwitcher() {
   const { locale, setLocale, t } = useLanguage();
 
@@ -11,7 +12,7 @@ export default function LanguageSwitcher() {
     <div
       role="group"
       aria-label={t.nav.languageLabel}
-      className="flex items-center gap-0.5 rounded-full border border-[var(--border)] p-1"
+      className="flex items-center gap-0.5 rounded-[10px] border border-line bg-white/[0.02] p-[3px]"
     >
       {locales.map((code) => {
         const active = code === locale;
@@ -26,10 +27,8 @@ export default function LanguageSwitcher() {
             }}
             aria-pressed={active}
             title={localeNames[code].label}
-            className={`rounded-full px-2.5 py-1 text-[11px] font-bold transition-colors duration-300 ${
-              active
-                ? "bg-[var(--accent)] grad-accent text-white"
-                : "text-[var(--faint)] hover:text-[var(--foreground)]"
+            className={`rounded-[7px] px-2 py-1 font-mono text-[11px] font-medium transition-colors duration-300 ${
+              active ? "bg-white/[0.09] text-fg" : "text-fg-3 hover:text-fg"
             }`}
           >
             {localeNames[code].code}

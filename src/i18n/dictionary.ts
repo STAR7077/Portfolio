@@ -10,6 +10,7 @@ export interface Dictionary {
     contact: string;
     cta: string;
     languageLabel: string;
+    primaryLabel: string;
   };
   reach: {
     eyebrow: string;
@@ -46,6 +47,27 @@ export interface Dictionary {
     promiseComms: string;
     ctaWork: string;
     ctaContact: string;
+    intro: string;
+  };
+  heroVisual: {
+    agent: string;
+    active: string;
+    newLead: string;
+    channel: string;
+    justNow: string;
+    intent: string;
+    match: string;
+    systems: string;
+    synced: string;
+    connected: string;
+    healthy: string;
+    run: string;
+    executed: string;
+    stepClassify: string;
+    stepMatch: string;
+    stepSync: string;
+    stepNotify: string;
+    caption: string;
   };
   stats: {
     projects: string;
@@ -163,6 +185,7 @@ const en: Dictionary = {
     contact: "Contact",
     cta: "Let's talk",
     languageLabel: "Change language",
+    primaryLabel: "Sections",
   },
   reach: {
     eyebrow: "Where I work",
@@ -200,6 +223,27 @@ const en: Dictionary = {
     promiseComms: "Your business grows",
     ctaWork: "See my work",
     ctaContact: "Get in touch",
+    intro: "Full-stack and AI engineer with twelve years behind me. I build AI agents, automation, SaaS platforms, backends and mobile apps, and the integrations that hold them together.",
+  },
+  heroVisual: {
+    agent: "AI Lead Agent",
+    active: "Active",
+    newLead: "New lead received",
+    channel: "WhatsApp",
+    justNow: "just now",
+    intent: "Intent score",
+    match: "Property match",
+    systems: "Connected systems",
+    synced: "Synced",
+    connected: "Connected",
+    healthy: "Healthy",
+    run: "Automation run",
+    executed: "Executed",
+    stepClassify: "Classify intent",
+    stepMatch: "Match inventory",
+    stepSync: "Sync to CRM",
+    stepNotify: "Notify agent",
+    caption: "Illustration: an AI agent qualifying a WhatsApp enquiry and syncing it to a CRM",
   },
   stats: {
     projects: "Completed Projects",
@@ -336,6 +380,7 @@ const pt: Dictionary = {
     contact: "Contato",
     cta: "Vamos conversar",
     languageLabel: "Mudar idioma",
+    primaryLabel: "Seções",
   },
   reach: {
     eyebrow: "Onde eu trabalho",
@@ -373,6 +418,27 @@ const pt: Dictionary = {
     promiseComms: "Seu negócio cresce",
     ctaWork: "Veja meu trabalho",
     ctaContact: "Entre em contato",
+    intro: "Engenheiro full-stack e de IA com doze anos de estrada. Construo agentes de IA, automações, plataformas SaaS, backends e apps mobile, e as integrações que mantêm tudo isso de pé.",
+  },
+  heroVisual: {
+    agent: "Agente de leads com IA",
+    active: "Ativo",
+    newLead: "Novo lead recebido",
+    channel: "WhatsApp",
+    justNow: "agora",
+    intent: "Pontuação de intenção",
+    match: "Imóvel compatível",
+    systems: "Sistemas conectados",
+    synced: "Sincronizado",
+    connected: "Conectado",
+    healthy: "Operacional",
+    run: "Execução da automação",
+    executed: "Concluída",
+    stepClassify: "Classificar intenção",
+    stepMatch: "Buscar no estoque",
+    stepSync: "Sincronizar com o CRM",
+    stepNotify: "Avisar o corretor",
+    caption: "Ilustração: um agente de IA qualificando um contato do WhatsApp e sincronizando com o CRM",
   },
   stats: {
     projects: "Projetos concluídos",
@@ -509,6 +575,7 @@ const es: Dictionary = {
     contact: "Contacto",
     cta: "Hablemos",
     languageLabel: "Cambiar idioma",
+    primaryLabel: "Secciones",
   },
   reach: {
     eyebrow: "Dónde trabajo",
@@ -546,6 +613,27 @@ const es: Dictionary = {
     promiseComms: "Tu negocio crece",
     ctaWork: "Ver mi trabajo",
     ctaContact: "Contáctame",
+    intro: "Ingeniero full-stack y de IA con doce años de experiencia. Construyo agentes de IA, automatizaciones, plataformas SaaS, backends y apps móviles, y las integraciones que lo sostienen todo.",
+  },
+  heroVisual: {
+    agent: "Agente de leads con IA",
+    active: "Activo",
+    newLead: "Nuevo lead recibido",
+    channel: "WhatsApp",
+    justNow: "ahora",
+    intent: "Puntuación de intención",
+    match: "Inmueble compatible",
+    systems: "Sistemas conectados",
+    synced: "Sincronizado",
+    connected: "Conectado",
+    healthy: "Operativo",
+    run: "Ejecución de la automatización",
+    executed: "Completada",
+    stepClassify: "Clasificar intención",
+    stepMatch: "Buscar en inventario",
+    stepSync: "Sincronizar con el CRM",
+    stepNotify: "Avisar al agente",
+    caption: "Ilustración: un agente de IA calificando un contacto de WhatsApp y sincronizándolo con el CRM",
   },
   stats: {
     projects: "Proyectos completados",

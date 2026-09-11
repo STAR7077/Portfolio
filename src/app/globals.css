@@ -168,209 +168,245 @@ h3,
   p { letter-spacing: -0.005em; }
 }
 
-/* ===============================================================
-   TYPE SCALE
-   Display statements are the only place uppercase is used at size.
-   =============================================================== */
-.t-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-}
-.t-eyebrow .t-index {
-  color: var(--accent-highlight);
-}
+/* Component classes live in a layer so a utility on the same element
+   still wins. Unlayered, `.btn { display: inline-flex }` silently beat
+   `hidden`, and the header CTA showed on phones where it was meant to hide. */
+@layer components {
+  /* ===============================================================
+     TYPE SCALE
+     Display statements are the only place uppercase is used at size.
+     =============================================================== */
+  .t-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+  .t-eyebrow .t-index {
+    color: var(--accent-highlight);
+  }
 
-.t-display {
-  font-family: var(--font-heading), system-ui, sans-serif;
-  font-weight: 800;
-  text-transform: uppercase;
-  font-size: clamp(2.5rem, 6vw, 5.5rem);
-  line-height: 0.94;
-  letter-spacing: -0.04em;
-  color: var(--text-main);
-  text-wrap: balance;
-}
+  .t-display {
+    font-family: var(--font-heading), system-ui, sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    line-height: 0.94;
+    letter-spacing: -0.04em;
+    color: var(--text-main);
+    text-wrap: balance;
+  }
 
-.t-hero {
-  font-weight: 800;
-  font-size: clamp(2.55rem, 5.2vw, 4.6rem);
-  line-height: 1.02;
-  letter-spacing: -0.045em;
-  color: var(--text-main);
-  text-wrap: balance;
-}
+  .t-hero {
+    font-weight: 800;
+    font-size: clamp(2.55rem, 5.2vw, 4.25rem);
+    line-height: 1.02;
+    letter-spacing: -0.045em;
+    color: var(--text-main);
+    text-wrap: balance;
+  }
 
-.t-h2 {
-  font-weight: 700;
-  font-size: clamp(1.85rem, 3.2vw, 2.9rem);
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  color: var(--text-main);
-  text-wrap: balance;
-}
+  .t-h2 {
+    font-weight: 700;
+    font-size: clamp(1.85rem, 3.2vw, 2.9rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: var(--text-main);
+    text-wrap: balance;
+  }
 
-.t-lead,
-.lead {
-  font-size: clamp(1.0625rem, 1.25vw, 1.1875rem);
-  line-height: 1.6;
-  letter-spacing: -0.01em;
-  color: var(--text-secondary);
-}
+  .t-lead,
+  .lead {
+    font-size: clamp(1.0625rem, 1.25vw, 1.1875rem);
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    color: var(--text-secondary);
+  }
 
-.t-mono {
-  font-family: var(--font-mono);
-  letter-spacing: 0;
-}
+  .t-mono {
+    font-family: var(--font-mono);
+    letter-spacing: 0;
+  }
 
-/* The brand gradient on a short word. Static: an animated background on
-   text repaints the glyphs every frame. */
-.text-gradient-brand {
-  background-image: var(--grad-brand);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
+  /* The brand gradient on a short word. Static: an animated background on
+     text repaints the glyphs every frame. */
+  .text-gradient-brand {
+    background-image: var(--grad-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 
-/* ===============================================================
-   TEXTURE AND DEPTH
-   =============================================================== */
+  /* ===============================================================
+     TEXTURE AND DEPTH
+     =============================================================== */
 
-/* Monochrome grain over the whole page. A static tile the compositor keeps
-   as one layer, so it costs nothing while scrolling. Low enough to feel
-   rather than see. */
-.noise {
-  position: fixed;
-  inset: 0;
-  z-index: 45;
-  pointer-events: none;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
+  /* Monochrome grain over the whole page. A static tile the compositor keeps
+     as one layer, so it costs nothing while scrolling. Low enough to feel
+     rather than see. */
+  .noise {
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
 
-/* A faint engineering grid, faded out at the edges so it never reads as a
-   pattern tiled across the screen. */
-.bg-grid {
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
-}
+  /* A faint engineering grid, faded out at the edges so it never reads as a
+     pattern tiled across the screen. */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+  }
 
-.bg-dots {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1.2px);
-  background-size: 22px 22px;
-  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 72%);
-  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 72%);
-}
+  .bg-dots {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1.2px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(ellipse at center, #000 30%, transparent 72%);
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 72%);
+  }
 
-/* Glows are radial gradients, never blurred boxes: a gradient is painted
-   once, a filter blur is recomputed whenever the layer changes. */
-@keyframes glow-drift {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50%      { transform: translate3d(3%, 2%, 0); }
-}
-.glow-drift { animation: glow-drift 22s ease-in-out infinite; }
+  /* Glows are radial gradients, never blurred boxes: a gradient is painted
+     once, a filter blur is recomputed whenever the layer changes. */
+  @keyframes glow-drift {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50%      { transform: translate3d(3%, 2%, 0); }
+  }
+  .glow-drift { animation: glow-drift 22s ease-in-out infinite; }
 
-/* A hairline in the brand gradient, used to mark a section edge. */
-.rule-brand {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.55) 30%, rgba(var(--accent-cyan-rgb), 0.45) 70%, transparent);
-}
+  /* A hairline in the brand gradient, used to mark a section edge. */
+  .rule-brand {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.55) 30%, rgba(var(--accent-cyan-rgb), 0.45) 70%, transparent);
+  }
 
-/* ===============================================================
-   SURFACES
-   =============================================================== */
-.card {
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-card);
-  box-shadow: var(--edge-top), var(--shadow-card);
-}
+  /* ===============================================================
+     SURFACES
+     =============================================================== */
+  .card {
+    background: var(--surface-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-card);
+    box-shadow: var(--edge-top), var(--shadow-card);
+  }
 
-.card-hover {
-  transition:
-    transform var(--dur-base) var(--ease-out),
-    border-color var(--dur-base) var(--ease-out),
-    box-shadow var(--dur-base) var(--ease-out);
-}
-.card-hover:hover {
-  transform: translate3d(0, -5px, 0);
-  border-color: rgba(var(--accent-rgb), 0.3);
-  box-shadow: var(--edge-top), 0 26px 50px -30px rgba(0, 0, 0, 0.95), 0 0 40px -20px rgba(var(--accent-rgb), 0.35);
-}
+  .card-hover {
+    transition:
+      transform var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out);
+  }
+  .card-hover:hover {
+    transform: translate3d(0, -5px, 0);
+    border-color: rgba(var(--accent-rgb), 0.3);
+    box-shadow: var(--edge-top), 0 26px 50px -30px rgba(0, 0, 0, 0.95), 0 0 40px -20px rgba(var(--accent-rgb), 0.35);
+  }
 
-/* A small floating interface panel, the building block of the hero
-   composition and the project overlays. */
-.panel {
-  background: linear-gradient(180deg, rgba(25, 31, 44, 0.92), rgba(18, 23, 34, 0.92));
-  border: 1px solid var(--border-subtle);
-  border-radius: 14px;
-  box-shadow: var(--edge-top), var(--shadow-float);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
+  /* A small floating interface panel, the building block of the hero
+     composition and the project overlays. */
+  .panel {
+    background: linear-gradient(180deg, rgba(25, 31, 44, 0.92), rgba(18, 23, 34, 0.92));
+    border: 1px solid var(--border-subtle);
+    border-radius: 14px;
+    box-shadow: var(--edge-top), var(--shadow-float);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
 
-/* ===============================================================
-   BUTTONS
-   =============================================================== */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  height: 46px;
-  padding: 0 1.3rem;
-  border-radius: var(--radius-btn);
-  font-size: 14.5px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-  transition:
-    transform var(--dur-fast) var(--ease-out),
-    background-color var(--dur-fast) var(--ease-out),
-    border-color var(--dur-fast) var(--ease-out),
-    box-shadow var(--dur-fast) var(--ease-out);
-}
-.btn:hover { transform: translate3d(0, -1px, 0); }
-.btn:active { transform: translate3d(0, 0, 0); }
+  /* ===============================================================
+     BUTTONS
+     =============================================================== */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 46px;
+    padding: 0 1.3rem;
+    border-radius: var(--radius-btn);
+    font-size: 14.5px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
+  }
+  .btn:hover { transform: translate3d(0, -1px, 0); }
+  .btn:active { transform: translate3d(0, 0, 0); }
 
-.btn-primary {
-  background: var(--accent-strong);
-  color: #ffffff;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 0 0 1px rgba(var(--accent-rgb), 0.55),
-    0 10px 28px -12px rgba(var(--accent-rgb), 0.7);
-}
-.btn-primary:hover {
-  background: var(--accent-strong-hover);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.26),
-    0 0 0 1px rgba(var(--accent-rgb), 0.7),
-    0 14px 34px -12px rgba(var(--accent-rgb), 0.85);
-}
+  .btn-primary {
+    background: var(--accent-strong);
+    color: #ffffff;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      0 0 0 1px rgba(var(--accent-rgb), 0.55),
+      0 10px 28px -12px rgba(var(--accent-rgb), 0.7);
+  }
+  .btn-primary:hover {
+    background: var(--accent-strong-hover);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.26),
+      0 0 0 1px rgba(var(--accent-rgb), 0.7),
+      0 14px 34px -12px rgba(var(--accent-rgb), 0.85);
+  }
 
-.btn-secondary {
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--text-main);
-  border: 1px solid var(--border-strong);
-}
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.055);
-  border-color: rgba(var(--accent-rgb), 0.45);
-}
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-main);
+    border: 1px solid var(--border-strong);
+  }
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.055);
+    border-color: rgba(var(--accent-rgb), 0.45);
+  }
 
-.btn-sm { height: 38px; padding: 0 1rem; font-size: 13.5px; }
+  .btn-sm { height: 38px; padding: 0 1rem; font-size: 13.5px; }
 
-/* The arrow in a link or button nudges up and right on hover. */
-.nudge { transition: transform var(--dur-fast) var(--ease-out); }
-:where(a, button):hover .nudge { transform: translate3d(3px, -3px, 0); }
+  /* The arrow in a link or button nudges on hover: up and right for an
+     outbound arrow, straight right for a forward one. */
+  .nudge,
+  .nudge-x { transition: transform var(--dur-fast) var(--ease-out); }
+  :where(a, button):hover .nudge { transform: translate3d(3px, -3px, 0); }
+  :where(a, button):hover .nudge-x { transform: translate3d(3px, 0, 0); }
+
+  /* ===============================================================
+     NAVIGATION
+     Nearly transparent over the hero; firmer and a little shorter once the
+     page has moved. Only padding changes size, once, on a toggle.
+     =============================================================== */
+  .nav-bar {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    background: rgba(13, 17, 24, 0.45);
+    backdrop-filter: blur(16px) saturate(120%);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+    padding-top: 9px;
+    padding-bottom: 9px;
+    transition:
+      background-color var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out),
+      padding var(--dur-base) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out);
+  }
+  .nav-bar.is-scrolled {
+    background: rgba(13, 17, 24, 0.82);
+    border-color: rgba(255, 255, 255, 0.09);
+    padding-top: 6px;
+    padding-bottom: 6px;
+    box-shadow: 0 14px 40px -22px rgba(0, 0, 0, 0.9);
+  }
+
+}
 
 /* ===============================================================
    AMBIENT MOTION (CSS)
@@ -382,6 +418,12 @@ h3,
 .float-a { animation: float-a 6.2s ease-in-out infinite; }
 .float-b { animation: float-b 7.4s ease-in-out infinite; animation-delay: -2.1s; }
 .float-c { animation: float-c 5.6s ease-in-out infinite; animation-delay: -3.7s; }
+
+/* Phones get a still composition: ambient loops there spend battery on
+   decoration the visitor is scrolling past. */
+@media (max-width: 767px) {
+  .float-a, .float-b, .float-c, .glow-drift { animation: none; }
+}
 
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(88, 214, 201, 0.45); }
@@ -585,14 +627,7 @@ h3,
   }
 }
 
-/* Hand-marker underline (until Phase 2 replaces the hero). */
-.underline-stroke path {
-  stroke-dasharray: 300;
-  stroke-dashoffset: 300;
-  animation: draw-stroke 700ms var(--ease-out) both;
-  animation-delay: inherit;
-}
-@keyframes draw-stroke { to { stroke-dashoffset: 0; } }
+
 
 /* The small-screen link rail scrolls sideways without a visible bar. */
 .nav-rail { scrollbar-width: none; -ms-overflow-style: none; }
@@ -610,7 +645,6 @@ h3,
   .reveal { opacity: 1; transform: none; transition: none; }
   .lift:hover, .card-hover:hover, .btn:hover,
   .service-card:hover, .skill-tile:hover { transform: none; }
-  .underline-stroke path { animation: none; stroke-dashoffset: 0; }
   /* No sweep for anyone who asked for less motion: the card just fills. */
   .service-wave { transition: background-color 200ms linear; }
   .service-card:hover { background-color: var(--accent-strong); }
