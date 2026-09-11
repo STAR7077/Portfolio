@@ -445,41 +445,6 @@ h3,
 }
 .animate-pulse-dot { animation: pulse-dot 2.4s ease-in-out infinite; }
 
-/* Legacy scroll reveal, used until every section moves to motion. */
-.reveal {
-  opacity: 0;
-  transform: translate3d(0, 24px, 0);
-  transition:
-    opacity 800ms var(--ease-out),
-    transform 800ms var(--ease-out);
-}
-.reveal-in {
-  opacity: 1;
-  transform: translate3d(0, 0, 0);
-}
-
-.lift {
-  transition:
-    transform 400ms var(--ease-out),
-    border-color 400ms var(--ease-out),
-    box-shadow 400ms var(--ease-out);
-}
-.lift:hover {
-  transform: translate3d(0, -4px, 0);
-  box-shadow: 0 24px 50px -28px rgba(var(--accent-rgb), 0.35);
-}
-
-@keyframes drift-b {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1.06); }
-  50%      { transform: translate3d(-50px, 36px, 0) scale(0.96); }
-}
-@keyframes drift-c {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(0.97); }
-  50%      { transform: translate3d(30px, -44px, 0) scale(1.1); }
-}
-.mesh-b { animation: drift-b 28s ease-in-out infinite; }
-.mesh-c { animation: drift-c 34s ease-in-out infinite; }
-
 /* ===============================================================
    SERVICES: the wave
    The accent travels out from the fan in the top-right corner until it
@@ -606,7 +571,8 @@ h3,
     z-index: 1;
     margin-bottom: var(--reveal-h, 0px);
   }
-  .reveal-footer {
+  /* RevealFooter marks whether the panel fits the viewport. */
+  .reveal-footer[data-fits="true"] {
     position: fixed;
     left: 0;
     right: 0;
@@ -627,11 +593,10 @@ h3,
    =============================================================== */
 @media (prefers-reduced-motion: reduce) {
   .glow-drift, .float-a, .float-b, .float-c,
-  .animate-pulse-dot, .mesh-b, .mesh-c {
+  .animate-pulse-dot {
     animation: none !important;
   }
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .lift:hover, .card-hover:hover, .btn:hover,
+  .card-hover:hover, .btn:hover,
   .service-card:hover, .skill-tile:hover { transform: none; }
   /* No sweep for anyone who asked for less motion: the card just fills. */
   .service-wave { transition: background-color 200ms linear; }

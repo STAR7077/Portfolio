@@ -18,8 +18,15 @@ export default function RevealFooter({ children }: { children: ReactNode }) {
     const node = ref.current;
     if (!node) return;
 
-    const publish = () =>
-      document.documentElement.style.setProperty("--reveal-h", `${node.offsetHeight}px`);
+    // The reveal only works while the panel fits the viewport: a fixed panel
+    // taller than the screen has its top, the headline, cut off for good.
+    // When it does not fit it simply follows the page like any section.
+    const publish = () => {
+      const height = node.offsetHeight;
+      const fits = height <= window.innerHeight;
+      node.dataset.fits = String(fits);
+      document.documentElement.style.setProperty("--reveal-h", fits ? `${height}px` : "0px");
+    };
 
     publish();
     const observer = new ResizeObserver(publish);

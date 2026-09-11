@@ -29,9 +29,12 @@ function toVector(lat: number, lon: number, radius: number) {
   );
 }
 
-const OCEAN = 0xe9eef4;
-const LAND = 0x475569;
-const HALO = 0x38bdf8;
+// A shade above the page ground, so the sphere reads against it.
+const OCEAN = 0x111826;
+// Land sits lighter than the ocean on a dark globe, the reverse of before.
+const LAND = 0x3d4b66;
+// Blue, not the site violet: the globe was asked to carry no purple.
+const HALO = 0x62b6ff;
 
 /** Below this the marker has curved too far around to be worth naming. */
 const FACING_CUTOFF = 0.14;
@@ -109,7 +112,7 @@ export default function Globe({ points, labels }: GlobeProps) {
       new THREE.MeshBasicMaterial({
         color: HALO,
         transparent: true,
-        opacity: 0.15,
+        opacity: 0.16,
         side: THREE.BackSide,
       })
     );
@@ -159,9 +162,9 @@ export default function Globe({ points, labels }: GlobeProps) {
       const chip = document.createElement("span");
       chip.className =
         "pointer-events-none absolute left-0 top-0 flex items-center gap-1.5 whitespace-nowrap " +
-        "rounded-full border border-[var(--border)] bg-white/95 py-[3px] pl-1.5 pr-2 " +
-        "text-[10px] font-semibold text-[var(--foreground)] opacity-0 backdrop-blur-sm " +
-        "shadow-[0_5px_14px_-8px_rgba(22,21,28,0.55)] transition-opacity duration-200 will-change-transform";
+        "rounded-full border border-white/10 bg-[rgba(13,17,24,0.86)] py-[3px] pl-1.5 pr-2 " +
+        "text-[10px] font-semibold text-[#f4f6fa] opacity-0 backdrop-blur-sm " +
+        "shadow-[0_6px_16px_-8px_rgba(0,0,0,0.9)] transition-opacity duration-200 will-change-transform";
 
       const swatch = document.createElement("i");
       swatch.className = "block h-1.5 w-1.5 shrink-0 rounded-full";

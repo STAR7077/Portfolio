@@ -1,45 +1,58 @@
 "use client";
 
+import { m } from "motion/react";
 import { testimonials } from "@/data/testimonials";
 import { useLanguage } from "@/i18n/LanguageProvider";
+import { IN_VIEW, STAGGER, fadeUp, stagger } from "@/lib/motion";
+import BackgroundGlow from "./BackgroundGlow";
 import SectionHeading from "./SectionHeading";
 import TestimonialCard from "./TestimonialCard";
-import Reveal from "./Reveal";
-import SectionScenery from "./SectionScenery";
-import Parallax from "./Parallax";
 
+/**
+ * Social proof, given the weight it deserves: one review set large at the
+ * head of the section, the rest around it.
+ *
+ * The others sit in columns rather than a grid. Reviews run from one line to
+ * ten, and a grid row stretches every card to its tallest neighbour; columns
+ * let each card end where its quote ends.
+ */
 export default function Testimonials() {
   const { t } = useLanguage();
+  const featured = testimonials.find((x) => x.featured);
+  const others = testimonials.filter((x) => x !== featured);
 
   return (
-    <section
-      id="testimonials"
-      className="relative overflow-hidden border-t border-[var(--border)] bg-[var(--surface-tint)] py-24 sm:py-28"
-    >
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <Parallax speed={-200} className="absolute -left-40 top-20 h-[620px] w-[620px]">
-          <div className="mesh-b h-full w-full rounded-full bg-[radial-gradient(circle,rgba(var(--accent-bright-rgb),0.10)_0%,rgba(var(--accent-bright-rgb),0)_66%)] blur-3xl" />
-        </Parallax>
-        <Parallax speed={260} className="absolute right-[6%] top-[18%] hidden lg:block">
-          <div className="h-14 w-14 rotate-12 rounded-2xl bg-purple-300/25 blur-[1px]" />
-        </Parallax>
-      </div>
-      <SectionScenery preset="testimonials" />
+    <section id="testimonials" className="relative overflow-hidden bg-canvas py-24 sm:py-32">
+      <BackgroundGlow preset="testimonials" />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-canvas-2 to-transparent"
+      />
+
       <div className="relative z-10 mx-auto max-w-6xl px-6">
-        <Reveal>
-          <SectionHeading eyebrow={t.testimonials.eyebrow} title={t.testimonials.title} />
-        </Reveal>
-        {/* Columns rather than a grid. The quotes run from one line to ten,
-            and a grid row stretches every card to match its tallest
-            neighbour, which left a third of a card empty under the short
-            ones. Columns let each card end where its quote ends. */}
-        <div className="columns-1 gap-6 sm:columns-2 lg:columns-3">
-          {testimonials.map((item, i) => (
-            <Reveal key={item.name} delay={(i % 3) * 90} className="mb-6 break-inside-avoid">
+        <m.div initial="hidden" whileInView="show" viewport={IN_VIEW} variants={fadeUp}>
+          <SectionHeading index="06" eyebrow={t.testimonials.eyebrow} title={t.testimonials.title} />
+        </m.div>
+
+        {featured && (
+          <m.div initial="hidden" whileInView="show" viewport={IN_VIEW} variants={fadeUp} className="mt-12">
+            <TestimonialCard testimonial={featured} featured />
+          </m.div>
+        )}
+
+        <m.div
+          initial="hidden"
+          whileInView="show"
+          viewport={IN_VIEW}
+          variants={stagger(STAGGER.base)}
+          className="mt-4 columns-1 gap-4 md:columns-2 lg:columns-3"
+        >
+          {others.map((item) => (
+            <m.div key={item.name} variants={fadeUp} className="mb-4 break-inside-avoid">
               <TestimonialCard testimonial={item} />
-            </Reveal>
+            </m.div>
           ))}
-        </div>
+        </m.div>
       </div>
     </section>
   );

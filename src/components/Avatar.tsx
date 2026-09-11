@@ -12,11 +12,12 @@ function initials(name: string) {
 }
 
 // Deterministic-ish color pick from name so the same person always gets the same tint.
+// Initials fall back onto the site's own accents, never a stray hue.
 const PALETTE = [
-  "from-purple-500 to-fuchsia-500",
-  "from-purple-500 to-purple-500",
-  "from-fuchsia-500 to-pink-500",
-  "from-sky-500 to-purple-500",
+  "from-[#5e57f2] to-[#62b6ff]",
+  "from-[#4f46e5] to-[#58d6c9]",
+  "from-[#716bff] to-[#8c83ff]",
+  "from-[#3b82c4] to-[#58d6c9]",
 ];
 
 function colorFor(name: string) {
@@ -55,7 +56,7 @@ export default function Avatar({ name, src, size = 44 }: AvatarProps) {
       alt={name}
       width={size}
       height={size}
-      className="rounded-full object-cover shrink-0 bg-[#eceaf2]"
+      className="rounded-full object-cover shrink-0 bg-raised ring-1 ring-white/10"
       style={{ width: size, height: size }}
       onError={() => setFailed(true)}
     />

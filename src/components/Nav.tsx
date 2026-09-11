@@ -127,7 +127,7 @@ export default function Nav() {
             screens, where six labels genuinely do not fit. */}
         <nav
           aria-label={t.nav.primaryLabel}
-          className={`nav-bar nav-rail mt-2 flex items-center justify-between gap-1 overflow-x-auto px-2 lg:hidden ${
+          className={`nav-bar nav-rail mt-2 flex items-center justify-between gap-0 overflow-x-auto px-1.5 sm:px-3 lg:hidden ${
             scrolled ? "is-scrolled" : ""
           }`}
         >
@@ -138,7 +138,7 @@ export default function Nav() {
                 key={l.id}
                 href={`#${l.id}`}
                 aria-current={on ? "true" : undefined}
-                className={`relative shrink-0 rounded-md px-2.5 py-1 text-[12.5px] transition-colors duration-300 ${
+                className={`relative shrink-0 rounded-md px-1.5 py-1 text-[12px] transition-colors duration-300 sm:px-2.5 sm:text-[13px] ${
                   on ? "text-fg" : "text-fg-2"
                 }`}
               >

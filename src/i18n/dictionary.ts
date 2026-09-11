@@ -155,6 +155,9 @@ export interface Dictionary {
     title: string;
   };
   contact: {
+    statement: string;
+    ctaIntro: string;
+    ctaStart: string;
     eyebrow: string;
     title: string;
     intro: string;
@@ -176,6 +179,7 @@ export interface Dictionary {
     mailSubject: string;
   };
   footer: {
+    backToTop: string;
     builtWith: string;
   };
   meta: {
@@ -358,6 +362,9 @@ const en: Dictionary = {
     title: "Testimonials.",
   },
   contact: {
+    statement: "Have something\nworth building?",
+    ctaIntro: "AI systems, SaaS platforms, automation, web applications and mobile products, engineered from idea to production.",
+    ctaStart: "Start a project",
     eyebrow: "Get in touch",
     title: "Contact.",
     intro:
@@ -379,6 +386,7 @@ const en: Dictionary = {
     mailSubject: "Project inquiry from {name}",
   },
   footer: {
+    backToTop: "Back to top",
     builtWith: "Built with Next.js, TypeScript & Tailwind CSS",
   },
   meta: {
@@ -561,6 +569,9 @@ const pt: Dictionary = {
     title: "Depoimentos.",
   },
   contact: {
+    statement: "Tem algo\nque mereça\nser construído?",
+    ctaIntro: "Sistemas de IA, plataformas SaaS, automações, aplicações web e produtos mobile, desenvolvidos da ideia à produção.",
+    ctaStart: "Começar um projeto",
     eyebrow: "Fale comigo",
     title: "Contato.",
     intro:
@@ -582,6 +593,7 @@ const pt: Dictionary = {
     mailSubject: "Contato sobre projeto de {name}",
   },
   footer: {
+    backToTop: "Voltar ao topo",
     builtWith: "Feito com Next.js, TypeScript e Tailwind CSS",
   },
   meta: {
@@ -764,6 +776,9 @@ const es: Dictionary = {
     title: "Testimonios.",
   },
   contact: {
+    statement: "¿Tienes algo\nque merezca\nconstruirse?",
+    ctaIntro: "Sistemas de IA, plataformas SaaS, automatizaciones, aplicaciones web y productos móviles, desarrollados de la idea a producción.",
+    ctaStart: "Empezar un proyecto",
     eyebrow: "Ponte en contacto",
     title: "Contacto.",
     intro:
@@ -785,6 +800,7 @@ const es: Dictionary = {
     mailSubject: "Consulta de proyecto de {name}",
   },
   footer: {
+    backToTop: "Volver arriba",
     builtWith: "Hecho con Next.js, TypeScript y Tailwind CSS",
   },
   meta: {

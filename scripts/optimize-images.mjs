@@ -23,9 +23,6 @@ const PUBLIC = path.join(process.cwd(), "public");
 const RULES = [
   { dir: "projects", width: 1400, quality: 72 },
   { dir: "testimonials", width: 200, quality: 78 },
-  // Decoration, never drawn near this size, and smooth enough that a lower
-  // quality costs nothing visible.
-  { dir: "hero", width: 900, quality: 72 },
   { dir: ".", width: 400, quality: 80, only: ["lucas.jpg", "lucas.webp"] },
 ];
 

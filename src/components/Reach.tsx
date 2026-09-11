@@ -1,9 +1,11 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { m } from "motion/react";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import Reveal from "./Reveal";
-import SectionScenery from "./SectionScenery";
+import { IN_VIEW, STAGGER, fadeUp, stagger } from "@/lib/motion";
+import BackgroundGlow from "./BackgroundGlow";
+import SectionHeading from "./SectionHeading";
 
 // three.js is a large dependency, so it is split out of the main bundle and
 // only fetched in the browser when this section renders.
@@ -11,7 +13,7 @@ const Globe = dynamic(() => import("./Globe"), {
   ssr: false,
   loading: () => (
     <div className="relative aspect-square w-full">
-      <div className="absolute inset-[8%] rounded-full bg-[#e9eef4]" />
+      <div className="absolute inset-[8%] rounded-full bg-[#111826]" />
     </div>
   ),
 });
@@ -19,20 +21,24 @@ const Globe = dynamic(() => import("./Globe"), {
 /**
  * One colour per region, carried by both the marker on the globe and the
  * chip in the list, so the two halves of the section read as one thing.
- * Deliberately away from the site's purple, which the globe used to wear.
+ *
+ * The globe was asked to carry no purple, so the site violet is off the
+ * table here. Europe and Asia-Pacific take the palette's blue and cyan; the
+ * Americas keep the warm coral they have always had, since the palette has
+ * no third hue that is not purple and three regions need three.
  */
 const REGIONS = [
-  { key: "americas", color: "#F04438" },
-  { key: "europe", color: "#0EA5E9" },
-  { key: "asiaPacific", color: "#10B981" },
+  { key: "americas", color: "#FF7466" },
+  { key: "europe", color: "#62B6FF" },
+  { key: "asiaPacific", color: "#58D6C9" },
 ] as const;
 
 type RegionKey = (typeof REGIONS)[number]["key"];
 
 const REGION_COLOR: Record<RegionKey, string> = {
-  americas: "#F04438",
-  europe: "#0EA5E9",
-  asiaPacific: "#10B981",
+  americas: "#FF7466",
+  europe: "#62B6FF",
+  asiaPacific: "#58D6C9",
 };
 
 // Country centroids, roughly, grouped by the region they belong to.
@@ -70,63 +76,63 @@ export default function Reach() {
   const labels = Object.fromEntries(PLACES.map((p) => [p.id, t.reach[p.id]]));
 
   return (
-    <section className="relative overflow-hidden border-t border-[var(--border)] py-24 sm:py-28">
-      <SectionScenery preset="reach" />
-      <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
-        <div>
-          <Reveal>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
-              {t.reach.eyebrow}
-            </p>
-            <h2 className="mt-2 font-heading text-4xl font-semibold text-[var(--foreground)] sm:text-5xl">
-              {t.reach.title}
-            </h2>
-            <p className="lead mt-5 max-w-md text-[var(--muted)]">{t.reach.intro}</p>
-          </Reveal>
+    <section id="reach" className="relative overflow-hidden bg-canvas-2 py-24 sm:py-32">
+      <BackgroundGlow preset="reach" dots />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-canvas to-transparent"
+      />
 
-          <div className="mt-8 space-y-5">
-            {REGIONS.map((region, i) => {
+      <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 px-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
+        <div>
+          <m.div initial="hidden" whileInView="show" viewport={IN_VIEW} variants={fadeUp}>
+            <SectionHeading index="05" eyebrow={t.reach.eyebrow} title={t.reach.title} intro={t.reach.intro} />
+          </m.div>
+
+          <m.div
+            initial="hidden"
+            whileInView="show"
+            viewport={IN_VIEW}
+            variants={stagger(STAGGER.base, 0.1)}
+            className="mt-10 space-y-6"
+          >
+            {REGIONS.map((region) => {
               const inRegion = PLACES.filter((p) => p.region === region.key);
               return (
-                <Reveal key={region.key} delay={120 + i * 70}>
-                  <div>
-                    <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--faint)]">
-                      <span
-                        className="block h-2 w-2 rounded-full"
-                        style={{ backgroundColor: region.color }}
-                      />
-                      {t.reach[region.key]}
-                      <span className="font-mono tracking-normal">
-                        {String(inRegion.length).padStart(2, "0")}
-                      </span>
-                    </p>
-                    <ul className="mt-2.5 flex flex-wrap gap-2">
-                      {inRegion.map((m) => (
-                        <li
-                          key={m.id}
-                          className="rounded-full border border-[var(--border)] bg-white px-3.5 py-1.5 text-[13px] text-[var(--foreground)] shadow-sm"
-                          style={{ borderColor: `${region.color}44` }}
-                        >
-                          {labels[m.id]}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </Reveal>
+                <m.div key={region.key} variants={fadeUp}>
+                  <p className="flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-fg-3">
+                    <span className="block h-2 w-2 rounded-full" style={{ backgroundColor: region.color }} />
+                    {t.reach[region.key]}
+                    <span className="text-fg-2">{String(inRegion.length).padStart(2, "0")}</span>
+                  </p>
+                  <ul className="mt-3 flex flex-wrap gap-2">
+                    {inRegion.map((place) => (
+                      <li
+                        key={place.id}
+                        className="rounded-lg border bg-white/[0.025] px-3 py-1.5 text-[13px] text-fg-2"
+                        style={{ borderColor: `${region.color}33` }}
+                      >
+                        {labels[place.id]}
+                      </li>
+                    ))}
+                  </ul>
+                </m.div>
               );
             })}
-          </div>
+          </m.div>
         </div>
 
-        <Reveal delay={160}>
+        <m.div initial="hidden" whileInView="show" viewport={IN_VIEW} variants={fadeUp}>
           <div className="relative mx-auto w-full max-w-[600px]">
+            {/* Light pooled under the planet, a gradient rather than a blur. */}
             <div
-              className="pointer-events-none absolute -inset-6 rounded-full bg-[radial-gradient(circle,rgba(14,165,233,0.18)_0%,rgba(14,165,233,0)_68%)] blur-2xl"
               aria-hidden="true"
+              className="pointer-events-none absolute -inset-8 rounded-full"
+              style={{ background: "radial-gradient(closest-side, rgba(98,182,255,0.16), transparent)" }}
             />
             <Globe points={GLOBE_POINTS} labels={labels} />
           </div>
-        </Reveal>
+        </m.div>
       </div>
     </section>
   );

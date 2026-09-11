@@ -27,14 +27,21 @@ export interface Testimonial {
   country: CountryKey;
   /** The platform the review was left on, where it is known. */
   source?: string;
-  rating: number;
+  /**
+   * Star rating, only where it was read off the platform review itself.
+   * Left out rather than assumed when the review arrived without one.
+   */
+  rating?: number;
+  /** Shown large at the head of the section. One at most. */
+  featured?: boolean;
   /** Filename expected in /public/testimonials/. Drop a real, permitted photo in with this name. */
   avatarFile: string;
 }
 
 // Quotes and ratings come from actual platform reviews. The full names, job
 // titles and countries were supplied by Lucas, who knows these clients, rather
-// than inferred from the review screenshots.
+// than inferred from the review screenshots. Craig Austin's review was passed
+// on directly, without a platform or a rating, so it carries neither.
 export const testimonials: Testimonial[] = [
   {
     quote: {
@@ -73,7 +80,6 @@ export const testimonials: Testimonial[] = [
     name: "Craig Austin",
     role: "CEO, Stagecraft",
     country: "unitedStates",
-    rating: 5,
     avatarFile: "craig-austin.webp",
   },
   {
@@ -114,6 +120,9 @@ export const testimonials: Testimonial[] = [
     country: "denmark",
     source: "Upwork",
     rating: 5,
+    // The most specific about the engineering itself: an AI agent across
+    // n8n, Supabase and WhatsApp, which is the work the site leads with.
+    featured: true,
     avatarFile: "daniel.webp",
   },
   {
