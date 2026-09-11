@@ -6,6 +6,7 @@ import { CATEGORY_TONE, domainOf, frameFor, type ShowcaseLayout } from "@/data/s
 import { useLanguage } from "@/i18n/LanguageProvider";
 import ExploreCursor from "./ExploreCursor";
 import ProjectFrame from "./ProjectFrame";
+import ScrollDepth from "./ScrollDepth";
 import { CategoryTags, ClampToggle, DemoChip, ProjectLink, TechList, useClamp } from "./ProjectParts";
 import StatusChip from "./StatusChip";
 import { IconBolt, IconSpark, IconUsers } from "./icons";
@@ -163,13 +164,14 @@ export default function ProjectShowcase({ project, layout, number }: Props) {
   const phoneStage = (
     <Stage project={project} href={stageHref} label={stageLabel}>
       <div className="relative flex items-center justify-center px-6 py-10 sm:py-14">
-        <ProjectFrame
-          kind="phone"
-          src={images[0]}
-          alt={alt(0)}
-          sizes="(max-width: 639px) 70vw, 260px"
-          className="max-w-[230px] sm:max-w-[260px]"
-        />
+        <ScrollDepth className="w-full max-w-[230px] sm:max-w-[260px]">
+          <ProjectFrame
+            kind="phone"
+            src={images[0]}
+            alt={alt(0)}
+            sizes="(max-width: 639px) 70vw, 260px"
+          />
+        </ScrollDepth>
         <Signal className="float-a left-6 top-10 lg:left-8">
           <SignalStatus
             icon={<IconSpark size={13} />}
@@ -191,12 +193,14 @@ export default function ProjectShowcase({ project, layout, number }: Props) {
   const mediaStage = (
     <Stage project={project} href={stageHref} label={stageLabel}>
       <div className="relative p-5 sm:p-8 lg:p-10">
-        <ProjectFrame
-          kind="media"
-          src={images[0]}
-          alt={alt(0)}
-          sizes="(max-width: 1023px) 92vw, 620px"
-        />
+        <ScrollDepth amount={12}>
+          <ProjectFrame
+            kind="media"
+            src={images[0]}
+            alt={alt(0)}
+            sizes="(max-width: 1023px) 92vw, 620px"
+          />
+        </ScrollDepth>
         <div className="relative mt-5 flex flex-wrap items-center gap-2">
           <span className="rounded-md border border-line bg-white/[0.03] px-2.5 py-1 font-mono text-[11px] text-fg-2">
             iOS · Android
@@ -214,14 +218,16 @@ export default function ProjectShowcase({ project, layout, number }: Props) {
       {/* The frame runs off the bottom of the stage, as if the product
           continues below the fold. */}
       <div className="relative -mb-[8%] px-4 pt-6 sm:px-10 sm:pt-12 lg:px-16 lg:pt-14">
-        <ProjectFrame
-          kind="browser"
-          src={images[0]}
-          alt={alt(0)}
-          domain={domain}
-          ratio="1400 / 680"
-          sizes="(max-width: 1023px) 92vw, 980px"
-        />
+        <ScrollDepth>
+          <ProjectFrame
+            kind="browser"
+            src={images[0]}
+            alt={alt(0)}
+            domain={domain}
+            ratio="1400 / 680"
+            sizes="(max-width: 1023px) 92vw, 980px"
+          />
+        </ScrollDepth>
         {images[1] && (
           <ProjectFrame
             kind="browser"
@@ -270,15 +276,16 @@ export default function ProjectShowcase({ project, layout, number }: Props) {
             className="absolute right-4 top-24 z-0 hidden w-[40%] opacity-50 lg:block"
           />
         )}
-        <ProjectFrame
-          kind="browser"
-          src={images[0]}
-          alt={alt(0)}
-          domain={domain}
-          ratio="1400 / 677"
-          sizes="(max-width: 1023px) 92vw, 760px"
-          className="relative z-10 mx-auto lg:w-[70%]"
-        />
+        <ScrollDepth className="relative z-10 mx-auto lg:w-[70%]">
+          <ProjectFrame
+            kind="browser"
+            src={images[0]}
+            alt={alt(0)}
+            domain={domain}
+            ratio="1400 / 677"
+            sizes="(max-width: 1023px) 92vw, 760px"
+          />
+        </ScrollDepth>
         <Signal className="float-a left-6 top-6 sm:left-10 lg:left-[11%] lg:top-10">
           <SignalStatus
             icon={<IconUsers size={13} />}

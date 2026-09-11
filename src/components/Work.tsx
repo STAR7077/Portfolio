@@ -1,7 +1,14 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
-import { AnimatePresence, m, type Variants } from "motion/react";
+import { useRef, useSyncExternalStore } from "react";
+import {
+  AnimatePresence,
+  m,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  type Variants,
+} from "motion/react";
 import { projects } from "@/data/projects";
 import { FEATURED } from "@/data/showcase";
 import {
@@ -44,6 +51,16 @@ const pad = (n: number) => String(n).padStart(2, "0");
 export default function Work() {
   const { t } = useLanguage();
   const active = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const reduced = useReducedMotion();
+
+  // The decorative word slides a little as the section arrives, so it sits
+  // at a different depth from the heading in front of it.
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "start start"] });
+  // It starts at its resting place (0) because that is also what the server
+  // renders: a non-zero start would stay baked into the HTML for anyone the
+  // parallax is switched off for, leaving the word parked off-position.
+  const decorX = useTransform(scrollYProgress, [0, 1], [0, -120]);
 
   const visible = projects.filter((p) => active === "all" || p.categories.includes(active));
   const featured = FEATURED.flatMap((f) => {
@@ -54,7 +71,7 @@ export default function Work() {
   const rest = visible.filter((p) => !featuredSlugs.has(p.slug));
 
   return (
-    <section id="work" className="relative overflow-hidden bg-canvas py-24 sm:py-32">
+    <section ref={sectionRef} id="work" className="relative overflow-hidden bg-canvas py-24 sm:py-32">
       <BackgroundGlow preset="work" />
       <div
         aria-hidden="true"
@@ -63,12 +80,13 @@ export default function Work() {
 
       {/* A single oversized word behind the heading. Decoration only: at
           this opacity it registers as texture, never as something to read. */}
-      <div
+      <m.div
         aria-hidden="true"
+        style={reduced ? undefined : { x: decorX }}
         className="pointer-events-none absolute right-[-3vw] top-16 select-none whitespace-nowrap font-heading text-[19vw] font-extrabold uppercase leading-none tracking-[-0.05em] text-white/[0.03] sm:top-20"
       >
         {t.work.decor}
-      </div>
+      </m.div>
 
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
