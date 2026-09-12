@@ -14,7 +14,7 @@ const WHATSAPP_NUMBER = "5599945812563";
 const WHATSAPP_DISPLAY = "+55 99 94581-2563";
 
 const FIELD =
-  "mt-1.5 w-full rounded-[10px] border border-line bg-white/[0.03] px-4 py-2.5 text-[14.5px] text-fg outline-none transition-colors duration-300 placeholder:text-fg-3 hover:border-line-2 focus:border-[rgba(113,107,255,0.6)] focus:bg-white/[0.05]";
+  "mt-1.5 w-full rounded-[10px] border border-line bg-white/[0.03] px-4 py-2.5 text-[14.5px] text-fg outline-none transition-colors duration-300 placeholder:text-fg-3 hover:border-line-2 focus:border-[rgba(var(--accent-rgb),0.6)] focus:bg-white/[0.05]";
 
 type Status = "idle" | "sending" | "sent" | "failed";
 
@@ -117,6 +117,10 @@ export default function Contact() {
             <div className="mt-8 space-y-3">
               <m.a
                 variants={fadeUp}
+                // As with the skill tiles: motion leaves transform set inline
+                // after the reveal, which outranks .card-hover:hover, so the
+                // lift is driven from here instead.
+                whileHover={{ y: -5 }}
                 href={`mailto:${EMAIL}`}
                 className="card card-hover group flex items-center justify-between gap-4 px-5 py-4"
               >
@@ -130,6 +134,7 @@ export default function Contact() {
               </m.a>
               <m.a
                 variants={fadeUp}
+                whileHover={{ y: -5 }}
                 href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 onClick={() => track("whatsapp_opened", { from: "contact" })}
                 target="_blank"
@@ -151,7 +156,7 @@ export default function Contact() {
             <form
               id="contact-form"
               onSubmit={handleSubmit}
-              className="relative space-y-4 rounded-panel border border-line bg-[linear-gradient(180deg,#161c29,#11161f)] p-6 shadow-[var(--edge-top),var(--shadow-card)] sm:p-8"
+              className="relative space-y-4 rounded-panel border border-line bg-[image:var(--grad-form)] p-6 shadow-[var(--edge-top),var(--shadow-card)] sm:p-8"
             >
               <label className="block text-[13.5px] text-fg-2">
                 {t.contact.nameLabel}
@@ -193,7 +198,7 @@ export default function Contact() {
               <p
                 role="status"
                 aria-live="polite"
-                className={`text-[12.5px] leading-relaxed ${status === "failed" ? "text-[#fda29b]" : "text-fg-3"}`}
+                className={`text-[12.5px] leading-relaxed ${status === "failed" ? "text-[var(--danger)]" : "text-fg-3"}`}
               >
                 {status === "sent" && t.contact.hintSent}
                 {status === "failed" && (

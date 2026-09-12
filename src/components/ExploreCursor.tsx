@@ -73,7 +73,7 @@ export default function ExploreCursor({ label, children, className = "" }: Explo
           animate={{ opacity: inside ? 1 : 0, scale: inside ? 1 : 0.85 }}
           transition={{ duration: 0.2 }}
         >
-          <span className="flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/15 bg-[rgba(13,17,24,0.85)] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-fg shadow-[0_10px_30px_-12px_rgba(0,0,0,0.9)] backdrop-blur-md">
+          <span className="flex items-center gap-1.5 whitespace-nowrap rounded-full border border-white/15 bg-[var(--glass)] px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-fg shadow-[0_10px_30px_-12px_rgba(0,0,0,0.9)] backdrop-blur-md">
             {label}
             <IconArrowUpRight size={12} />
           </span>

@@ -26,9 +26,9 @@ interface Light {
 }
 
 const RGB: Record<Rgb, string> = {
-  accent: "113, 107, 255",
-  blue: "98, 182, 255",
-  cyan: "88, 214, 201",
+  accent: "var(--accent-rgb)",
+  blue: "var(--accent-blue-rgb)",
+  cyan: "var(--accent-cyan-rgb)",
 };
 
 const PRESETS = {

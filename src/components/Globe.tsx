@@ -162,8 +162,8 @@ export default function Globe({ points, labels }: GlobeProps) {
       const chip = document.createElement("span");
       chip.className =
         "pointer-events-none absolute left-0 top-0 flex items-center gap-1.5 whitespace-nowrap " +
-        "rounded-full border border-white/10 bg-[rgba(13,17,24,0.86)] py-[3px] pl-1.5 pr-2 " +
-        "text-[10px] font-semibold text-[#f4f6fa] opacity-0 backdrop-blur-sm " +
+        "rounded-full border border-white/10 bg-[var(--glass)] py-[3px] pl-1.5 pr-2 " +
+        "text-[10px] font-semibold text-fg opacity-0 backdrop-blur-sm " +
         "shadow-[0_6px_16px_-8px_rgba(0,0,0,0.9)] transition-opacity duration-200 will-change-transform";
 
       const swatch = document.createElement("i");

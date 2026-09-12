@@ -147,7 +147,7 @@ export default function HeroVisual() {
         <div
           className="absolute left-[4%] top-[8%] h-[70%] w-[80%]"
           style={{
-            background: "radial-gradient(closest-side, rgba(113,107,255,0.22), transparent)",
+            background: "radial-gradient(closest-side, rgba(var(--accent-rgb),0.22), transparent)",
           }}
         />
 
@@ -160,8 +160,8 @@ export default function HeroVisual() {
         >
           <defs>
             <linearGradient id="wire" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stopColor="rgb(113,107,255)" stopOpacity="0.5" />
-              <stop offset="1" stopColor="rgb(88,214,201)" stopOpacity="0.35" />
+              <stop offset="0" style={{ stopColor: "var(--accent)" }} stopOpacity="0.5" />
+              <stop offset="1" style={{ stopColor: "var(--accent-cyan)" }} stopOpacity="0.35" />
             </linearGradient>
           </defs>
           <path
@@ -190,7 +190,7 @@ export default function HeroVisual() {
             <div className="panel p-4 sm:p-5">
               <div className="flex items-center justify-between gap-3">
                 <div className="flex min-w-0 items-center gap-2.5">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[rgba(113,107,255,0.14)] text-accent-hi ring-1 ring-inset ring-[rgba(113,107,255,0.32)]">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[rgba(var(--accent-rgb),0.14)] text-accent-hi ring-1 ring-inset ring-[rgba(var(--accent-rgb),0.32)]">
                     <IconSpark size={16} />
                   </span>
                   <div className="min-w-0">
@@ -204,7 +204,7 @@ export default function HeroVisual() {
               </div>
 
               <div className="mt-4 flex items-center gap-3 rounded-xl border border-line bg-white/[0.025] px-3 py-2.5">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[rgba(88,214,201,0.12)] text-ai">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[rgba(var(--accent-cyan-rgb),0.12)] text-ai">
                   <IconChat size={14} />
                 </span>
                 <div className="min-w-0 flex-1">
@@ -233,7 +233,7 @@ export default function HeroVisual() {
           <div className="float-b">
             <div className="panel px-3.5 py-2.5 font-mono text-[11px]">
               <div className="flex items-center gap-2">
-                <span className="rounded bg-[rgba(98,182,255,0.14)] px-1.5 py-0.5 text-azure">POST</span>
+                <span className="rounded bg-[rgba(var(--accent-blue-rgb),0.14)] px-1.5 py-0.5 text-azure">POST</span>
                 <span className="truncate text-fg-2">/webhooks/whatsapp</span>
               </div>
               <div className="mt-1.5 flex items-center gap-3">
@@ -288,7 +288,7 @@ export default function HeroVisual() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: DURATION.base, ease: EASE_OUT, delay: 1.2 + i * 0.12 }}
                   >
-                    <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[rgba(88,214,201,0.14)] text-ai">
+                    <span className="flex h-4 w-4 items-center justify-center rounded-full bg-[rgba(var(--accent-cyan-rgb),0.14)] text-ai">
                       <IconCheck size={10} strokeWidth={2.4} />
                     </span>
                     {step}

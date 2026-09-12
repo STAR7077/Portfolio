@@ -40,7 +40,7 @@ function Signal({ children, className = "" }: { children: ReactNode; className?:
 function SignalStatus({ icon, title, status }: { icon: ReactNode; title: string; status: ReactNode }) {
   return (
     <div className="flex items-center gap-2.5">
-      <span className="flex h-6 w-6 items-center justify-center rounded-md border border-[rgba(113,107,255,0.3)] bg-[rgba(113,107,255,0.12)] text-accent-hi">
+      <span className="flex h-6 w-6 items-center justify-center rounded-md border border-[rgba(var(--accent-rgb),0.3)] bg-[rgba(var(--accent-rgb),0.12)] text-accent-hi">
         {icon}
       </span>
       <span className="whitespace-nowrap text-[12.5px] font-semibold text-fg">{title}</span>
@@ -79,7 +79,7 @@ function Stage({
 }) {
   const tone = CATEGORY_TONE[project.categories[0]];
   const surface = (
-    <div className="group relative overflow-hidden rounded-panel border border-line bg-[linear-gradient(180deg,#121722,#0c1017)] shadow-[var(--edge-top)]">
+    <div className="group relative overflow-hidden rounded-panel border border-line bg-[image:var(--grad-stage)] shadow-[var(--edge-top)]">
       <div aria-hidden="true" className="bg-grid absolute inset-0 opacity-70" />
       <div
         aria-hidden="true"

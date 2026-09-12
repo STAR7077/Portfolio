@@ -37,7 +37,7 @@ export default function ProjectCard({ project, number }: { project: Project; num
       style={{ "--cat": tone.rgb } as CSSProperties}
     >
       <div className="flex h-full flex-col @2xl:flex-row">
-        <div className="relative shrink-0 border-b border-line bg-[#0e1219] p-4 @2xl:w-[46%] @2xl:border-b-0 @2xl:border-r @2xl:p-6">
+        <div className="relative shrink-0 border-b border-line bg-sunken p-4 @2xl:w-[46%] @2xl:border-b-0 @2xl:border-r @2xl:p-6">
           <div
             aria-hidden="true"
             className="absolute inset-0"

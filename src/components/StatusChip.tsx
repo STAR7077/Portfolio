@@ -6,17 +6,17 @@ const TONE: Record<Tone, { dot: string; text: string; chip: string }> = {
   accent: {
     dot: "bg-accent",
     text: "text-accent-hi",
-    chip: "border-[rgba(113,107,255,0.3)] bg-[rgba(113,107,255,0.1)]",
+    chip: "border-[rgba(var(--accent-rgb),0.3)] bg-[rgba(var(--accent-rgb),0.1)]",
   },
   cyan: {
     dot: "bg-ai",
     text: "text-ai",
-    chip: "border-[rgba(88,214,201,0.28)] bg-[rgba(88,214,201,0.08)]",
+    chip: "border-[rgba(var(--accent-cyan-rgb),0.28)] bg-[rgba(var(--accent-cyan-rgb),0.08)]",
   },
   blue: {
     dot: "bg-azure",
     text: "text-azure",
-    chip: "border-[rgba(98,182,255,0.28)] bg-[rgba(98,182,255,0.08)]",
+    chip: "border-[rgba(var(--accent-blue-rgb),0.28)] bg-[rgba(var(--accent-blue-rgb),0.08)]",
   },
 };
 

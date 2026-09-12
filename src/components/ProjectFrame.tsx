@@ -46,7 +46,7 @@ export default function ProjectFrame({
   if (kind === "phone") {
     return (
       <div
-        className={`relative mx-auto w-full rounded-[34px] border border-white/[0.12] bg-[#0b0e14] p-[7px] shadow-[var(--shadow-float)] ${className}`}
+        className={`relative mx-auto w-full rounded-[34px] border border-white/[0.12] bg-sunken p-[7px] shadow-[var(--shadow-float)] ${className}`}
       >
         <div
           className="relative overflow-hidden rounded-[27px] bg-black"
@@ -61,7 +61,7 @@ export default function ProjectFrame({
   if (kind === "media") {
     return (
       <div
-        className={`relative overflow-hidden rounded-[14px] border border-line bg-[#0f131b] shadow-[var(--shadow-float)] ${className}`}
+        className={`relative overflow-hidden rounded-[14px] border border-line bg-sunken shadow-[var(--shadow-float)] ${className}`}
         style={{ aspectRatio: ratio ?? "770 / 333" }}
       >
         {img}
@@ -71,7 +71,7 @@ export default function ProjectFrame({
 
   return (
     <div
-      className={`overflow-hidden rounded-[14px] border border-line bg-[#0f131b] shadow-[var(--shadow-float)] ${className}`}
+      className={`overflow-hidden rounded-[14px] border border-line bg-sunken shadow-[var(--shadow-float)] ${className}`}
     >
       <div className="flex items-center gap-3 border-b border-line bg-white/[0.025] px-3.5 py-2.5">
         <div className="flex shrink-0 gap-1.5" aria-hidden="true">
@@ -87,7 +87,7 @@ export default function ProjectFrame({
         {/* Balances the dots so the address sits in the true centre. */}
         <span className="w-[42px] shrink-0" aria-hidden="true" />
       </div>
-      <div className="relative overflow-hidden bg-[#0f131b]" style={{ aspectRatio: ratio ?? "16 / 9" }}>
+      <div className="relative overflow-hidden bg-sunken" style={{ aspectRatio: ratio ?? "16 / 9" }}>
         {img}
       </div>
     </div>

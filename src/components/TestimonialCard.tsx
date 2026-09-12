@@ -31,7 +31,7 @@ function Meta({ testimonial }: { testimonial: Testimonial }) {
         <span
           role="img"
           aria-label={`${testimonial.rating} / 5`}
-          className="text-[11px] leading-none tracking-[0.12em] text-[#f5c451]"
+          className="text-[11px] leading-none tracking-[0.12em] text-[var(--rating)]"
         >
           {"★".repeat(testimonial.rating)}
         </span>
@@ -58,11 +58,11 @@ export default function TestimonialCard({
 
   if (featured) {
     return (
-      <figure className="relative overflow-hidden rounded-panel border border-line bg-[linear-gradient(160deg,#161c29,#0e131c)] p-8 shadow-[var(--edge-top)] sm:p-12 lg:p-14">
+      <figure className="relative overflow-hidden rounded-panel border border-line bg-[image:var(--grad-quote)] p-8 shadow-[var(--edge-top)] sm:p-12 lg:p-14">
         <div
           aria-hidden="true"
           className="absolute inset-0"
-          style={{ background: "radial-gradient(760px circle at 0% 0%, rgba(113,107,255,0.18), transparent 60%)" }}
+          style={{ background: "radial-gradient(760px circle at 0% 0%, rgba(var(--accent-rgb),0.18), transparent 60%)" }}
         />
         <div aria-hidden="true" className="bg-grid absolute inset-0 opacity-40" />
 

@@ -54,18 +54,18 @@ export const CATEGORY_TONE: Record<
 > = {
   ai: {
     text: "text-ai",
-    tag: "border-[rgba(88,214,201,0.28)] bg-[rgba(88,214,201,0.08)] text-ai",
-    rgb: "88, 214, 201",
+    tag: "border-[rgba(var(--accent-cyan-rgb),0.28)] bg-[rgba(var(--accent-cyan-rgb),0.08)] text-ai",
+    rgb: "var(--accent-cyan-rgb)",
   },
   web: {
     text: "text-azure",
-    tag: "border-[rgba(98,182,255,0.28)] bg-[rgba(98,182,255,0.08)] text-azure",
-    rgb: "98, 182, 255",
+    tag: "border-[rgba(var(--accent-blue-rgb),0.28)] bg-[rgba(var(--accent-blue-rgb),0.08)] text-azure",
+    rgb: "var(--accent-blue-rgb)",
   },
   mobile: {
     text: "text-accent-hi",
-    tag: "border-[rgba(140,131,255,0.3)] bg-[rgba(140,131,255,0.1)] text-accent-hi",
-    rgb: "140, 131, 255",
+    tag: "border-[rgba(var(--accent-highlight-rgb),0.3)] bg-[rgba(var(--accent-highlight-rgb),0.1)] text-accent-hi",
+    rgb: "var(--accent-highlight-rgb)",
   },
 };
 

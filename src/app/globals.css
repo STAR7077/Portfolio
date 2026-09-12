@@ -15,11 +15,15 @@
 
   /* ---- text ----
      --text-muted was specified as #697181, which measures 3.4 to 4.0:1 on
-     every ground here and fails small print. #7f8797 is the nearest value
-     that clears 4.5:1 on all four surfaces, including the raised one. */
+     every ground here and fails small print. #7f8797 clears 4.5:1 on all
+     four flat surfaces but only just (4.57:1 on the raised one), and a card
+     lit by an accent glow sits lighter than its own surface token, which
+     pushed the hero panel's small print to 4.40:1. #868e9e holds 4.8:1
+     even over the brightest glow while staying a clear step below
+     --text-secondary. */
   --text-main: #f4f6fa;
   --text-secondary: #929aaa;
-  --text-muted: #7f8797;
+  --text-muted: #868e9e;
 
   /* ---- lines ---- */
   --border-subtle: rgba(255, 255, 255, 0.08);
@@ -45,6 +49,21 @@
      never behind body copy. */
   --grad-brand: linear-gradient(100deg, #716bff 0%, #629bff 50%, #58d6c9 100%);
 
+  /* ---- named surfaces ----
+     A sunken well for anything an image sits in, and the glass used by
+     the label chips and the hover indicator. */
+  --surface-sunken: #0e1219;
+  --glass: rgba(13, 17, 24, 0.86);
+
+  /* ---- semantic ---- */
+  --rating: #f5c451;
+  --danger: #fda29b;
+
+  /* ---- surface gradients ---- */
+  --grad-stage: linear-gradient(180deg, #121722, #0c1017);
+  --grad-quote: linear-gradient(160deg, #161c29, #0e131c);
+  --grad-form: linear-gradient(180deg, #161c29, #11161f);
+
   /* ---- shape ---- */
   --radius-btn: 11px;
   --radius-card: 16px;
@@ -68,24 +87,6 @@
   /* ---- type ---- */
   --font-heading: var(--font-manrope);
   --font-body: var(--font-manrope);
-
-  /* ---- legacy names ----
-     Components not yet migrated still read these. Each resolves onto the
-     new system, and the block goes once nothing references it. */
-  --background: var(--bg-main);
-  --foreground: var(--text-main);
-  --muted: var(--text-secondary);
-  --faint: var(--text-muted);
-  --border: var(--border-subtle);
-  --surface-veil: rgba(13, 17, 24, 0.72);
-  --surface-tint: var(--bg-secondary);
-  --accent-tint: rgba(113, 107, 255, 0.14);
-  --accent-bright: var(--accent-highlight);
-  --accent-bright-rgb: var(--accent-highlight-rgb);
-  --accent-2: var(--accent-cyan);
-  --grad-accent: linear-gradient(135deg, #5e57f2 0%, #4f63e8 100%);
-  --grad-heading: linear-gradient(96deg, #8c83ff, #62b6ff 55%, #58d6c9);
-  --slab: var(--bg-secondary);
 }
 
 /* Utilities for the tokens: bg-canvas, bg-card, text-fg-2, border-line,
@@ -96,6 +97,7 @@
   --color-surface: var(--surface);
   --color-card: var(--surface-card);
   --color-raised: var(--surface-elevated);
+  --color-sunken: var(--surface-sunken);
   --color-fg: var(--text-main);
   --color-fg-2: var(--text-secondary);
   --color-fg-3: var(--text-muted);
@@ -114,9 +116,6 @@
   --font-heading: var(--font-heading);
   --font-mono: var(--font-jetbrains), ui-monospace, "SFMono-Regular", Menlo, monospace;
 
-  /* Kept so the legacy bg-background / text-foreground classes resolve. */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
 }
 
 /* ===============================================================
@@ -223,8 +222,7 @@ h3,
     text-wrap: balance;
   }
 
-  .t-lead,
-  .lead {
+  .t-lead {
     font-size: clamp(1.0625rem, 1.25vw, 1.1875rem);
     line-height: 1.6;
     letter-spacing: -0.01em;

@@ -46,7 +46,7 @@ export default function ProjectFilters({
             {on && (
               <m.span
                 layoutId="work-filter"
-                className="absolute inset-0 rounded-lg bg-white/[0.07] ring-1 ring-inset ring-[rgba(113,107,255,0.4)]"
+                className="absolute inset-0 rounded-lg bg-white/[0.07] ring-1 ring-inset ring-[rgba(var(--accent-rgb),0.4)]"
                 transition={{ duration: 0.4, ease: EASE_OUT }}
               />
             )}

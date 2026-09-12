@@ -14,10 +14,10 @@ function initials(name: string) {
 // Deterministic-ish color pick from name so the same person always gets the same tint.
 // Initials fall back onto the site's own accents, never a stray hue.
 const PALETTE = [
-  "from-[#5e57f2] to-[#62b6ff]",
-  "from-[#4f46e5] to-[#58d6c9]",
-  "from-[#716bff] to-[#8c83ff]",
-  "from-[#3b82c4] to-[#58d6c9]",
+  "from-[var(--accent-strong)] to-[var(--accent-blue)]",
+  "from-[var(--accent-strong)] to-[var(--accent-cyan)]",
+  "from-[var(--accent)] to-[var(--accent-highlight)]",
+  "from-[var(--accent-blue)] to-[var(--accent-cyan)]",
 ];
 
 function colorFor(name: string) {
@@ -56,6 +56,8 @@ export default function Avatar({ name, src, size = 44 }: AvatarProps) {
       alt={name}
       width={size}
       height={size}
+      loading="lazy"
+      decoding="async"
       className="rounded-full object-cover shrink-0 bg-raised ring-1 ring-white/10"
       style={{ width: size, height: size }}
       onError={() => setFailed(true)}

@@ -13,7 +13,7 @@ const Globe = dynamic(() => import("./Globe"), {
   ssr: false,
   loading: () => (
     <div className="relative aspect-square w-full">
-      <div className="absolute inset-[8%] rounded-full bg-[#111826]" />
+      <div className="absolute inset-[8%] rounded-full bg-sunken" />
     </div>
   ),
 });
@@ -35,11 +35,10 @@ const REGIONS = [
 
 type RegionKey = (typeof REGIONS)[number]["key"];
 
-const REGION_COLOR: Record<RegionKey, string> = {
-  americas: "#FF7466",
-  europe: "#62B6FF",
-  asiaPacific: "#58D6C9",
-};
+const REGION_COLOR = Object.fromEntries(REGIONS.map((r) => [r.key, r.color])) as Record<
+  RegionKey,
+  string
+>;
 
 // Country centroids, roughly, grouped by the region they belong to.
 const PLACES = [
@@ -128,7 +127,7 @@ export default function Reach() {
             <div
               aria-hidden="true"
               className="pointer-events-none absolute -inset-8 rounded-full"
-              style={{ background: "radial-gradient(closest-side, rgba(98,182,255,0.16), transparent)" }}
+              style={{ background: "radial-gradient(closest-side, rgba(var(--accent-blue-rgb),0.16), transparent)" }}
             />
             <Globe points={GLOBE_POINTS} labels={labels} />
           </div>

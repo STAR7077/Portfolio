@@ -30,6 +30,11 @@ function Chip({ tile }: { tile: SkillTile }) {
   return (
     <m.li
       variants={itemUp}
+      // The lift has to come from motion, not the .skill-tile:hover rule.
+      // Once the reveal finishes motion leaves transform set inline, and an
+      // inline style beats a stylesheet one, so the CSS lift never fired.
+      // The rule stays as the pre-hydration fallback.
+      whileHover={{ y: -2 }}
       className="skill-tile inline-flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] px-2.5 py-1.5"
     >
       {!isWord && (
@@ -81,7 +86,7 @@ export default function Skills() {
                 <div className="flex flex-wrap items-center gap-2.5">
                   <h3 className="text-[1.05rem] font-bold text-fg">{t.skills[`${group.key}Title`]}</h3>
                   {group.focus && (
-                    <span className="rounded-md border border-[rgba(113,107,255,0.3)] bg-[rgba(113,107,255,0.1)] px-2 py-0.5 font-mono text-[10.5px] uppercase tracking-[0.1em] text-accent-hi">
+                    <span className="rounded-md border border-[rgba(var(--accent-rgb),0.3)] bg-[rgba(var(--accent-rgb),0.1)] px-2 py-0.5 font-mono text-[10.5px] uppercase tracking-[0.1em] text-accent-hi">
                       {t.skills.coreFocus}
                     </span>
                   )}
