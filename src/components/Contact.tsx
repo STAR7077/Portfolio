@@ -14,7 +14,7 @@ const WHATSAPP_NUMBER = "5599945812563";
 const WHATSAPP_DISPLAY = "+55 99 94581-2563";
 
 const FIELD =
-  "mt-1.5 w-full rounded-[10px] border border-line bg-white/[0.03] px-4 py-2.5 text-[14.5px] text-fg outline-none transition-colors duration-300 placeholder:text-fg-3 hover:border-line-2 focus:border-[rgba(var(--accent-rgb),0.6)] focus:bg-white/[0.05]";
+  "mt-1.5 w-full rounded-[10px] border border-line bg-fill-card px-4 py-2.5 text-[14.5px] text-fg outline-none transition-colors duration-300 placeholder:text-fg-3 hover:border-line-2 focus:border-[rgba(var(--accent-rgb),0.6)] focus:bg-fill-strong";
 
 type Status = "idle" | "sending" | "sent" | "failed";
 

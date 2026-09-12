@@ -29,7 +29,7 @@ export default function ProjectFilters({
     <div
       role="group"
       aria-label={t.work.filterLabel}
-      className="flex flex-wrap items-center gap-1 rounded-xl border border-line bg-white/[0.025] p-1"
+      className="flex flex-wrap items-center gap-1 rounded-xl border border-line bg-fill-page p-1"
     >
       {filters.map((f) => {
         const on = f.key === active;
@@ -46,7 +46,7 @@ export default function ProjectFilters({
             {on && (
               <m.span
                 layoutId="work-filter"
-                className="absolute inset-0 rounded-lg bg-white/[0.07] ring-1 ring-inset ring-[rgba(var(--accent-rgb),0.4)]"
+                className="absolute inset-0 rounded-lg bg-filter-on ring-1 ring-inset ring-[rgba(var(--accent-rgb),0.4)]"
                 transition={{ duration: 0.4, ease: EASE_OUT }}
               />
             )}

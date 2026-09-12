@@ -61,7 +61,7 @@ export default function About() {
               height={64}
               loading="lazy"
               decoding="async"
-              className="h-16 w-16 shrink-0 rounded-full object-cover ring-1 ring-white/15"
+              className="h-16 w-16 shrink-0 rounded-full object-cover ring-1 ring-photo"
             />
             <div>
               <p className="text-[17px] font-bold tracking-[-0.02em] text-fg">Lucas Marley</p>
@@ -89,7 +89,7 @@ export default function About() {
               <m.li
                 key={point.title}
                 variants={itemUp}
-                className="rounded-card border border-line bg-white/[0.02] p-5 shadow-[var(--edge-top)]"
+                className="rounded-card border border-line bg-fill-page p-5 shadow-[var(--edge-top)]"
               >
                 <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-[rgba(var(--accent-rgb),0.3)] bg-[rgba(var(--accent-rgb),0.1)] text-accent-hi">
                   {point.icon}

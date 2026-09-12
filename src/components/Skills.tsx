@@ -35,7 +35,7 @@ function Chip({ tile }: { tile: SkillTile }) {
       // inline style beats a stylesheet one, so the CSS lift never fired.
       // The rule stays as the pre-hydration fallback.
       whileHover={{ y: -2 }}
-      className="skill-tile inline-flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] px-2.5 py-1.5"
+      className="skill-tile inline-flex items-center gap-2 rounded-lg border border-line bg-fill-card px-2.5 py-1.5"
     >
       {!isWord && (
         <svg

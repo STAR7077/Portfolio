@@ -11,6 +11,9 @@ export interface Dictionary {
     cta: string;
     languageLabel: string;
     primaryLabel: string;
+    /* The toggle names where it will take you, not where you are. */
+    themeToLight: string;
+    themeToDark: string;
   };
   reach: {
     eyebrow: string;
@@ -198,6 +201,8 @@ const en: Dictionary = {
     cta: "Let's talk",
     languageLabel: "Change language",
     primaryLabel: "Sections",
+    themeToLight: "Switch to light mode",
+    themeToDark: "Switch to dark mode",
   },
   reach: {
     eyebrow: "Where I work",
@@ -405,6 +410,8 @@ const pt: Dictionary = {
     cta: "Vamos conversar",
     languageLabel: "Mudar idioma",
     primaryLabel: "Seções",
+    themeToLight: "Mudar para o modo claro",
+    themeToDark: "Mudar para o modo escuro",
   },
   reach: {
     eyebrow: "Onde eu trabalho",
@@ -612,6 +619,8 @@ const es: Dictionary = {
     cta: "Hablemos",
     languageLabel: "Cambiar idioma",
     primaryLabel: "Secciones",
+    themeToLight: "Cambiar al modo claro",
+    themeToDark: "Cambiar al modo oscuro",
   },
   reach: {
     eyebrow: "Dónde trabajo",

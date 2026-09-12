@@ -12,7 +12,7 @@ export default function LanguageSwitcher() {
     <div
       role="group"
       aria-label={t.nav.languageLabel}
-      className="flex items-center gap-0.5 rounded-[10px] border border-line bg-white/[0.02] p-[3px]"
+      className="flex items-center gap-0.5 rounded-[10px] border border-line bg-fill-card p-[3px]"
     >
       {locales.map((code) => {
         const active = code === locale;
@@ -28,7 +28,7 @@ export default function LanguageSwitcher() {
             aria-pressed={active}
             title={localeNames[code].label}
             className={`rounded-[7px] px-2 py-1 font-mono text-[11px] font-medium transition-colors duration-300 ${
-              active ? "bg-white/[0.09] text-fg" : "text-fg-3 hover:text-fg"
+              active ? "bg-indicator text-fg" : "text-fg-3 hover:text-fg"
             }`}
           >
             {localeNames[code].code}

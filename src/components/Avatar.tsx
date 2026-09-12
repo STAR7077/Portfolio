@@ -58,7 +58,7 @@ export default function Avatar({ name, src, size = 44 }: AvatarProps) {
       height={size}
       loading="lazy"
       decoding="async"
-      className="rounded-full object-cover shrink-0 bg-raised ring-1 ring-white/10"
+      className="rounded-full object-cover shrink-0 bg-raised ring-1 ring-photo"
       style={{ width: size, height: size }}
       onError={() => setFailed(true)}
     />

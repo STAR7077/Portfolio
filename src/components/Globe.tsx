@@ -29,12 +29,27 @@ function toVector(lat: number, lon: number, radius: number) {
   );
 }
 
-// A shade above the page ground, so the sphere reads against it.
-const OCEAN = 0x111826;
-// Land sits lighter than the ocean on a dark globe, the reverse of before.
-const LAND = 0x3d4b66;
-// Blue, not the site violet: the globe was asked to carry no purple.
-const HALO = 0x62b6ff;
+/**
+ * The sphere's own colours, per theme.
+ *
+ * Three.js needs real numbers rather than CSS variables, so the pair lives
+ * here and the renderer is told which to use. The globe is drawn, not
+ * photographed, so unlike a screenshot it has to follow the theme: a
+ * near-black sphere on an off-white page reads as a hole punched in it.
+ *
+ * On light the relationship inverts. Land is the darker of the two, which
+ * is how a printed map reads, and the ocean becomes the paler ground.
+ *
+ * Neither carries violet: the globe was asked to stay off the site accent.
+ */
+const SPHERE = {
+  dark: { ocean: 0x111826, land: 0x3d4b66, halo: 0x62b6ff },
+  light: { ocean: 0xe7ecf4, land: 0x9aabc4, halo: 0x2f6fd0 },
+} as const;
+
+/** Reads the theme the document is currently showing. */
+const currentTheme = (): keyof typeof SPHERE =>
+  document.documentElement.dataset.theme === "light" ? "light" : "dark";
 
 /** Below this the marker has curved too far around to be worth naming. */
 const FACING_CUTOFF = 0.14;
@@ -91,32 +106,43 @@ export default function Globe({ points, labels }: GlobeProps) {
     globe.rotation.z = (-18 * Math.PI) / 180;
     scene.add(globe);
 
-    const ocean = new THREE.Mesh(
-      new THREE.SphereGeometry(1, 64, 64),
-      new THREE.MeshBasicMaterial({ color: OCEAN })
-    );
+    const palette = SPHERE[currentTheme()];
+
+    const oceanMat = new THREE.MeshBasicMaterial({ color: palette.ocean });
+    const ocean = new THREE.Mesh(new THREE.SphereGeometry(1, 64, 64), oceanMat);
     globe.add(ocean);
 
     const loader = new THREE.TextureLoader();
     const landTexture = loader.load("/land-mask.png");
     landTexture.colorSpace = THREE.SRGBColorSpace;
     landTexture.anisotropy = 4;
-    const land = new THREE.Mesh(
-      new THREE.SphereGeometry(1.002, 64, 64),
-      new THREE.MeshBasicMaterial({ map: landTexture, transparent: true, color: LAND })
-    );
+    const landMat = new THREE.MeshBasicMaterial({
+      map: landTexture,
+      transparent: true,
+      color: palette.land,
+    });
+    const land = new THREE.Mesh(new THREE.SphereGeometry(1.002, 64, 64), landMat);
     globe.add(land);
 
-    const halo = new THREE.Mesh(
-      new THREE.SphereGeometry(1.09, 48, 48),
-      new THREE.MeshBasicMaterial({
-        color: HALO,
-        transparent: true,
-        opacity: 0.16,
-        side: THREE.BackSide,
-      })
-    );
+    const haloMat = new THREE.MeshBasicMaterial({
+      color: palette.halo,
+      transparent: true,
+      opacity: 0.16,
+      side: THREE.BackSide,
+    });
+    const halo = new THREE.Mesh(new THREE.SphereGeometry(1.09, 48, 48), haloMat);
     scene.add(halo);
+
+    // Repaint the three materials in place when the theme changes. Cheaper
+    // and steadier than tearing the scene down: the globe keeps spinning
+    // from wherever it had got to rather than snapping back to its start.
+    const repaint = () => {
+      const next = SPHERE[currentTheme()];
+      oceanMat.color.setHex(next.ocean);
+      landMat.color.setHex(next.land);
+      haloMat.color.setHex(next.halo);
+    };
+    window.addEventListener("themechange", repaint);
 
     // ---- markers and their labels, one pair per country ----
     const markerMeshes: THREE.Mesh[] = [];
@@ -162,9 +188,9 @@ export default function Globe({ points, labels }: GlobeProps) {
       const chip = document.createElement("span");
       chip.className =
         "pointer-events-none absolute left-0 top-0 flex items-center gap-1.5 whitespace-nowrap " +
-        "rounded-full border border-white/10 bg-[var(--glass)] py-[3px] pl-1.5 pr-2 " +
+        "rounded-full border border-device bg-[var(--glass)] py-[3px] pl-1.5 pr-2 " +
         "text-[10px] font-semibold text-fg opacity-0 backdrop-blur-sm " +
-        "shadow-[0_6px_16px_-8px_rgba(0,0,0,0.9)] transition-opacity duration-200 will-change-transform";
+        "shadow-[var(--shadow-chip)] transition-opacity duration-200 will-change-transform";
 
       const swatch = document.createElement("i");
       swatch.className = "block h-1.5 w-1.5 shrink-0 rounded-full";
@@ -379,6 +405,7 @@ export default function Globe({ points, labels }: GlobeProps) {
 
     return () => {
       cancelAnimationFrame(frame);
+      window.removeEventListener("themechange", repaint);
       observer.disconnect();
       io.disconnect();
       canvas.removeEventListener("pointerdown", onDown);

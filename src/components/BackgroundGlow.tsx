@@ -81,11 +81,17 @@ interface BackgroundGlowProps {
   className?: string;
 }
 
+/**
+ * Each light's alpha is multiplied by --glow-scale, which the light theme
+ * turns down. The same violet that reads as depth on near-black reads as a
+ * stain on off-white, and the multiply keeps one set of presets rather than
+ * a second table of numbers to keep in step.
+ */
 function gradient(lights: Light[]) {
   return lights
     .map(
       (l) =>
-        `radial-gradient(${l.size}px circle at ${l.at}, rgba(${RGB[l.color]}, ${l.alpha}), transparent ${l.fade ?? 50}%)`
+        `radial-gradient(${l.size}px circle at ${l.at}, rgba(${RGB[l.color]}, calc(${l.alpha} * var(--glow-scale))), transparent ${l.fade ?? 50}%)`
     )
     .join(", ");
 }

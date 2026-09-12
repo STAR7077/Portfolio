@@ -43,7 +43,7 @@ function Meter({ label, value, display }: { label: string; value: number; displa
         <span className="text-[12px] text-fg-2">{label}</span>
         <span className="font-mono text-[12px] text-fg">{display}</span>
       </div>
-      <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+      <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-track">
         <m.div
           className="h-full origin-left rounded-full"
           style={{ backgroundImage: "var(--grad-brand)" }}
@@ -70,7 +70,7 @@ function SystemRow({
   return (
     <li className="flex items-center justify-between gap-3">
       <span className="flex items-center gap-2.5 text-[12.5px] text-fg">
-        <span className="flex h-6 w-6 items-center justify-center rounded-md border border-line bg-white/[0.03] text-fg-2">
+        <span className="flex h-6 w-6 items-center justify-center rounded-md border border-line bg-fill-card text-fg-2">
           {icon}
         </span>
         {name}
@@ -203,7 +203,7 @@ export default function HeroVisual() {
                 </StatusChip>
               </div>
 
-              <div className="mt-4 flex items-center gap-3 rounded-xl border border-line bg-white/[0.025] px-3 py-2.5">
+              <div className="mt-4 flex items-center gap-3 rounded-xl border border-line bg-fill-card px-3 py-2.5">
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[rgba(var(--accent-cyan-rgb),0.12)] text-ai">
                   <IconChat size={14} />
                 </span>

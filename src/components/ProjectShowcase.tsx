@@ -202,10 +202,10 @@ export default function ProjectShowcase({ project, layout, number }: Props) {
           />
         </ScrollDepth>
         <div className="relative mt-5 flex flex-wrap items-center gap-2">
-          <span className="rounded-md border border-line bg-white/[0.03] px-2.5 py-1 font-mono text-[11px] text-fg-2">
+          <span className="rounded-md border border-line bg-fill-card px-2.5 py-1 font-mono text-[11px] text-fg-2">
             iOS · Android
           </span>
-          <span className="rounded-md border border-line bg-white/[0.03] px-2.5 py-1 font-mono text-[11px] text-fg-2">
+          <span className="rounded-md border border-line bg-fill-card px-2.5 py-1 font-mono text-[11px] text-fg-2">
             Google Play
           </span>
         </div>

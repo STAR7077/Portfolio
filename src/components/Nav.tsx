@@ -5,6 +5,7 @@ import { m } from "motion/react";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { EASE_OUT } from "@/lib/motion";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeToggle from "./ThemeToggle";
 
 /**
  * A floating glass bar that links every section directly, with no menu to
@@ -84,7 +85,7 @@ export default function Nav() {
               alt=""
               width={30}
               height={30}
-              className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-white/15"
+              className="h-[30px] w-[30px] shrink-0 rounded-full object-cover ring-1 ring-photo"
             />
             <span className="text-[14.5px] font-semibold tracking-[-0.01em] text-fg">Lucas Marley</span>
           </a>
@@ -104,7 +105,7 @@ export default function Nav() {
                   {on && (
                     <m.span
                       layoutId="nav-active"
-                      className="absolute inset-0 rounded-lg bg-white/[0.07] ring-1 ring-inset ring-white/[0.06]"
+                      className="absolute inset-0 rounded-lg bg-indicator ring-1 ring-inset ring-hairline"
                       transition={{ duration: 0.35, ease: EASE_OUT }}
                     />
                   )}
@@ -114,7 +115,10 @@ export default function Nav() {
             })}
           </nav>
 
-          <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
+          {/* This cluster is in the bar at every width, so the toggle is one
+              tap away on a phone rather than hidden behind a menu. */}
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
+            <ThemeToggle />
             <LanguageSwitcher />
             <a href="#contact" className="btn btn-primary btn-sm hidden sm:inline-flex">
               {t.nav.cta}
@@ -145,7 +149,7 @@ export default function Nav() {
                 {on && (
                   <m.span
                     layoutId="nav-active-rail"
-                    className="absolute inset-0 rounded-md bg-white/[0.07]"
+                    className="absolute inset-0 rounded-md bg-indicator"
                     transition={{ duration: 0.35, ease: EASE_OUT }}
                   />
                 )}

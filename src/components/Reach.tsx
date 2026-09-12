@@ -108,7 +108,7 @@ export default function Reach() {
                     {inRegion.map((place) => (
                       <li
                         key={place.id}
-                        className="rounded-lg border bg-white/[0.025] px-3 py-1.5 text-[13px] text-fg-2"
+                        className="rounded-lg border bg-fill-page px-3 py-1.5 text-[13px] text-fg-2"
                         style={{ borderColor: `${region.color}33` }}
                       >
                         {labels[place.id]}

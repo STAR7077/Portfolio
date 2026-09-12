@@ -83,7 +83,7 @@ export default function Work() {
       <m.div
         aria-hidden="true"
         style={reduced ? undefined : { x: decorX }}
-        className="pointer-events-none absolute right-[-3vw] top-16 select-none whitespace-nowrap font-heading text-[19vw] font-extrabold uppercase leading-none tracking-[-0.05em] text-white/[0.03] sm:top-20"
+        className="pointer-events-none absolute right-[-3vw] top-16 select-none whitespace-nowrap font-heading text-[19vw] font-extrabold uppercase leading-none tracking-[-0.05em] text-decor sm:top-20"
       >
         {t.work.decor}
       </m.div>

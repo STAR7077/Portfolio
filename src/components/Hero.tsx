@@ -37,7 +37,7 @@ export default function Hero() {
         <m.div initial="hidden" animate="show" variants={stagger(STAGGER.base, 0.05)}>
           <m.span
             variants={fadeUp}
-            className="inline-flex items-center gap-2 rounded-full border border-line bg-white/[0.03] px-3 py-1.5 font-mono text-[11.5px] text-fg-2"
+            className="inline-flex items-center gap-2 rounded-full border border-line bg-fill-page px-3 py-1.5 font-mono text-[11.5px] text-fg-2"
           >
             <span className="animate-pulse-dot h-1.5 w-1.5 rounded-full bg-ai" />
             {t.hero.availability}

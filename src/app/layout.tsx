@@ -7,6 +7,8 @@ import { LanguageProvider } from "@/i18n/LanguageProvider";
 import SmoothScroll from "@/components/SmoothScroll";
 import MotionProvider from "@/components/MotionProvider";
 import NoiseOverlay from "@/components/NoiseOverlay";
+import ThemeReady from "@/components/ThemeReady";
+import { THEME_SCRIPT } from "@/lib/theme";
 
 // Headlines and body. Holds up at 800 with tight tracking, which is what the
 // display statements lean on.
@@ -25,9 +27,14 @@ const jetbrains = JetBrains_Mono({
 });
 
 // Browser chrome on phones matches the page ground instead of flashing white.
+// Two entries so the very first paint already matches the visitor's OS
+// setting; once they pick a theme by hand, the store rewrites the live tag.
 export const viewport: Viewport = {
-  themeColor: "#080a0f",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#080a0f" },
+    { media: "(prefers-color-scheme: light)", color: "#f8f9fc" },
+  ],
+  colorScheme: "dark light",
 };
 
 const SITE = "https://lucas-marley.vercel.app";
@@ -82,8 +89,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${manrope.variable} ${jetbrains.variable} h-full antialiased`}
+      // The script below sets this before paint. Rendering the dark default
+      // here keeps the server and client markup identical, and React does
+      // not diff an attribute the browser changed before hydration.
+      data-theme="dark"
+      suppressHydrationWarning
     >
+      <head>
+        {/* Blocking and inline, so data-theme is on <html> before the first
+            paint. Any deferred script would let the dark default show for a
+            frame and flash white for a visitor who chose light. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body className="flex min-h-full flex-col bg-canvas text-fg">
+        <ThemeReady />
         <SmoothScroll />
         <LanguageProvider>
           <MotionProvider>{children}</MotionProvider>

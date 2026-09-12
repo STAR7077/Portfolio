@@ -46,7 +46,7 @@ export default function ProjectFrame({
   if (kind === "phone") {
     return (
       <div
-        className={`relative mx-auto w-full rounded-[34px] border border-white/[0.12] bg-sunken p-[7px] shadow-[var(--shadow-float)] ${className}`}
+        className={`relative mx-auto w-full rounded-[34px] border border-device bg-sunken p-[7px] shadow-[var(--shadow-float)] ${className}`}
       >
         <div
           className="relative overflow-hidden rounded-[27px] bg-black"
@@ -73,14 +73,14 @@ export default function ProjectFrame({
     <div
       className={`overflow-hidden rounded-[14px] border border-line bg-sunken shadow-[var(--shadow-float)] ${className}`}
     >
-      <div className="flex items-center gap-3 border-b border-line bg-white/[0.025] px-3.5 py-2.5">
+      <div className="flex items-center gap-3 border-b border-line bg-fill-card px-3.5 py-2.5">
         <div className="flex shrink-0 gap-1.5" aria-hidden="true">
-          <span className="h-2.5 w-2.5 rounded-full bg-white/[0.12]" />
-          <span className="h-2.5 w-2.5 rounded-full bg-white/[0.12]" />
-          <span className="h-2.5 w-2.5 rounded-full bg-white/[0.12]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-chrome" />
+          <span className="h-2.5 w-2.5 rounded-full bg-chrome" />
+          <span className="h-2.5 w-2.5 rounded-full bg-chrome" />
         </div>
         {domain && (
-          <span className="mx-auto min-w-0 truncate rounded-md bg-white/[0.04] px-3 py-1 font-mono text-[10.5px] text-fg-3">
+          <span className="mx-auto min-w-0 truncate rounded-md bg-fill-strong px-3 py-1 font-mono text-[10.5px] text-fg-3">
             {domain}
           </span>
         )}
