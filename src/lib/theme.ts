@@ -73,11 +73,20 @@ export function serverTheme(): ResolvedTheme {
 function applyResolved(next: ResolvedTheme) {
   const root = document.documentElement;
   root.dataset.theme = next;
+
   // Mobile browsers paint their chrome from this, so it has to move too.
-  const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) {
-    meta.setAttribute("content", next === "light" ? "#f8f9fc" : "#080a0f");
-  }
+  //
+  // There are two of these tags, one per prefers-color-scheme, so that the
+  // very first paint is already right before any of this runs. Every one of
+  // them is rewritten rather than just the first: with a media attribute
+  // still attached, updating only the dark-scheme tag left a light-OS
+  // visitor who chose dark with a light chrome, because the tag the browser
+  // was actually honouring had never been touched. Once the theme is
+  // explicit they should all report the same colour.
+  const color = next === "light" ? "#f8f9fc" : "#080a0f";
+  document
+    .querySelectorAll('meta[name="theme-color"]')
+    .forEach((m) => m.setAttribute("content", color));
 }
 
 export function setTheme(choice: ThemeChoice) {
